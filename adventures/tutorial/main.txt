@@ -1,0 +1,24 @@
+init:
+!importAsset : items
+:init
+
+
+story:
+!displayText : !! Welcome to the tutorial !!
+!sleep 5
+!displayText : || You wake up in a dark dungeon
+!sleep : 2
+!displayText : || In front of you are three items
+!sleep : 2
+!displayText : ii Sword
+!sleep : 1
+!displayText : ii Health potion
+!sleep : 1
+!displayText : ii Torch
+!sleep : 1
+!displayText : ?? Write "check ground" to see items again
+!sleep : 0.5
+!displayText : ?? Or you can write "help" to see other available commands
+!sleep : 1
+prompt : >>
+:story

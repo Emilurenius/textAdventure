@@ -1,0 +1,9 @@
+{
+    "weapons": {
+        "sword": {
+            "damageDice": "8x1",
+            "hitDice" : 20,
+            "weight": 800
+        }
+    }
+}
