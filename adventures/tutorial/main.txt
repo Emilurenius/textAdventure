@@ -5,7 +5,8 @@ init:
 
 story:
 !displayText : !! Welcome to the tutorial !!
-!sleep 5
+!sleep : 2
+!scroll : 3
 !displayText : || You wake up in a dark dungeon
 !sleep : 2
 !displayText : || In front of you are three items
@@ -20,5 +21,5 @@ story:
 !sleep : 0.5
 !displayText : ?? Or you can write "help" to see other available commands
 !sleep : 1
-prompt : >>
+!prompt : >> 
 :story

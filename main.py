@@ -37,12 +37,16 @@ def removeFileExtention(file):
 def displayText(text):
     print(text)
 
+def prompt(text):
+    IN = input(text)
+    print(IN)
+
 def sleep(secs):
     time.sleep(float(secs))
 
 def scroll(lines=5, delay=0.1):
     i = 0
-    while i < lines:
+    while i < int(lines):
         print("\n")
         i += 1
         time.sleep(delay)
@@ -109,7 +113,7 @@ def loadMod(modName):
 
 def loadAsset(assetName):
     print("Importing mods...")
-    with open(f"{dirPath}adventures/{selectedAdventure}/{assetName}.json") as JSON:
+    with open(f"{dirPath}adventures/{selectedAdventure}/assets/{assetName}.json") as JSON:
         data = json.load(JSON)
 
     print(data)
@@ -164,7 +168,9 @@ initCommands = {
 
 commands = {
     "displayText": displayText,
-    "sleep": sleep
+    "sleep": sleep,
+    "scroll": scroll,
+    "prompt": prompt
 }
 
 if __name__ == "__main__":
