@@ -11,6 +11,10 @@ story:
 !sleep : 2
 !displayText : || In front of you are three items
 !sleep : 2
+
+!loadRoom : mainRoom
+!displayRoomItems : all
+
 !displayText : ii Sword
 !sleep : 1
 !displayText : ii Health potion

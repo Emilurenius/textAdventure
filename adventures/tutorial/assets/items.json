@@ -1,9 +1,22 @@
 {
     "weapons": {
         "sword": {
+            "desc": "A shiny and pointy sword",
             "damageDice": "8x1",
             "hitDice" : 20,
             "weight": 800
+        }
+    },
+    "consumables": {
+        "health potion": {
+            "desc": "Gives +5 to health",
+            "effect": "H+5"
+        }
+    },
+    "equipment": {
+        "torch": {
+            "desc": "A bright torch. Might reveal things in dark places",
+            "effect": "setAtt : light"
         }
     }
 }
