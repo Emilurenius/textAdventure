@@ -49,7 +49,7 @@ selectedAdventure = ""
 weapons = {}
 consumables = {}
 equipment = {}
-activeRoom = room("No room") # Initialize the active room with an empty room with no features
+activeRoom = room("No room") # Initialize the active room as an empty room with no features
 
 def main():
     print("!! Text adventure Engine !!")
