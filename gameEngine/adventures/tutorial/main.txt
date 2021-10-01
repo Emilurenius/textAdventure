@@ -1,5 +1,6 @@
 init:
 !importAsset : items
+!sleep : 0.1
 :init
 
 
@@ -13,14 +14,9 @@ story:
 !sleep : 2
 
 !loadRoom : mainRoom
-!displayRoomItems : all
+!displayFloorItems : all
+!sleep : 0.5
 
-!displayText : ii Sword
-!sleep : 1
-!displayText : ii Health potion
-!sleep : 1
-!displayText : ii Torch
-!sleep : 1
 !displayText : ?? Write "check ground" to see items again
 !sleep : 0.5
 !displayText : ?? Or you can write "help" to see other available commands
