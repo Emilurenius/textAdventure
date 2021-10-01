@@ -1,5 +1,6 @@
 {
     "commands": {
-        "check ground": ""
+        "check ground": "!displayFloorItems : all",
+        "pick up <?>": "!pickup : <?>"
     }
 }

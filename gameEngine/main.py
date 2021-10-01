@@ -49,6 +49,7 @@ selectedAdventure = ""
 weapons = {}
 consumables = {}
 equipment = {}
+adventureCommands = {}
 activeRoom = room("No room") # Initialize the active room as an empty room with no features
 
 def main():
@@ -73,7 +74,30 @@ def displayText(text):
 
 def prompt(text):
     IN = input(text)
-    print(IN)
+    INsplit = IN.split(" ")
+    
+    for k, v in adventureCommands.items():
+        if "<?>" in k:
+            continue
+        else:
+            splitCommand = k.split(" ")
+            i = 0
+            commandFound = True
+            for x in splitCommand:
+                if x == INsplit[i]:
+                    commandFound = True
+                else:
+                    commandFound = False
+                    break
+                i += 1
+            
+            if commandFound:
+                if v.startswith("!"):
+                    commandList = getCommand(v)
+                    command = commands.get(commandList[0], None)
+                    if command:
+                        command(commandList[1])
+                        prompt(text)
 
 def sleep(secs):
     time.sleep(float(secs))
@@ -136,17 +160,26 @@ def runInit(story, i):
         i += 1
 
 def loadItems(data):
-    if data["weapons"]:
+    if "weapons" in data:
+        print("Loading weapons")
         for k, v in data["weapons"].items():
             weapons[k] = weapon(k, v["damageDice"], v["hitDice"], v["weight"])
     
-    if data["consumables"]:
+    if "consumables" in data:
+        print("Loading consumables")
         for k, v in data["consumables"].items():
             consumables[k] = consumable(k, v["desc"], v["effect"])
 
-    if data["equipment"]:
+    if "equipment" in data:
+        print("Loading equipment")
         for k, v in data["equipment"].items():
             equipment[k] = equipmentClass(k, v["desc"], v["effect"])
+
+    if "commands" in data:
+        print("Loading commands")
+        for k, v in data["commands"].items():
+            adventureCommands[k] = v
+            print(k)
 
 def loadRoom(selectedRoom):
     with open(f"{dirPath}adventures/{selectedAdventure}/rooms/{selectedRoom}.json") as JSON:
@@ -169,7 +202,7 @@ def loadMod(modName):
     loadItems(data)
 
 def loadAsset(assetName):
-    print("Importing mods...")
+    print("Importing asset...")
     with open(f"{dirPath}adventures/{selectedAdventure}/assets/{assetName}.json") as JSON:
         data = json.load(JSON)
 
@@ -186,7 +219,6 @@ def runStory(story, i):
             command = commands.get(commandList[0], None)
             if command:
                 command(commandList[1])
-
 
         i += 1
 

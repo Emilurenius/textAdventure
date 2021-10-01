@@ -1,5 +1,6 @@
 init:
 !importAsset : items
+!importAsset : commands
 !sleep : 0.1
 :init
 
@@ -19,7 +20,12 @@ story:
 
 !displayText : ?? Write "check ground" to see items again
 !sleep : 0.5
+!displayText : ?? Just pressing enter will make the story continue
+!sleep : 0.5
 !displayText : ?? Or you can write "help" to see other available commands
-!sleep : 1
+!prompt : >> 
+!displayText : ?? Now let's try picking up the sword
+!sleep : 2
+!displayText : ?? Write "pickup sword" to pick up the sword
 !prompt : >> 
 :story
