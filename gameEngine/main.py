@@ -43,7 +43,7 @@ class room():
         if type == "all":
             for k, v in floorItems.items():
                 print(f"ii {k}")
-                time.sleep(1)
+                time.sleep(0.5)
 
 selectedAdventure = ""
 weapons = {}
@@ -62,7 +62,6 @@ def main():
         adventure = loadAdventure(input("Select one of the above adventures >> "))
     scroll()
     i = loadStory(adventure)
-    print(weapons, "\n", consumables, "\n", equipment)
     scroll()
     i = runStory(adventure, i + 1)
     
@@ -78,7 +77,26 @@ def prompt(text):
     
     for k, v in adventureCommands.items():
         if "<?>" in k:
-            continue
+            splitCommand = k.split(" ")
+            
+            i = 0
+            variableIndex = 0
+            for x in INsplit:
+                if splitCommand[i] == x:
+                    commandFound = True
+                elif splitCommand[i] == "<?>":
+                    variableIndex = i
+                    commandFound = True
+                else:
+                    commandFound = False
+                    break
+                i += 1
+
+            if commandFound:
+                command = v.replace("<?>", INsplit[variableIndex])
+                print(command)
+
+
         else:
             splitCommand = k.split(" ")
             i = 0
@@ -221,7 +239,6 @@ def runStory(story, i):
                 command(commandList[1])
 
         i += 1
-
 
 initCommands = {
     "importMod": loadMod,
