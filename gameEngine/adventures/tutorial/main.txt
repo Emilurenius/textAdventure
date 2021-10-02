@@ -1,6 +1,7 @@
 init:
 !importAsset : items
 !importAsset : commands
+!importAsset : enemies
 !sleep : 0.1
 :init
 
@@ -25,7 +26,11 @@ story:
 !displayText : ?? Or you can write "help" to see other available commands
 !prompt : >> 
 !displayText : ?? Now let's try picking up the sword
-!sleep : 2
+!sleep : 1
 !displayText : ?? Write "pickup sword" to pick up the sword
+!prompt : >> 
+!displayText : ?? Nice!
+!sleep : 0.5
+!displayText : ?? Now let's equip the sword by writing "equip sword"
 !prompt : >> 
 :story

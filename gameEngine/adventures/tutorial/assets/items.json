@@ -3,13 +3,19 @@
         "sword": {
             "desc": "A shiny and pointy sword",
             "damageDice": "8x1",
-            "hitDice" : 20,
+            "hitDice" : "20x1",
             "weight": 800
+        },
+        "club": {
+            "desc": "A large blunt wooden weapon",
+            "damageDice": "4x1",
+            "hitDice" : "20x1",
+            "weight": 900
         }
     },
     "consumables": {
         "health potion": {
-            "desc": "Gives +5 to health",
+            "desc": "A potion that gives +5 to health",
             "effect": "H+5"
         }
     },

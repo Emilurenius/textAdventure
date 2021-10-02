@@ -1,4 +1,4 @@
-import time, os, json
+import time, os, json, random
 
 dirPath = os.path.realpath(__file__).split("\\")
 dirPath.pop()
@@ -16,6 +16,12 @@ class weapon():
         self.weight = weight
         print(f"{self.name} loaded")
 
+    def attack(self, target):
+        print("Rolling hit dice...")
+        time.sleep(0.5)
+        hitRoll = random.randint(1, int(self.hitDice))
+        print(f"You rolled a {hitRoll}")
+
 class consumable():
     def __init__(self, name, desc, effect):
         self.name = name
@@ -29,6 +35,14 @@ class equipmentClass():
         self.desc = desc
         self.effect = effect
         print(f"{self.name} loaded")
+
+class enemy():
+    def __init__(self, name, desc, health, AC, weapon):
+        self.name = name
+        self.desc = desc
+        self.health = health
+        self.AC = AC
+        self.weapon = weapon
 
 class room():
     def __init__(self, name):
@@ -55,6 +69,7 @@ inventory = {
     "consumables": [],
     "equipment": []
 }
+equippedWeapon = ""
 adventureCommands = {}
 activeRoom = room("No room") # Initialize the active room as an empty room with no features
 
@@ -264,6 +279,15 @@ def pickup(item):
         inventory["weapons"].append(item)
         del activeRoom.floorItems[item]
 
+def equipWeapon(weapon):
+    if weapon in inventory["weapons"]:
+        global equippedWeapon
+        equippedWeapon = weapon
+        print(f"!! {weapon} equipped")
+
+    else:
+        print("!! You do not have a weapon with that name")
+
 initCommands = {
     "importMod": loadMod,
     "importAsset": loadAsset
@@ -276,6 +300,7 @@ commands = {
     "loadRoom": loadRoom,
     "displayFloorItems": displayFloorItems,
     "pickup": pickup,
+    "equipWeapon": equipWeapon,
     "prompt": prompt
 }
 
