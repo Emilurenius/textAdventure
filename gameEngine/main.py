@@ -80,6 +80,9 @@ def displayText(text):
 def prompt(text):
     IN = input(text)
     INsplit = IN.split(" ")
+
+    if not IN:
+        return
     
     for k, v in adventureCommands.items():
         if "<?>" in k:
@@ -102,8 +105,7 @@ def prompt(text):
                 command = v.replace("<?>", INsplit[variableIndex])
                 if command.startswith("!"):
                     commandList = getCommand(command)
-                    if runCommand(commandList):
-                        prompt(text)
+                    runCommand(commandList)
                 
         else:
             splitCommand = k.split(" ")
@@ -120,8 +122,9 @@ def prompt(text):
             if commandFound:
                 if v.startswith("!"):
                     commandList = getCommand(v)
-                    if runCommand(commandList):
-                        prompt(text)
+                    runCommand(commandList)
+
+    prompt(text)
 
 def sleep(secs):
     time.sleep(float(secs))
@@ -260,8 +263,6 @@ def pickup(item):
 
         inventory["weapons"].append(item)
         del activeRoom.floorItems[item]
-        print(inventory)
-        print(activeRoom.floorItems)
 
 initCommands = {
     "importMod": loadMod,
