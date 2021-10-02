@@ -8,8 +8,9 @@ for i in dirPath:
 dirPath = temp
 
 class weapon():
-    def __init__(self, name, damageDice, hitDice, weight):
+    def __init__(self, name, desc, damageDice, hitDice, weight):
         self.name = name
+        self.desc = desc
         self.damageDice = damageDice
         self.hitDice = hitDice
         self.weight = weight
@@ -49,6 +50,11 @@ selectedAdventure = ""
 weapons = {}
 consumables = {}
 equipment = {}
+inventory = {
+    "weapons": [],
+    "consumables": [],
+    "equipment": []
+}
 adventureCommands = {}
 activeRoom = room("No room") # Initialize the active room as an empty room with no features
 
@@ -94,9 +100,11 @@ def prompt(text):
 
             if commandFound:
                 command = v.replace("<?>", INsplit[variableIndex])
-                print(command)
-
-
+                if command.startswith("!"):
+                    commandList = getCommand(command)
+                    if runCommand(commandList):
+                        prompt(text)
+                
         else:
             splitCommand = k.split(" ")
             i = 0
@@ -112,9 +120,7 @@ def prompt(text):
             if commandFound:
                 if v.startswith("!"):
                     commandList = getCommand(v)
-                    command = commands.get(commandList[0], None)
-                    if command:
-                        command(commandList[1])
+                    if runCommand(commandList):
                         prompt(text)
 
 def sleep(secs):
@@ -130,6 +136,14 @@ def scroll(lines=5, delay=0.1):
 def getCommand(commandString):
     commandString = commandString[1:]
     return commandString.split(" : ")
+
+def runCommand(commandList):
+    command = commands.get(commandList[0], None)
+    if command:
+        command(commandList[1])
+        return True
+    else:
+        return False
 
 def getAdventures():
     print("Loading adventures...")
@@ -181,7 +195,7 @@ def loadItems(data):
     if "weapons" in data:
         print("Loading weapons")
         for k, v in data["weapons"].items():
-            weapons[k] = weapon(k, v["damageDice"], v["hitDice"], v["weight"])
+            weapons[k] = weapon(k, v["desc"], v["damageDice"], v["hitDice"], v["weight"])
     
     if "consumables" in data:
         print("Loading consumables")
@@ -240,6 +254,15 @@ def runStory(story, i):
 
         i += 1
 
+def pickup(item):
+    if item in weapons.keys() and item not in inventory["weapons"] and item in activeRoom.floorItems.keys():
+        print(f"!! Picked up {weapons[item].desc}")
+
+        inventory["weapons"].append(item)
+        del activeRoom.floorItems[item]
+        print(inventory)
+        print(activeRoom.floorItems)
+
 initCommands = {
     "importMod": loadMod,
     "importAsset": loadAsset
@@ -251,6 +274,7 @@ commands = {
     "scroll": scroll,
     "loadRoom": loadRoom,
     "displayFloorItems": displayFloorItems,
+    "pickup": pickup,
     "prompt": prompt
 }
 
