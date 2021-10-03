@@ -40,4 +40,11 @@ story:
 !sleep : 0.3
 !displayText : ?? Write "display inventory" to see what you have
 !prompt : >> 
+
+!displayText : || Oh no! An enemy approaces!
+!sleep : 0.5
+!displayEnemy : goblin
+!sleep : 0.5
+!displayText : || It's a Goblin!
+!sleep : 3
 :story

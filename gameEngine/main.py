@@ -37,12 +37,17 @@ class equipmentClass():
         print(f"{self.name} loaded")
 
 class enemy():
-    def __init__(self, name, desc, health, AC, weapon):
+    def __init__(self, name, desc, ascii, health, AC, weapon):
         self.name = name
         self.desc = desc
+        self.ascii = ascii
         self.health = health
         self.AC = AC
         self.weapon = weapon
+        print(f"{self.name} loaded")
+
+    def displayAscii(self):
+        printTXT(self.ascii)
 
 class room():
     def __init__(self, name):
@@ -61,6 +66,7 @@ class room():
                 time.sleep(0.5)
 
 selectedAdventure = ""
+
 weapons = {}
 consumables = {}
 equipment = {}
@@ -70,8 +76,12 @@ inventory = {
     "equipment": []
 }
 equippedWeapon = ""
+
 adventureCommands = {}
+
 activeRoom = room("No room") # Initialize the active room as an empty room with no features
+
+enemies = {}
 
 def main():
     print("!! Text adventure Engine !!")
@@ -93,6 +103,10 @@ def removeFileExtention(file):
 
 def displayText(text):
     print(text)
+
+def printTXT(filePath):
+    with open(f"{dirPath}adventures/{selectedAdventure}/{filePath}.txt") as TXT:
+        print(TXT.read())
 
 def prompt(text):
     IN = input(text)
@@ -234,27 +248,32 @@ def runInit(story, i):
 
         i += 1
 
-def loadItems(data):
+def loadAssetData(data):
     if "weapons" in data:
-        print("Loading weapons")
+        print("Loading weapons...")
         for k, v in data["weapons"].items():
             weapons[k] = weapon(k, v["desc"], v["damageDice"], v["hitDice"], v["weight"])
     
     if "consumables" in data:
-        print("Loading consumables")
+        print("Loading consumables...")
         for k, v in data["consumables"].items():
             consumables[k] = consumable(k, v["desc"], v["effect"])
 
     if "equipment" in data:
-        print("Loading equipment")
+        print("Loading equipment...")
         for k, v in data["equipment"].items():
             equipment[k] = equipmentClass(k, v["desc"], v["effect"])
 
     if "commands" in data:
-        print("Loading commands")
+        print("Loading commands...")
         for k, v in data["commands"].items():
             adventureCommands[k] = v
             print(k)
+
+    if "enemies" in data:
+        print("Loading enemies...")
+        for k, v in data["enemies"].items():
+            enemies[k] = enemy(k, v["desc"], v["ascii"], v["health"], v["AC"], v["weapon"])
 
 def loadRoom(selectedRoom):
     with open(f"{dirPath}adventures/{selectedAdventure}/rooms/{selectedRoom}.json") as JSON:
@@ -274,14 +293,14 @@ def loadMod(modName):
     with open(f"{dirPath}mods/{modName}.json") as JSON:
         data = json.load(JSON)
 
-    loadItems(data)
+    loadAssetData(data)
 
 def loadAsset(assetName):
     print("Importing asset...")
     with open(f"{dirPath}adventures/{selectedAdventure}/assets/{assetName}.json") as JSON:
         data = json.load(JSON)
 
-    loadItems(data)
+    loadAssetData(data)
 
 def runStory(story, i):
     while True:
@@ -348,6 +367,8 @@ def displayInventory(type):
         print(f"ii {equipment}")
         time.sleep(0.5)
 
+def displayEnemy(enemy):
+    enemies[enemy].displayAscii()
 
 initCommands = {
     "importMod": loadMod,
@@ -363,7 +384,8 @@ commands = {
     "displayFloorItems": displayFloorItems,
     "pickup": pickup,
     "equipWeapon": equipWeapon,
-    "displayInventory": displayInventory
+    "displayInventory": displayInventory,
+    "displayEnemy": displayEnemy
 }
 
 if __name__ == "__main__":
