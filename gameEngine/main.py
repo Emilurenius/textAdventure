@@ -85,6 +85,8 @@ def main():
     i = loadStory(adventure)
     scroll()
     i = runStory(adventure, i + 1)
+    print("!! The story has come to an end")
+    time.sleep(1)
     
 def removeFileExtention(file):
     return file.replace(".txt", "")
@@ -356,12 +358,12 @@ commands = {
     "displayText": displayText,
     "sleep": sleep,
     "scroll": scroll,
+    "prompt": prompt,
     "loadRoom": loadRoom,
     "displayFloorItems": displayFloorItems,
     "pickup": pickup,
     "equipWeapon": equipWeapon,
-    "displayInventory": displayInventory,
-    "prompt": prompt
+    "displayInventory": displayInventory
 }
 
 if __name__ == "__main__":
