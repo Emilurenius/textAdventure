@@ -98,46 +98,69 @@ def prompt(text):
 
     if not IN:
         return
-    
-    for k, v in adventureCommands.items():
-        if "<?>" in k:
-            splitCommand = k.split(" ")
-            
-            i = 0
-            variableIndex = 0
-            for x in INsplit:
-                if splitCommand[i] == x:
-                    commandFound = True
-                elif splitCommand[i] == "<?>":
-                    variableIndex = i
-                    commandFound = True
-                else:
-                    commandFound = False
-                    break
-                i += 1
 
-            if commandFound:
-                command = v.replace("<?>", INsplit[variableIndex])
-                if command.startswith("!"):
-                    commandList = getCommand(command)
-                    runCommand(commandList)
+    try:
+    
+        for k, v in adventureCommands.items():
+            multiWordFill = False
+            if "<?" in k:
+                splitCommand = k.split(" ")
                 
-        else:
-            splitCommand = k.split(" ")
-            i = 0
-            commandFound = True
-            for x in splitCommand:
-                if x == INsplit[i]:
-                    commandFound = True
-                else:
-                    commandFound = False
-                    break
-                i += 1
-            
-            if commandFound:
-                if v.startswith("!"):
-                    commandList = getCommand(v)
-                    runCommand(commandList)
+                i = 0
+                variableIndex = 0
+                for x in splitCommand:
+                    if INsplit[i] == x:
+                        commandFound = True
+                    elif x == "<?>":
+                        variableIndex = i
+                        commandFound = True
+                    elif x == "<?":
+                        variableIndex = i
+                        commandFound = True
+                        multiWordFill = True
+                    else:
+                        commandFound = False
+                        break
+                    i += 1
+
+                if commandFound and multiWordFill == False:
+                    command = v.replace("<?>", INsplit[variableIndex])
+                    if command.startswith("!"):
+                        commandList = getCommand(command)
+                        runCommand(commandList)
+
+                elif commandFound and multiWordFill:
+                    i = variableIndex
+                    multiWord = ""
+                    while i < len(INsplit):
+                        multiWord += INsplit[i] + " "
+                        i += 1
+                    multiWord = multiWord[:-1]
+                        
+                    command = v.replace("<?", multiWord)
+                    if command.startswith("!"):
+                        commandList = getCommand(command)
+                        runCommand(commandList)
+                    
+            else:
+                splitCommand = k.split(" ")
+                i = 0
+                commandFound = True
+                for x in splitCommand:
+                    if x == INsplit[i]:
+                        commandFound = True
+                    else:
+                        commandFound = False
+                        break
+                    i += 1
+                
+                if commandFound:
+                    if v.startswith("!"):
+                        commandList = getCommand(v)
+                        runCommand(commandList)
+        
+    except IndexError:
+        print("!! Command too long")
 
     prompt(text)
 
@@ -278,6 +301,8 @@ def pickup(item):
 
         inventory["weapons"].append(item)
         del activeRoom.floorItems[item]
+    else:
+        print(f"!! Cannot pick up {item}")
 
 def equipWeapon(weapon):
     if weapon in inventory["weapons"]:
