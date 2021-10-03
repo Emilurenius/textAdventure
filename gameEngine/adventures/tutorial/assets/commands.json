@@ -2,6 +2,7 @@
     "commands": {
         "check ground": "!displayFloorItems : all",
         "pick up <?": "!pickup : <?",
-        "equip <?": "!equipWeapon : <?"
+        "equip <?": "!equipWeapon : <?",
+        "display inventory": "!displayInventory : all"
     }
 }

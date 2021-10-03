@@ -327,6 +327,26 @@ def equipWeapon(weapon):
     else:
         print("!! You do not have a weapon with that name")
 
+def displayInventory(type):
+    print("!! Opening inventory...")
+    scroll()
+    print("!! Weapons:")
+    time.sleep(0.5)
+    for weapon in inventory["weapons"]:
+        print(f"ii {weapon}")
+        time.sleep(0.5)
+    print("!! consumables:")
+    time.sleep(0.5)
+    for consumable in inventory["consumables"].keys():
+        print(f"ii {inventory['consumables'][consumable]['amount']} {consumable}/s")
+        time.sleep(0.5)
+    print("!! equipment:")
+    time.sleep(0.5)
+    for equipment in inventory["equipment"]:
+        print(f"ii {equipment}")
+        time.sleep(0.5)
+
+
 initCommands = {
     "importMod": loadMod,
     "importAsset": loadAsset
@@ -340,6 +360,7 @@ commands = {
     "displayFloorItems": displayFloorItems,
     "pickup": pickup,
     "equipWeapon": equipWeapon,
+    "displayInventory": displayInventory,
     "prompt": prompt
 }
 

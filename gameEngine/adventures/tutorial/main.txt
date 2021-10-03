@@ -36,4 +36,8 @@ story:
 !sleep : 0.5
 !displayText : ?? When you are ready, just press enter when prompted to move on
 !prompt : >> 
+!displayText : ?? Now that you have some stuff in your inventory, try looking at it!
+!sleep : 0.3
+!displayText : ?? Write "display inventory" to see what you have
+!prompt : >> 
 :story
