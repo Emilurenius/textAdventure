@@ -66,7 +66,7 @@ consumables = {}
 equipment = {}
 inventory = {
     "weapons": [],
-    "consumables": [],
+    "consumables": {},
     "equipment": []
 }
 equippedWeapon = ""
@@ -301,6 +301,20 @@ def pickup(item):
 
         inventory["weapons"].append(item)
         del activeRoom.floorItems[item]
+
+    elif item in consumables.keys() and item in activeRoom.floorItems.keys():
+        print(f"!! Picked up {consumables[item].desc}")
+
+        if item in inventory["consumables"].keys():
+            inventory["consumables"][item]["amount"] += 1
+        else:
+            inventory["consumables"][item] = {
+                "amount": 1
+            }
+        time.sleep(0.5)
+        print(f"!! You now have {inventory['consumables'][item]['amount']} {item}s")
+        del activeRoom.floorItems[item]
+
     else:
         print(f"!! Cannot pick up {item}")
 

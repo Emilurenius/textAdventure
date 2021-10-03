@@ -32,9 +32,8 @@ story:
 !sleep : 0.5
 !displayText : ?? Now let's equip the sword by writing "equip sword"
 !prompt : >> 
-!sleep : 1
 !displayText : ?? Great! Now you can try to pick up the other items with the same command
-!sleep : 3
+!sleep : 0.5
 !displayText : ?? When you are ready, just press enter when prompted to move on
 !prompt : >> 
 :story
