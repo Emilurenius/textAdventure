@@ -176,7 +176,7 @@ def prompt(text):
                         runCommand(commandList)
         
     except IndexError:
-        print("!! Command too long")
+        print("!! Oops! Seems you are missing part of the command! Remember, you can write help for a list of all commands")
 
     prompt(text)
 
@@ -317,6 +317,7 @@ def runStory(story, i):
         i += 1
 
 def pickup(item):
+
     if item in weapons.keys() and item not in inventory["weapons"] and item in activeRoom.floorItems.keys():
         print(f"!! Picked up {weapons[item].desc}")
 
@@ -334,6 +335,12 @@ def pickup(item):
             }
         time.sleep(0.5)
         print(f"!! You now have {inventory['consumables'][item]['amount']} {item}s")
+        del activeRoom.floorItems[item]
+
+    elif item in equipment.keys() and item not in inventory["equipment"] and item in activeRoom.floorItems.keys():
+        print(f"!! Picked up {equipment[item].desc}")
+
+        inventory["equipment"].append(item)
         del activeRoom.floorItems[item]
 
     else:
