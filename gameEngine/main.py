@@ -114,6 +114,12 @@ def prompt(text):
 
     if not IN:
         return
+    elif IN == "help":
+        print("!! Available commands:\n")
+
+        for command in adventureCommands.keys():
+            time.sleep(0.5)
+            print(f">> {command}")
 
     try:
     
