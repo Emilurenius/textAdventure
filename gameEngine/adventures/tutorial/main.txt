@@ -47,4 +47,14 @@ story:
 !sleep : 0.5
 !displayText : || It's a Goblin!
 !sleep : 3
+
+!displayText : ?? Under combat, you can do two things.
+!sleep : 3
+!displayText : ?? You can attack with your weapon, and use consumables.
+!sleep : 3
+!displayText : ?? Remember to use your consumables wisely!
+!sleep : 3
+
+!spawnEnemy : goblin
+
 :story

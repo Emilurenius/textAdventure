@@ -75,6 +75,10 @@ inventory = {
     "consumables": {},
     "equipment": []
 }
+playerStats = {
+    "health": 10,
+    "AC": 15
+}
 equippedWeapon = ""
 
 adventureCommands = {}
@@ -82,6 +86,7 @@ adventureCommands = {}
 activeRoom = room("No room") # Initialize the active room as an empty room with no features
 
 enemies = {}
+activeEnemy = ""
 
 def main():
     print("!! Text adventure Engine !!")
@@ -383,6 +388,29 @@ def displayInventory(type):
 def displayEnemy(enemy):
     enemies[enemy].displayAscii()
 
+def spawnEnemy(enemy):
+    if enemy in enemies.keys():
+        global activeEnemy
+        activeEnemy = enemy
+        
+        print(f"!! {enemy} is attacking you")
+        runCombat()
+
+def runCombat():
+    while True:
+        time.sleep(0.5)
+        print("Please select an action:")
+        time.sleep(1)
+        print("-- attack")
+        time.sleep(0.5)
+        print("-- use <consumable name>")
+        time.sleep(0.5)
+        print("-- flee")
+        time.sleep(0.5)
+        print("!! Normal commands are also still available")
+        time.sleep(0.5)
+        IN = input(">> ")
+
 initCommands = {
     "importMod": loadMod,
     "importAsset": loadAsset
@@ -398,7 +426,8 @@ commands = {
     "pickup": pickup,
     "equipWeapon": equipWeapon,
     "displayInventory": displayInventory,
-    "displayEnemy": displayEnemy
+    "displayEnemy": displayEnemy,
+    "spawnEnemy": spawnEnemy,
 }
 
 if __name__ == "__main__":
