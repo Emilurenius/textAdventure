@@ -4,7 +4,7 @@
             "desc": "small, black-hearted humanoid that lair in despoiled dungeons and other dismal settings.\nIndividually weak, they gather in large numbers to torment other creatures.",
             "ascii": "ascii/goblin",
             "health": 7,
-            "AC": 15,
+            "AC": 8,
             "weapon": "club"
         }
     }

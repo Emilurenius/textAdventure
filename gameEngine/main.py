@@ -17,10 +17,29 @@ class weapon():
         print(f"{self.name} loaded")
 
     def attack(self, target):
-        print("Rolling hit dice...")
+        print("!! Rolling hit dice...")
         time.sleep(0.5)
-        hitRoll = random.randint(1, int(self.hitDice))
-        print(f"You rolled a {hitRoll}")
+        hitDice = int(self.hitDice.split("x")[0]) * int(self.hitDice.split("x")[1])
+        hitRoll = random.randint(1, hitDice)
+        print(f"!! You rolled {hitRoll}")
+        time.sleep(0.5)
+
+        if hitRoll > int(enemies[target].AC):
+            print("!! That hits!")
+            time.sleep(1)
+            
+            print("!! Rolling damage dice...")
+            time.sleep(0.5)
+            damageDice = int(self.damageDice.split("x")[0]) * int(self.damageDice.split("x")[1])
+            damageRoll = random.randint(1, damageDice)
+            print(f"!! You rolled {damageRoll}")
+            time.sleep(0.5)
+            return damageRoll
+
+        else:
+            print("!! You miss!")
+            time.sleep(1)
+            return False
 
 class consumable():
     def __init__(self, name, desc, effect):
@@ -76,7 +95,7 @@ inventory = {
     "equipment": []
 }
 playerStats = {
-    "health": 10,
+    "health": 20,
     "AC": 15
 }
 equippedWeapon = ""
@@ -394,12 +413,24 @@ def spawnEnemy(enemy):
         activeEnemy = enemy
         
         print(f"!! {enemy} is attacking you")
+        time.sleep(1)
         runCombat()
 
 def runCombat():
+    enemyHealth = enemies[activeEnemy].health
     while True:
+
+        if enemyHealth <= 0:
+            time.sleep(0.5)
+            scroll()
+            time.sleep(0.1)
+            print(f"!! You have defeated the {activeEnemy}")
+            time.sleep(0.5)
+            break
+
+        scroll()
         time.sleep(0.5)
-        print("Please select an action:")
+        print("!! Please select an action:")
         time.sleep(1)
         print("-- attack")
         time.sleep(0.5)
@@ -407,9 +438,14 @@ def runCombat():
         time.sleep(0.5)
         print("-- flee")
         time.sleep(0.5)
-        print("!! Normal commands are also still available")
-        time.sleep(0.5)
         IN = input(">> ")
+
+        if IN == "attack":
+            result = weapons[equippedWeapon].attack(activeEnemy)
+
+            if result:
+                enemyHealth -= result
+                print(f"!! {activeEnemy}'s health is now {enemyHealth}")
 
 initCommands = {
     "importMod": loadMod,
