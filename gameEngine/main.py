@@ -51,6 +51,7 @@ class weapon():
             print(f"!! {activeEnemy} is attacking!")
             time.sleep(1)
             print(f"!! {activeEnemy} is rolling hit dice with {self.name}...")
+            time.sleep(1)
             hitDice = int(self.hitDice.split("x")[0]) * int(self.hitDice.split("x")[1])
             hitRoll = random.randint(1, hitDice)
             print(f"!! {activeEnemy} rolled {hitRoll}")
@@ -485,6 +486,7 @@ def runCombat():
             if result:
                 enemyHealth -= result
                 print(f"!! {activeEnemy}'s health is now {enemyHealth}")
+                time.sleep(1)
 
         if enemyHealth <= 0:
             time.sleep(0.5)
