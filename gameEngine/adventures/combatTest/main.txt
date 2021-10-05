@@ -1,0 +1,12 @@
+init:
+!importAsset : items
+!importAsset : commands
+!importAsset : enemies
+:init
+
+story:
+!loadRoom : mainRoom
+!pickup : sword
+!equipWeapon : sword
+!spawnEnemy : goblin
+:story

@@ -1,0 +1,28 @@
+{
+    "weapons": {
+        "sword": {
+            "desc": "A shiny and pointy sword",
+            "damageDice": "8x1",
+            "hitDice" : "20x1",
+            "weight": 800
+        },
+        "club": {
+            "desc": "A large blunt wooden weapon",
+            "damageDice": "4x1",
+            "hitDice" : "20x1",
+            "weight": 900
+        }
+    },
+    "consumables": {
+        "health potion": {
+            "desc": "A potion that gives +5 to health",
+            "effect": "H+5"
+        }
+    },
+    "equipment": {
+        "torch": {
+            "desc": "A bright torch. Might reveal things in dark places",
+            "effect": "setAtt : light"
+        }
+    }
+}
