@@ -7,6 +7,8 @@ for i in dirPath:
     temp += (f"{i}/")
 dirPath = temp
 
+gameOver = False
+
 class weapon():
     def __init__(self, name, desc, damageDice, hitDice, weight):
         self.name = name
@@ -16,30 +18,60 @@ class weapon():
         self.weight = weight
         print(f"{self.name} loaded")
 
-    def attack(self, target):
-        print("!! Rolling hit dice...")
-        time.sleep(0.5)
-        hitDice = int(self.hitDice.split("x")[0]) * int(self.hitDice.split("x")[1])
-        hitRoll = random.randint(1, hitDice)
-        print(f"!! You rolled {hitRoll}")
-        time.sleep(0.5)
+    def attack(self, target, mode="player"):
 
-        if hitRoll > int(enemies[target].AC):
-            print("!! That hits!")
-            time.sleep(1)
+        if mode == "player":
+
+            print("!! Rolling hit dice...")
+            time.sleep(0.5)
+            hitDice = int(self.hitDice.split("x")[0]) * int(self.hitDice.split("x")[1])
+            hitRoll = random.randint(1, hitDice)
+            print(f"!! You rolled {hitRoll}")
+            time.sleep(0.5)
+
+            if hitRoll > int(enemies[target].AC):
+                print("!! That hits!")
+                time.sleep(1)
+                
+                print("!! Rolling damage dice...")
+                time.sleep(0.5)
+                damageDice = int(self.damageDice.split("x")[0]) * int(self.damageDice.split("x")[1])
+                damageRoll = random.randint(1, damageDice)
+                print(f"!! You rolled {damageRoll}")
+                time.sleep(0.5)
+                return damageRoll
+
+            else:
+                print("!! You miss!")
+                time.sleep(1)
+                return False
+
+        elif mode == "enemy":
             
-            print("!! Rolling damage dice...")
-            time.sleep(0.5)
-            damageDice = int(self.damageDice.split("x")[0]) * int(self.damageDice.split("x")[1])
-            damageRoll = random.randint(1, damageDice)
-            print(f"!! You rolled {damageRoll}")
-            time.sleep(0.5)
-            return damageRoll
-
-        else:
-            print("!! You miss!")
+            print(f"!! {activeEnemy} is attacking!")
             time.sleep(1)
-            return False
+            print(f"{activeEnemy} is rolling hit dice with {self.name}...")
+            hitDice = int(self.hitDice.split("x")[0]) * int(self.hitDice.split("x")[1])
+            hitRoll = random.randint(1, hitDice)
+            print(f"{activeEnemy} rolled {hitRoll}")
+            time.sleep(1)
+
+            if hitRoll > playerStats["AC"]:
+                print("!! Ouch, that hits!")
+                time.sleep(1)
+
+                print(f"{activeEnemy} is rolling damage dice...")
+                time.sleep(1)
+                damageDice = int(self.damageDice.split("x")[0]) * int(self.damageDice.split("x")[1])
+                damageRoll = random.randint(1, damageDice)
+                print(f"{activeEnemy} rolled {damageRoll}")
+                time.sleep(1)
+                return damageRoll
+            
+            else:
+                print(f"{activeEnemy} missed!")
+                time.sleep(1)
+                return False
 
 class consumable():
     def __init__(self, name, desc, effect):
@@ -67,6 +99,19 @@ class enemy():
 
     def displayAscii(self):
         printTXT(self.ascii)
+
+    def attack(self):
+        result = weapons[self.weapon].attack("player", "enemy")
+
+        if result:
+            playerStats["health"] -= result
+            print(f"You now have {playerStats['health']} HP")
+
+        if playerStats["health"] <= 0:
+            print("!! You died!")
+            global gameOver
+            gameOver = True
+            time.sleep(1)
 
 class room():
     def __init__(self, name):
@@ -335,7 +380,9 @@ def loadAsset(assetName):
 def runStory(story, i):
     while True:
 
-        if story[i] == ":story":
+        if gameOver:
+            return i
+        elif story[i] == ":story":
             return i
 
         elif story[i].startswith("!"):
@@ -418,15 +465,7 @@ def spawnEnemy(enemy):
 
 def runCombat():
     enemyHealth = enemies[activeEnemy].health
-    while True:
-
-        if enemyHealth <= 0:
-            time.sleep(0.5)
-            scroll()
-            time.sleep(0.1)
-            print(f"!! You have defeated the {activeEnemy}")
-            time.sleep(0.5)
-            break
+    while not gameOver:
 
         scroll()
         time.sleep(0.5)
@@ -446,6 +485,16 @@ def runCombat():
             if result:
                 enemyHealth -= result
                 print(f"!! {activeEnemy}'s health is now {enemyHealth}")
+
+        if enemyHealth <= 0:
+            time.sleep(0.5)
+            scroll()
+            time.sleep(0.1)
+            print(f"!! You have defeated the {activeEnemy}")
+            time.sleep(0.5)
+            break
+
+        enemies[activeEnemy].attack()
 
 initCommands = {
     "importMod": loadMod,
