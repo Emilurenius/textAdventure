@@ -53,23 +53,23 @@ class weapon():
             print(f"{activeEnemy} is rolling hit dice with {self.name}...")
             hitDice = int(self.hitDice.split("x")[0]) * int(self.hitDice.split("x")[1])
             hitRoll = random.randint(1, hitDice)
-            print(f"{activeEnemy} rolled {hitRoll}")
+            print(f"!! {activeEnemy} rolled {hitRoll}")
             time.sleep(1)
 
             if hitRoll > playerStats["AC"]:
                 print("!! Ouch, that hits!")
                 time.sleep(1)
 
-                print(f"{activeEnemy} is rolling damage dice...")
+                print(f"!! {activeEnemy} is rolling damage dice...")
                 time.sleep(1)
                 damageDice = int(self.damageDice.split("x")[0]) * int(self.damageDice.split("x")[1])
                 damageRoll = random.randint(1, damageDice)
-                print(f"{activeEnemy} rolled {damageRoll}")
+                print(f"!! {activeEnemy} rolled {damageRoll}")
                 time.sleep(1)
                 return damageRoll
             
             else:
-                print(f"{activeEnemy} missed!")
+                print(f"!! {activeEnemy} missed!")
                 time.sleep(1)
                 return False
 
@@ -105,7 +105,7 @@ class enemy():
 
         if result:
             playerStats["health"] -= result
-            print(f"You now have {playerStats['health']} HP")
+            print(f"!! You now have {playerStats['health']} HP")
 
         if playerStats["health"] <= 0:
             print("!! You died!")
@@ -141,7 +141,7 @@ inventory = {
 }
 playerStats = {
     "health": 20,
-    "AC": 15
+    "AC": 10
 }
 equippedWeapon = ""
 
