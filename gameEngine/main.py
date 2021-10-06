@@ -1,4 +1,4 @@
-import time, os, json, random
+import time, os, json, random, fnmatch
 
 dirPath = os.path.realpath(__file__).split("\\")
 dirPath.pop()
@@ -81,6 +81,26 @@ class consumable():
         self.effect = effect
         print(f"{self.name} loaded")
 
+    def use(self):
+        if self.effect.startswith("H"):
+            
+            global playerStats
+            
+            healthBuff = int(self.effect.split("+")[1])
+            if playerStats["health"] + healthBuff <= playerStats["maxHealth"]:
+
+                playerStats["health"] += healthBuff
+                print(f"!! Used {self.name}.")
+                time.sleep(1)
+                print(f"!! Health now {playerStats['health']} HP")
+
+            else:
+                print("!! Cannot heal more. Health too high")
+                time.sleep(1)
+                return True # Return true to tell runCombat script to begin reprompt user
+        
+        return False # Tell runCombat it can keep going with the loop
+
 class equipmentClass():
     def __init__(self, name, desc, effect):
         self.name = name
@@ -142,6 +162,7 @@ inventory = {
 }
 playerStats = {
     "health": 20,
+    "maxHealth": 20,
     "AC": 10
 }
 equippedWeapon = ""
@@ -488,7 +509,31 @@ def runCombat():
                 print(f"!! {activeEnemy}'s health is now {enemyHealth}")
                 time.sleep(1)
 
-        if enemyHealth <= 0:
+        elif fnmatch.fnmatch(IN, "use *"):
+            useCommand = IN.split(" ")
+
+            del useCommand[0]
+            consumableName = " ".join(useCommand)
+
+            if consumableName in inventory["consumables"].keys():
+                if inventory["consumables"][consumableName]["amount"] > 0:
+                    if consumables[consumableName].use():
+                        continue
+                else:
+                    print("!! You do not have more of that consumable")
+                    time.sleep(1)
+                    continue
+            else:
+                print("!! You do not have that consumable")
+                time.sleep(1)
+                continue
+
+            time.sleep(2)
+        
+        else:
+            continue # Prompt a response from the user again, if no action was done
+
+        if enemyHealth <= 0: # End combat if enemy is dead
             time.sleep(0.5)
             scroll()
             time.sleep(0.1)
