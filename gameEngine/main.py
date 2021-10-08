@@ -146,8 +146,8 @@ class room():
         floorItems = self.floorItems
 
         if type == "all":
-            for k, v in floorItems.items():
-                print(f"ii {k}")
+            for item in floorItems.keys():
+                print(f"ii {item}")
                 time.sleep(0.5)
 
 selectedAdventure = ""
