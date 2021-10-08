@@ -530,6 +530,18 @@ def runCombat():
 
             time.sleep(2)
         
+        elif IN == "flee":
+            print("!! You attempt to flee...")
+            time.sleep(1)
+            fleeCheck = random.randint(0, 1)
+            if fleeCheck:
+                print("!! You got away!")
+                time.sleep(0.5)
+                break
+            else:
+                print(f"!! The {activeEnemy} caught up to you")
+                time.sleep(0.5)
+
         else:
             continue # Prompt a response from the user again, if no action was done
 
