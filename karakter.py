@@ -11,6 +11,11 @@ elf = character("elf", -4, -2, 6, 4, -2)
 human = character("human", 0, 0, 0, 0, 0)
 troll = character("troll", 2, -2, 2, 6, 2)
 
+thin = character("thin", -1, -1, +1, +1, -1)
+normal = character("normal", 0, 0, 0, 0, 0)
+chubby = character("chubby", 2, 1, -1, -1, 1)
+
+short = character("thin",)
 
 
 
