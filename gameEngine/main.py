@@ -37,7 +37,7 @@ class weapon():
                 time.sleep(0.5)
                 damageDice = int(self.damageDice.split("x")[0]) * int(self.damageDice.split("x")[1])
                 damageRoll = random.randint(1, damageDice)
-                modifier = races[playerRace].strength / 3
+                modifier = int(races[playerRace].strength / 3)
                 print(f"!! You rolled {damageRoll} + {modifier}")
                 time.sleep(0.5)
                 return damageRoll + modifier
