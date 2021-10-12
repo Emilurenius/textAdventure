@@ -617,6 +617,7 @@ commands = {
     "displayInventory": displayInventory,
     "displayEnemy": displayEnemy,
     "spawnEnemy": spawnEnemy,
+    "printTXT": printTXT
 }
 
 if __name__ == "__main__":
