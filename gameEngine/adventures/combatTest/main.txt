@@ -9,5 +9,6 @@ story:
 !pickup : sword
 !pickup : health potion
 !equipWeapon : sword
+!displayEnemy : goblin
 !spawnEnemy : goblin
 :story
