@@ -158,12 +158,14 @@ class character():
         self.intelligence = 10 + intelligence
         self.dexterity = 10 + dexterity
         self.strength = 10 + strength
+        print(f"{self.name} loaded...")
 
 selectedAdventure = ""
 
 weapons = {}
 consumables = {}
 equipment = {}
+races = {}
 inventory = {
     "weapons": [],
     "consumables": {},
@@ -380,6 +382,11 @@ def loadAssetData(data):
         print("Loading enemies...")
         for k, v in data["enemies"].items():
             enemies[k] = enemy(k, v["desc"], v["ascii"], v["health"], v["AC"], v["weapon"])
+    
+    if "races" in data:
+        print("Loading races...")
+        for k, v in data["races"].items():
+            races[k] = character(k, v["health"], v["AC"], v["intelligence"], v["dexterity"], v["strength"])
 
 def loadRoom(selectedRoom):
     with open(f"{dirPath}adventures/{selectedAdventure}/rooms/{selectedRoom}.json") as JSON:
