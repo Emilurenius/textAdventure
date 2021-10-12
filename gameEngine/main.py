@@ -37,9 +37,10 @@ class weapon():
                 time.sleep(0.5)
                 damageDice = int(self.damageDice.split("x")[0]) * int(self.damageDice.split("x")[1])
                 damageRoll = random.randint(1, damageDice)
-                print(f"!! You rolled {damageRoll}")
+                modifier = races[playerRace].strength / 3
+                print(f"!! You rolled {damageRoll} + {modifier}")
                 time.sleep(0.5)
-                return damageRoll
+                return damageRoll + modifier
 
             else:
                 print("!! You miss!")
@@ -177,6 +178,7 @@ playerStats = {
     "AC": 10
 }
 equippedWeapon = ""
+playerRace = ""
 
 adventureCommands = {}
 
@@ -361,7 +363,24 @@ def createrace():
     scroll()
     global races
     if races:
-        print("There are races to use")
+        print("!! Please select a race: ")
+        counter = 0
+        for x in races.keys():
+            print(f"{counter} {x}")
+            time.sleep(0.5)
+            counter += 1
+        
+        IN = ""
+        while not IN.isnumeric():
+            IN = input(">> ")
+        
+        global playerRace
+        keysList = []
+        for x in races.keys():
+            keysList.append(x)
+        playerRace = races[keysList[int(IN)]].name
+        print(playerRace)
+
     else:
         print("There are no races to use")
     time.sleep(2)
