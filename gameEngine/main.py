@@ -150,7 +150,7 @@ class room():
                 print(f"ii {item}")
                 time.sleep(0.5)
 
-class character():
+class race():
     def __init__(self, name, health, AC, intelligence, dexterity, strength):
         self.name = name
         self.health = 20 + health
@@ -352,12 +352,12 @@ def runInit(story, i):
 
         elif story[i] == ":init":
             print("Initialization complete...")
-            createCharacter()
+            createrace()
             return i
 
         i += 1
 
-def createCharacter():
+def createrace():
     scroll()
     global races
     if races:
@@ -396,7 +396,7 @@ def loadAssetData(data):
     if "races" in data:
         print("Loading races...")
         for k, v in data["races"].items():
-            races[k] = character(k, v["health"], v["AC"], v["intelligence"], v["dexterity"], v["strength"])
+            races[k] = race(k, v["health"], v["AC"], v["intelligence"], v["dexterity"], v["strength"])
 
 def loadRoom(selectedRoom):
     with open(f"{dirPath}adventures/{selectedAdventure}/rooms/{selectedRoom}.json") as JSON:
