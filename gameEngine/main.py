@@ -352,9 +352,19 @@ def runInit(story, i):
 
         elif story[i] == ":init":
             print("Initialization complete...")
+            createCharacter()
             return i
 
         i += 1
+
+def createCharacter():
+    scroll()
+    global races
+    if races:
+        print("There are races to use")
+    else:
+        print("There are no races to use")
+    time.sleep(2)
 
 def loadAssetData(data):
     if "weapons" in data:
