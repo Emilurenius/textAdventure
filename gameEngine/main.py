@@ -22,7 +22,7 @@ class weapon():
 
         if mode == "player":
 
-            print("!! Rolling hit dice...")
+            print(f"!! Rolling hit dice with {equippedWeapon}...")
             time.sleep(0.5)
             hitDice = int(self.hitDice.split("x")[0]) * int(self.hitDice.split("x")[1])
             hitRoll = random.randint(1, hitDice)
