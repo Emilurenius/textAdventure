@@ -150,6 +150,15 @@ class room():
                 print(f"ii {item}")
                 time.sleep(0.5)
 
+class character():
+    def __init__(self, name, health, AC, intelligence, dexterity, strength):
+        self.name = name
+        self.health = 20 + health
+        self.AC = 12 + AC
+        self.intelligence = 10 + intelligence
+        self.dexterity = 10 + dexterity
+        self.strength = 10 + strength
+
 selectedAdventure = ""
 
 weapons = {}
