@@ -45,8 +45,7 @@
         },
         "leather armor": {
             "desc": "A worn but sturdy set of leather armor",
-            "ACmod": 3,
-            
+            "ACmod": 3
         }
     }
 
