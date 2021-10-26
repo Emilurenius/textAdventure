@@ -75,6 +75,14 @@ class weapon():
                 time.sleep(1)
                 return False
 
+class armor():
+    def __init__(self, name, desc, ACmod, weight):
+        self.name = name
+        self.desc = desc,
+        self.ACmod = ACmod,
+        self.weight = weight
+        print(f"{self.name} loaded")
+
 class consumable():
     def __init__(self, name, desc, effect):
         self.name = name
@@ -164,13 +172,15 @@ class race():
 selectedAdventure = ""
 
 weapons = {}
+armors = {}
 consumables = {}
 equipment = {}
 races = {}
 inventory = {
     "weapons": [],
     "consumables": {},
-    "equipment": []
+    "equipment": [],
+    "armor": []
 }
 playerStats = {
     "health": 20,
@@ -417,6 +427,11 @@ def loadAssetData(data):
         for k, v in data["races"].items():
             races[k] = race(k, v["health"], v["AC"], v["intelligence"], v["dexterity"], v["strength"])
 
+    if "armor" in data:
+        print("Loading armor...")
+        for k, v in data["armor"].items():
+            armors[k] = armor(k, v["desc"], v["ACmod"], v["weight"])
+
 def loadRoom(selectedRoom):
     with open(f"{dirPath}adventures/{selectedAdventure}/rooms/{selectedRoom}.json") as JSON:
         data = json.load(JSON)
@@ -485,6 +500,12 @@ def pickup(item):
         print(f"!! Picked up {equipment[item].desc}")
 
         inventory["equipment"].append(item)
+        del activeRoom.floorItems[item]
+
+    elif item in armors.keys() and item in activeRoom.floorItems.keys():
+        print(f"!! Picked up {armors[item].desc}")
+
+        inventory["armors"].append(item)
         del activeRoom.floorItems[item]
 
     else:
