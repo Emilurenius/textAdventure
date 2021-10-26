@@ -11,6 +11,18 @@
             "damageDice": "4x1",
             "hitDice" : "20x1",
             "weight": 900
+        },
+        "bow": {
+            "desc": "A shortbow showing age and tear",
+            "damageDice": "6x1",
+            "hitDice": "20x1",
+            "weight": 500
+        },
+        "axe": {
+            "desc": "A sharp axe meant to cut foes not wood",
+            "damageDice": "6x2",
+            "hitDice": "20x1", 
+            "weight": 1800
         }
     },
     "consumables": {
@@ -24,5 +36,18 @@
             "desc": "A bright torch. Might reveal things in dark places",
             "effect": "setAtt : light"
         }
+    },
+    "armor": {
+        "shield": {
+            "desc": "A round worn shield",
+            "ACmod": 2,
+            "weight": 1300
+        },
+        "leather armor": {
+            "desc": "A worn but sturdy set of leather armor",
+            "ACmod": 3,
+            
+        }
     }
+
 }
