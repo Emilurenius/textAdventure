@@ -1,5 +1,11 @@
 {
     "weapons": {
+        "unarmed": {
+            "desc": "Your fists",
+            "damageDice": "1x1",
+            "hitDice": "20x1",
+            "weight": 0
+        },
         "sword": {
             "desc": "A shiny and pointy sword",
             "damageDice": "8x1",

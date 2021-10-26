@@ -16,6 +16,8 @@ story:
 !sleep : 2
 
 !loadRoom : mainRoom
+!pickup : unarmed
+!equipWeapon : unarmed
 !displayFloorItems : all
 !sleep : 0.5
 

@@ -11,6 +11,10 @@
         "torch": {
             "ref": "assets/items",
             "amount": 1
+        },
+        "unarmed": {
+            "ref": "assets/items",
+            "amount": 1
         }
     }
 }
