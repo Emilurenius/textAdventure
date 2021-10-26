@@ -69,7 +69,7 @@
         "padded cloth": {
             "desc": "A set of worn padded cloth armor",
             "ACmod": 2,
-            "Weight": 1000
+            "weight": 1000
         }
         
     }
