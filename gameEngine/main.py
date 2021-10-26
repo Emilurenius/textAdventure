@@ -1,4 +1,4 @@
-import time, os, json, random, fnmatch
+import time, os, json, random, fnmatch, sys
 
 dirPath = os.path.realpath(__file__).split("\\")
 dirPath.pop()
@@ -6,7 +6,6 @@ temp = ""
 for i in dirPath:
     temp += (f"{i}/")
 dirPath = temp
-
 gameOver = False
 
 class weapon():
@@ -312,6 +311,7 @@ def scroll(lines=5, delay=0.1):
 
 def getCommand(commandString):
     commandString = commandString[1:]
+    commandString = commandString.split(" //")[0]
     return commandString.split(" : ")
 
 def runCommand(commandList):
@@ -364,12 +364,12 @@ def runInit(story, i):
 
         elif story[i] == ":init":
             print("Initialization complete...")
-            createrace()
+            selectRace()
             return i
 
         i += 1
 
-def createrace():
+def selectRace():
     scroll()
     global races
     if races:
@@ -473,18 +473,29 @@ def runStory(story, i):
             if command:
                 command(commandList[1])
 
+        elif story[i].startswith("-"): # Seperate handler for supressed commands (Command will not print anything in the terminal)
+            commandList = getCommand(story[i])
+            command = commands.get(commandList[0], None)
+            if command:
+                try:
+                    command(commandList[1], True)
+                except:
+                    print(sys.exc_info())
+
         i += 1
 
-def pickup(item):
+def pickup(item, supressPrompts=False):
 
     if item in weapons.keys() and item not in inventory["weapons"] and item in activeRoom.floorItems.keys():
-        print(f"!! Picked up {weapons[item].desc}")
+        if not supressPrompts:
+            print(f"!! Picked up {weapons[item].desc}")
 
         inventory["weapons"].append(item)
         del activeRoom.floorItems[item]
 
     elif item in consumables.keys() and item in activeRoom.floorItems.keys():
-        print(f"!! Picked up {consumables[item].desc}")
+        if not supressPrompts:
+            print(f"!! Picked up {consumables[item].desc}")
 
         if item in inventory["consumables"].keys():
             inventory["consumables"][item]["amount"] += 1
@@ -493,29 +504,34 @@ def pickup(item):
                 "amount": 1
             }
         time.sleep(0.5)
-        print(f"!! You now have {inventory['consumables'][item]['amount']} {item}s")
+        if not supressPrompts:
+            print(f"!! You now have {inventory['consumables'][item]['amount']} {item}s")
         del activeRoom.floorItems[item]
 
     elif item in equipment.keys() and item not in inventory["equipment"] and item in activeRoom.floorItems.keys():
-        print(f"!! Picked up {equipment[item].desc}")
+        if not supressPrompts:
+            print(f"!! Picked up {equipment[item].desc}")
 
         inventory["equipment"].append(item)
         del activeRoom.floorItems[item]
 
     elif item in armors.keys() and item in activeRoom.floorItems.keys():
-        print(f"!! Picked up {armors[item].desc}")
+        if not supressPrompts:
+            print(f"!! Picked up {armors[item].desc}")
 
         inventory["armors"].append(item)
         del activeRoom.floorItems[item]
 
     else:
-        print(f"!! Cannot pick up {item}")
+        if not supressPrompts:
+            print(f"!! Cannot pick up {item}")
 
-def equipWeapon(weapon):
+def equipWeapon(weapon, supressPrompts=False):
     if weapon in inventory["weapons"]:
         global equippedWeapon
         equippedWeapon = weapon
-        print(f"!! {weapon} equipped")
+        if not supressPrompts:
+            print(f"!! {weapon} equipped")
 
     else:
         print("!! You do not have a weapon with that name")
@@ -526,7 +542,10 @@ def displayInventory(type):
     print("!! Weapons:")
     time.sleep(0.5)
     for weapon in inventory["weapons"]:
-        print(f"ii {weapon}")
+        if weapon == equippedWeapon:
+            print(f"ii {weapon}  ** Equipped **")
+        else:
+            print(f"ii {weapon}")
         time.sleep(0.5)
     print("!! consumables:")
     time.sleep(0.5)
