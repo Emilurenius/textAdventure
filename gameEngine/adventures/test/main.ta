@@ -9,7 +9,7 @@ init:
 story:
 
 !loadRoom : mainRoom // This is a comment
-!pickup : unarmed
+-pickup : unarmed
 -equipWeapon : unarmed // This is another comment
 !displayFloorItems : all
 !sleep : 0.5

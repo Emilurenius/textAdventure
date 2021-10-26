@@ -212,7 +212,7 @@ def main():
     time.sleep(1)
     
 def removeFileExtention(file):
-    return file.replace(".txt", "")
+    return file.replace(".ta", "")
 
 def displayText(text):
     print(text)
@@ -335,7 +335,7 @@ def loadAdventure(adventure):
     global selectedAdventure
     selectedAdventure = adventure
     try:
-        with open(f"{dirPath}adventures/{adventure}/main.txt") as f:
+        with open(f"{dirPath}adventures/{adventure}/main.ta") as f:
             data = f.read().splitlines()
         return data
     except:
