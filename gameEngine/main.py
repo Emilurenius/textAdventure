@@ -169,6 +169,7 @@ class race():
         print(f"{self.name} loaded...")
 
 selectedAdventure = ""
+adventureProgress = 0
 
 weapons = {}
 armors = {}
@@ -192,7 +193,6 @@ playerRace = ""
 adventureCommands = {}
 
 activeRoom = room("No room") # Initialize the active room as an empty room with no features
-
 enemies = {}
 activeEnemy = ""
 
@@ -210,7 +210,25 @@ def main():
     i = runStory(adventure, i + 1)
     print("!! The story has come to an end")
     time.sleep(1)
-    
+
+def saveGame(saveName, supressPrompts=False):
+
+    saveData = {
+        "selectedAdventure": selectedAdventure,
+        "storyPos": adventureProgress,
+        "inventory": inventory,
+        "room": {
+            "name": activeRoom.name,
+            "floorItems": activeRoom.floorItems
+        },
+        "equippedWeapon": equippedWeapon,
+        "playerRace": playerRace,
+        "activeEnemy": activeEnemy
+    }
+
+    if not supressPrompts:
+        print(f"Gathered save data\n{saveData}")
+
 def removeFileExtention(file):
     return file.replace(".ta", "")
 
@@ -265,7 +283,7 @@ def prompt(text):
                             command = x.replace("<?>", INsplit[variableIndex])
                         else:
                             command = x
-                            
+
                         if command.startswith("!"):
                             commandList = getCommand(command)
                             runCommand(commandList)
@@ -286,7 +304,7 @@ def prompt(text):
                         if command.startswith("!"):
                             commandList = getCommand(command)
                             runCommand(commandList)
-                    
+
             else:
                 splitCommand = k.split(" ")
                 i = 0
@@ -494,6 +512,8 @@ def runStory(story, i):
                     print(sys.exc_info())
 
         i += 1
+        global adventureProgress 
+        adventureProgress = i
 
 def pickup(item, supressPrompts=False):
 
@@ -668,7 +688,8 @@ commands = {
     "displayInventory": displayInventory,
     "displayEnemy": displayEnemy,
     "spawnEnemy": spawnEnemy,
-    "printASCII": printASCII
+    "printASCII": printASCII,
+    "saveGame": saveGame
 }
 
 if __name__ == "__main__":
