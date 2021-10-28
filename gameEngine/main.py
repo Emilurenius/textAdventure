@@ -188,7 +188,7 @@ playerStats = {
     "AC": 10
 }
 equippedWeapon = ""
-playerRace = ""
+playerRace = False
 
 adventureCommands = {}
 
@@ -198,18 +198,36 @@ activeEnemy = ""
 
 def main():
     print("!! Text adventure Engine !!")
-    time.sleep(0.5)
-    print(getAdventures())
-    
-    adventure = False
-    while not adventure:
-        adventure = loadAdventure(input("Select one of the above adventures >> "))
-    scroll()
-    i = loadStory(adventure)
-    scroll()
-    i = runStory(adventure, i + 1)
-    print("!! The story has come to an end")
     time.sleep(1)
+    scroll()
+    time.sleep(0.5)
+
+    newLoad = False
+    while newLoad != "new" and newLoad != "load":
+        print("!! Please select an option to continue:")
+        newLoad = input("new / load >> ")
+
+    if newLoad == "new":
+        printAdventures()
+        
+        adventure = False
+        while not adventure:
+            adventure = loadAdventure(input("Select one of the above adventures >> "))
+        scroll()
+        i = loadStory(adventure)
+        scroll()
+        i = runStory(adventure, i + 1)
+        print("!! The story has come to an end")
+        time.sleep(1)
+
+    elif newLoad == "load":
+        printSaves()
+        adventure = False
+        while not adventure:
+            adventure = loadSave(input("!! Select a save file from the list >> "))
+        runStory(adventure, adventureProgress)
+
+
 
 def saveGame(saveName, supressPrompts=False):
 
@@ -226,11 +244,14 @@ def saveGame(saveName, supressPrompts=False):
         "activeEnemy": activeEnemy
     }
 
-    if not supressPrompts:
-        print(f"Gathered save data\n{saveData}")
+    with open(f"{dirPath}saves/{saveName}.json", "w") as outFile:
+        json.dump(saveData, outFile, indent=4)
 
-def removeFileExtention(file):
-    return file.replace(".ta", "")
+    if not supressPrompts:
+        print(f"Saved current progress as {saveName}")
+
+def removeFileExtention(file, extention):
+    return file.replace(extention, "")
 
 def displayText(text):
     print(text)
@@ -351,13 +372,22 @@ def runCommand(commandList):
     else:
         return False
 
-def getAdventures():
+def printAdventures():
     print("Loading adventures...")
     time.sleep(0.5)
     adventures = os.listdir(f"{dirPath}adventures")
 
     for i in adventures:
-        print(f"|| {removeFileExtention(i)}")
+        print(f"|| {i}")
+        time.sleep(0.1)
+
+def printSaves():
+    print("Loading saves...")
+    time.sleep(0.5)
+    saves = os.listdir(f"{dirPath}saves")
+
+    for i in saves:
+        print(f"|| {removeFileExtention(i, '.json')}")
         time.sleep(0.1)
 
 def loadAdventure(adventure):
@@ -370,8 +400,38 @@ def loadAdventure(adventure):
     except:
         return False
 
-def loadStory(story):
-    i = 0
+def loadSave(saveName):
+    try:
+        save = False
+        with open(f"{dirPath}saves/{saveName}.json") as f:
+            save = json.load(f)
+        adventure = loadAdventure(save["selectedAdventure"])
+        global inventory
+        global equippedWeapon
+        global playerRace
+        global activeEnemy
+        global activeRoom
+        global adventureProgress
+        inventory = save["inventory"]
+        equippedWeapon = save["equippedWeapon"]
+        playerRace = save["playerRace"]
+        activeEnemy = save["activeEnemy"]
+        activeRoom = room(save["room"]["name"])
+        activeRoom.setFloorItems(save["room"]["floorItems"])
+        adventureProgress = int(save["storyPos"])
+        i = 0
+        while True:
+            if adventure[i] == "init:":
+                print("Initializing...")
+                runInit(adventure, i + 1)
+                break
+            i += 1
+
+        return adventure
+    except:
+        return False
+
+def loadStory(story, i=0):
     while i < len(story):
         if story[i] == "init:":
             print("Initializing...")
@@ -399,6 +459,10 @@ def runInit(story, i):
         i += 1
 
 def selectRace():
+    global playerRace
+    if playerRace:
+        return
+
     scroll()
     global races
     if races:
@@ -412,8 +476,7 @@ def selectRace():
         IN = ""
         while not IN.isnumeric():
             IN = input(">> ")
-        
-        global playerRace
+
         keysList = []
         for x in races.keys():
             keysList.append(x)
@@ -490,7 +553,6 @@ def loadAsset(assetName):
 
 def runStory(story, i):
     while True:
-
         if gameOver:
             return i
         elif story[i] == ":story":

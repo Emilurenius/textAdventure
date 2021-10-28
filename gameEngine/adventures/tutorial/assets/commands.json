@@ -3,6 +3,7 @@
         "check ground": ["!displayFloorItems : all"],
         "pick up <?": ["!pickup : <?"],
         "equip <?": ["!equipWeapon : <?"],
-        "display inventory": ["!displayInventory : all"]
+        "display inventory": ["!displayInventory : all"],
+        "save as <?": ["!saveGame : <?"]
     }
 }
