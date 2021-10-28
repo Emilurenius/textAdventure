@@ -155,6 +155,7 @@ Example:
 story:
 !displayText : A prompt lets you interact with the world around you
 !prompt : >> 
+:story
 ```
 Terminal output:
 ```
@@ -165,6 +166,94 @@ You can define how the prompt will look, and can add custom text, or use differe
 
 ### !loadRoom:
 
-loadroom is used to load a json defined room. These rooms are used 
+loadroom is used to load a json defined room. These rooms are used to define what is around the player, and can contain items.
+
+The loadRoom command is written like this:
+
+```
+story:
+!loadRoom : mainRoom
+:story
+```
+
+This command will load a room with the name mainRoom.
+
+To load another room later, simply just write the same command with the name of the new room.
+
+### !displayFloorItems:
+
+displayFloorItems is strongly connected to loadRoom, as it displays items on the floor, defined by the currently loaded room.
+
+For this example, the loaded room JSON looks like this:
+
+mainRoom.json:
+```
+{
+    "floorItems": {
+        "sword": {
+            "ref": "assets/items",
+            "amount": 1
+        },
+        "health potion": {
+            "ref": "assets/items",
+            "amount": 1
+        },
+        "torch": {
+            "ref": "assets/items",
+            "amount": 1
+        }
+}
+```
+
+To display the floor items, you write this in the .ta file:
+```
+story:
+!loadRoom : mainRoom
+!displayFloorItems : all
+:story
+```
+
+Terminal output:
+```
+ii sword
+ii health potion
+ii torch
+```
+
+Currently displayFloorItems only has one mode: `all`, but more modes are coming, Like for example, only displaying weapons.
+
+### !pickup
+
+This command lets you select an item on the ground to add to the player's inventory. The command will also automatically delete it from the list of floor items.
+
+This means that, like displayFloorItems, this command is dependant on the loadRoom command.
+
+I will again use this JSON file as a room example:
+mainRoom.json:
+```
+{
+    "floorItems": {
+        "sword": {
+            "ref": "assets/items",
+            "amount": 1
+        },
+        "health potion": {
+            "ref": "assets/items",
+            "amount": 1
+        },
+        "torch": {
+            "ref": "assets/items",
+            "amount": 1
+        }
+}
+```
+
+To pick up the sword for the player, write this in the .ta file:
+```
+story:
+!loadRoom : mainRoom
+!pickup : sword
+:story
+```
 
 # More commands will be explained soon!
