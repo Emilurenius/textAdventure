@@ -259,10 +259,16 @@ def prompt(text):
                     i += 1
 
                 if commandFound and multiWordFill == False:
-                    command = v.replace("<?>", INsplit[variableIndex])
-                    if command.startswith("!"):
-                        commandList = getCommand(command)
-                        runCommand(commandList)
+
+                    for x in v:
+                        if "<?>" in x:
+                            command = x.replace("<?>", INsplit[variableIndex])
+                        else:
+                            command = x
+                            
+                        if command.startswith("!"):
+                            commandList = getCommand(command)
+                            runCommand(commandList)
 
                 elif commandFound and multiWordFill:
                     i = variableIndex
@@ -271,11 +277,15 @@ def prompt(text):
                         multiWord += INsplit[i] + " "
                         i += 1
                     multiWord = multiWord[:-1]
-                        
-                    command = v.replace("<?", multiWord)
-                    if command.startswith("!"):
-                        commandList = getCommand(command)
-                        runCommand(commandList)
+                    
+                    for x in v:
+                        if "<?" in x:
+                            command = x.replace("<?", multiWord)
+                        else:
+                            command = x
+                        if command.startswith("!"):
+                            commandList = getCommand(command)
+                            runCommand(commandList)
                     
             else:
                 splitCommand = k.split(" ")
