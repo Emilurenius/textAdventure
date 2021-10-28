@@ -6,6 +6,10 @@
             "health": 15,
             "AC": 8,
             "weapon": "club"
+        },
+        "skeleton": {
+            "desc": "spooky and scary these rattling undead monsters have a bone to pick with you. They are found in abandoned graveyards or out in the wild if a grave has been defiled.",
+            "ascii": "ascii/"
         }
     }
 }
