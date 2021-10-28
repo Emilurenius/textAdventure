@@ -59,6 +59,6 @@ story:
 !sleep : 3
 
 !spawnEnemy : goblin
-!printTXT : ascii/victory
+!printASCII : victory
 
 :story

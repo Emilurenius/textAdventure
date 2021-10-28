@@ -127,7 +127,7 @@ class enemy():
         print(f"{self.name} loaded")
 
     def displayAscii(self):
-        printTXT(self.ascii)
+        printASCII(self.ascii)
 
     def attack(self):
         result = weapons[self.weapon].attack("player", "enemy")
@@ -217,8 +217,8 @@ def removeFileExtention(file):
 def displayText(text):
     print(text)
 
-def printTXT(filePath):
-    with open(f"{dirPath}adventures/{selectedAdventure}/{filePath}.txt") as TXT:
+def printASCII(filePath):
+    with open(f"{dirPath}adventures/{selectedAdventure}/ascii/{filePath}.txt") as TXT:
         print(TXT.read())
 
 def prompt(text):
@@ -657,7 +657,7 @@ commands = {
     "displayInventory": displayInventory,
     "displayEnemy": displayEnemy,
     "spawnEnemy": spawnEnemy,
-    "printTXT": printTXT
+    "printASCII": printASCII
 }
 
 if __name__ == "__main__":

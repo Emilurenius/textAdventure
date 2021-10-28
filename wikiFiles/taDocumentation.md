@@ -163,4 +163,8 @@ A prompt lets you interact with the world around you
 ```
 You can define how the prompt will look, and can add custom text, or use different symbols. This means that the prompt command works like the displayText command, but it asks for input from the player afterwards.
 
+### !loadRoom:
+
+loadroom is used to load a json defined room. These rooms are used 
+
 # More commands will be explained soon!

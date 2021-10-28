@@ -2,7 +2,7 @@
     "enemies": {
         "goblin": {
             "desc": "small, black-hearted humanoid that lair in despoiled dungeons and other dismal settings.\nIndividually weak, they gather in large numbers to torment other creatures.",
-            "ascii": "ascii/goblin",
+            "ascii": "goblin",
             "health": 15,
             "AC": 8,
             "weapon": "club"
