@@ -2,14 +2,17 @@
     "enemies": {
         "goblin": {
             "desc": "small, black-hearted humanoid that lair in despoiled dungeons and other dismal settings.\nIndividually weak, they gather in large numbers to torment other creatures.",
-            "ascii": "goblin",
+            "ascii": "enemies/goblin",
             "health": 15,
             "AC": 8,
             "weapon": "club"
         },
         "skeleton": {
             "desc": "spooky and scary these rattling undead monsters have a bone to pick with you. They are found in abandoned graveyards or out in the wild if a grave has been defiled.",
-            "ascii": "ascii/"
+            "ascii": "enemies/skeleton",
+            "health": 18,
+            "AC": 7,
+            "weapon": "sword"
         }
     }
 }
