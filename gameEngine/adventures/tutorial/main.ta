@@ -46,9 +46,9 @@ story:
 
 !displayText : || Oh no! An enemy approaces!
 !sleep : 0.5
-!displayEnemy : goblin
+!displayEnemy : skeleton
 !sleep : 0.5
-!displayText : || It's a Goblin!
+!displayText : || It's a Skeleton!
 !sleep : 3
 
 !displayText : ?? Under combat, you can do two things.
@@ -58,7 +58,7 @@ story:
 !displayText : ?? Remember to use your consumables wisely!
 !sleep : 3
 
-!spawnEnemy : goblin
+!spawnEnemy : skeleton
 !printASCII : victory
 
 :story
