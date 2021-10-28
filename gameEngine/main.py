@@ -290,9 +290,10 @@ def prompt(text):
                     i += 1
                 
                 if commandFound:
-                    if v.startswith("!"):
-                        commandList = getCommand(v)
-                        runCommand(commandList)
+                    for x in v:
+                        if x.startswith("!"):
+                            commandList = getCommand(x)
+                            runCommand(commandList)
         
     except IndexError:
         print("!! Oops! Seems you are missing part of the command! Remember, you can write help for a list of all commands")
@@ -305,7 +306,7 @@ def sleep(secs):
 def scroll(lines=5, delay=0.1):
     i = 0
     while i < int(lines):
-        print("\n")
+        print("")
         i += 1
         time.sleep(delay)
 
