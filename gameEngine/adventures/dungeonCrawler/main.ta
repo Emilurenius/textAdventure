@@ -13,15 +13,34 @@ story:
 !loadRoom : startArea
 !displayText : You wake up outside a dark dungeon
 !sleep : 1
-!displayText : On the floor there is a sword, and a health potion
+!displayText : On the floor, there is a sword and a health potion
 !sleep : 1
 !displayText : What do you do?
 !prompt : >> 
 
 #enteredCave
+!loadRoom : cave
 !sleep : 0.5
 !displayText : You enter the cave
 !sleep : 1
+!displayText : It is dark, cold and wet
+!sleep : 1
+!displayText : You hear some rattling from a corner in the cave...
+!sleep : 0.5
+!displayText : What now?
+#enteredCaveLoop
+!prompt : >> 
+!setCursor : enteredCaveLoop
+
+#investigateCaveSound
+!sleep : 0.5
+!displayText : You move closer to the sound
+!sleep : 1
+!displayText : Having a weapon equipped would sure be nice right about now
+!prompt : >> 
+!sleep : 0.5
+!displayEnemy : skeleton
+!spawnEnemy : skeleton
 !endGame
 
 #leftCave

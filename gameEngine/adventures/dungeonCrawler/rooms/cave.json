@@ -1,0 +1,12 @@
+{
+    "floorItems": {
+        "torch": {
+            "ref": "mods/items",
+            "amount": 1
+        }
+    },
+    "roomCommands": {
+        "leave cave": ["!setCursor : leftCave", "!breakPrompt"],
+        "investigate sound": ["!setCursor : investigateCaveSound", "!breakPrompt"]
+    }
+}

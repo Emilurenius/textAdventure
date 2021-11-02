@@ -389,12 +389,10 @@ def prompt(text):
             print(f">> {command}")
     else:
         for k, v in adventureCommands.items():
-            if IN == k:
-                runPrompt(k, v)
+            runPrompt(k, v)
 
         for k, v in activeRoom.commands.items():
-            if IN == k:
-                runPrompt(k, v)
+            runPrompt(k, v)
 
     prompt(text)
 
@@ -592,8 +590,8 @@ def loadRoom(selectedRoom):
     activeRoom = room(selectedRoom)
 
     if data["floorItems"]:
-        #activeRoom.setFloorItems(data["floorItems"])
         activeRoom.floorItems = data["floorItems"]
+        print(activeRoom.floorItems)
     if data["roomCommands"]:
         activeRoom.commands = data["roomCommands"]
 
