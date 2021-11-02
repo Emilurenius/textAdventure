@@ -1,16 +1,39 @@
 {
     "weapons": {
+        "unarmed": {
+            "desc": "Your fists",
+            "damageDice": "1x1",
+            "hitDice": "20x1",
+            "damageType": "blunt",
+            "weight": 0
+        },
         "sword": {
             "desc": "A shiny and pointy sword",
             "damageDice": "8x1",
             "hitDice" : "20x1",
+            "damageType": "slashing",
             "weight": 800
         },
         "club": {
             "desc": "A large blunt wooden weapon",
             "damageDice": "4x1",
             "hitDice" : "20x1",
+            "damageType": "blunt",
             "weight": 900
+        },
+        "bow": {
+            "desc": "A shortbow showing age and tear",
+            "damageDice": "6x1",
+            "hitDice": "20x1",
+            "damageType": "piercing",
+            "weight": 500
+        },
+        "axe": {
+            "desc": "A sharp axe meant to cut foes not wood",
+            "damageDice": "6x2",
+            "hitDice": "20x1", 
+            "damageType": "slashing",
+            "weight": 1800
         }
     },
     "consumables": {
@@ -24,5 +47,36 @@
             "desc": "A bright torch. Might reveal things in dark places",
             "effect": "setAtt : light"
         }
+    },
+    "armor": {
+        "shield": {
+            "desc": "A round worn shield",
+            "ACmod": 2,
+            "weight": 1300
+        },
+        "leather armor": {
+            "desc": "A worn but sturdy set of leather armor",
+            "ACmod": 3,
+            "weight": 3000
+        },
+        "chain mail": {
+            "desc": "A worn set of chain mail armor",
+            "ACmod": 4,
+            "weight": 7000
+
+        },
+        "plate mail": {
+            "desc": "A set of plate mail that has lost its shine",
+            "ACmod": 6,
+            "weight": 15000
+            
+        },
+        "padded cloth": {
+            "desc": "A set of worn padded cloth armor",
+            "ACmod": 2,
+            "weight": 1000
+        }
+        
     }
+
 }
