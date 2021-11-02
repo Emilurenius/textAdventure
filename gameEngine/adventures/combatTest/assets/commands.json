@@ -1,8 +1,12 @@
 {
     "commands": {
-        "check ground": "!displayFloorItems : all",
-        "pick up <?": "!pickup : <?",
-        "equip <?": "!equipWeapon : <?",
-        "display inventory": "!displayInventory : all"
+        "check ground": ["!displayFloorItems : all"],
+        "pick up <?": ["!pickup : <?"],
+        "equip <?": ["!equipWeapon : <?"],
+        "display inventory": ["!displayInventory : all"],
+        "spawn <?": [
+            "!displayEnemy : <?",
+            "!spawnEnemy : <?"],
+        "give <?": ["!giveItem : <?"]
     }
 }

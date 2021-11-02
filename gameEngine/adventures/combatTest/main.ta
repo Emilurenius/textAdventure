@@ -6,9 +6,5 @@ init:
 
 story:
 !loadRoom : mainRoom
-!pickup : sword
-!pickup : health potion
-!equipWeapon : sword
-!displayEnemy : goblin
-!spawnEnemy : goblin
+!prompt : >>
 :story
