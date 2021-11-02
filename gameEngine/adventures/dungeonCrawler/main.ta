@@ -1,0 +1,20 @@
+init:
+!importMod : items
+!importAsset : commands
+!importMod : enemies
+!importMod : races
+:init
+
+
+story:
+!giveItem : weapon unarmed
+-equipWeapon : unarmed
+!loadRoom : startArea
+!displayText : You wake up outside a dark dungeon
+!sleep : 1
+!displayText : On the floor there is a sword, and a health potion
+!sleep : 1
+!displayText : What do you do?
+!prompt : >> 
+
+:story

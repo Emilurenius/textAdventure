@@ -27,26 +27,29 @@ class weapon():
             x = 0
             hitDice = 0
             while x < int(self.hitDice.split("x")[1]):
-                hitDice += random.randint(0, int(self.hitDice.split("x")[0]))
+                hitDice += random.randint(1, int(self.hitDice.split("x")[0]))
                 x += 1
 
-
-            hitRoll = random.randint(1, hitDice)
-            print(f"!! You rolled {hitRoll}")
+            print(f"!! You rolled {hitDice}")
             time.sleep(0.5)
 
-            if hitRoll > int(enemies[target].AC):
+            if hitDice > int(enemies[target].AC):
                 print("!! That hits!")
                 time.sleep(1)
                 
                 print("!! Rolling damage dice...")
                 time.sleep(0.5)
-                damageDice = int(self.damageDice.split("x")[0]) * int(self.damageDice.split("x")[1])
-                damageRoll = random.randint(1, damageDice)
+
+                x = 0
+                damageDice = 0
+                while x < int(self.damageDice.split("x")[1]):
+                    damageDice += random.randint(1, int(self.damageDice.split["x"][0]))
+                    x += 1
+
                 modifier = int(races[playerRace].strength / 3)
-                print(f"!! You rolled {damageRoll} + {modifier}")
+                print(f"!! You rolled {damageDice} + {modifier}")
                 time.sleep(0.5)
-                return damageRoll + modifier
+                return damageDice + modifier
 
             else:
                 print("!! You miss!")
@@ -59,22 +62,28 @@ class weapon():
             time.sleep(1)
             print(f"!! {activeEnemy} is rolling hit dice with {self.name}...")
             time.sleep(1)
-            hitDice = int(self.hitDice.split("x")[0]) * int(self.hitDice.split("x")[1])
-            hitRoll = random.randint(1, hitDice)
-            print(f"!! {activeEnemy} rolled {hitRoll}")
+            x = 0
+            hitDice = 0
+            while x < int(self.hitDice.split("x")[1]):
+                hitDice += random.randint(1, int(self.hitDice.split("x")[0]))
+                x += 1
+            print(f"!! {activeEnemy} rolled {hitDice}")
             time.sleep(1)
 
-            if hitRoll > playerStats["AC"]:
+            if hitDice > playerStats["AC"]:
                 print("!! Ouch, that hits!")
                 time.sleep(1)
 
                 print(f"!! {activeEnemy} is rolling damage dice...")
                 time.sleep(1)
-                damageDice = int(self.damageDice.split("x")[0]) * int(self.damageDice.split("x")[1])
-                damageRoll = random.randint(1, damageDice)
-                print(f"!! {activeEnemy} rolled {damageRoll}")
+                x = 0
+                damageDice = 0
+                while x < int(self.damageDice.split("x")[1]):
+                    damageDice += random.randint(1, int(self.damageDice.split["x"][0]))
+                    x += 1
+                print(f"!! {activeEnemy} rolled {damageDice}")
                 time.sleep(1)
-                return damageRoll
+                return damageDice
             
             else:
                 print(f"!! {activeEnemy} missed!")

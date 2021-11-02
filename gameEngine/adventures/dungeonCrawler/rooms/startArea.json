@@ -1,0 +1,11 @@
+{
+    "floorItems": {
+        "sword": {
+            "ref": "assets/items",
+            "amount": 1
+        },
+        "health potion": {
+            "ref": "mods/items"
+        }
+    }
+}

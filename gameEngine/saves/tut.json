@@ -1,0 +1,29 @@
+{
+    "selectedAdventure": "tutorial",
+    "storyPos": 28,
+    "inventory": {
+        "weapons": [
+            "unarmed",
+            "sword"
+        ],
+        "consumables": {},
+        "equipment": [],
+        "armor": []
+    },
+    "room": {
+        "name": "mainRoom",
+        "floorItems": {
+            "health potion": {
+                "ref": "assets/items",
+                "amount": 1
+            },
+            "torch": {
+                "ref": "assets/items",
+                "amount": 1
+            }
+        }
+    },
+    "equippedWeapon": "sword",
+    "playerRace": "human",
+    "activeEnemy": ""
+}
