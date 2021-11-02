@@ -1,15 +1,9 @@
 {
     "commands": {
-        "check ground": [
-            "!displayFloorItems : all",
-            "!scroll : 3"
-        ],
-        "pick up <?": [
-            "!pickup : <?",
-            "!sleep : 1",
-            "!scroll : 3"
-        ],
+        "check ground": ["!displayFloorItems : all"],
+        "pick up <?": ["!pickup : <?"],
         "equip <?": ["!equipWeapon : <?"],
-        "display inventory": ["!displayInventory : all"]
+        "display inventory": ["!displayInventory : all"],
+        "save as <?": ["!saveGame : <?"]
     }
 }
