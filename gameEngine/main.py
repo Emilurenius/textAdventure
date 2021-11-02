@@ -662,6 +662,14 @@ def spawnEnemy(enemy):
         time.sleep(1)
         runCombat()
 
+def giveItem(item):
+    itemType = item.split(":")[0]
+    itemName = item.split(":")[1]
+    global inventory
+
+    if itemType == "weapon" and itemName in weapons.keys():
+        inventory["weapons"].append(itemName)
+
 def runCombat():
     enemyHealth = enemies[activeEnemy].health
     while not gameOver:
@@ -749,6 +757,7 @@ commands = {
     "displayInventory": displayInventory,
     "displayEnemy": displayEnemy,
     "spawnEnemy": spawnEnemy,
+    "giveItem": giveItem,
     "printASCII": printASCII,
     "saveGame": saveGame
 }
