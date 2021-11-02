@@ -4,6 +4,8 @@
         "pick up <?": ["!pickup : <?"],
         "equip <?": ["!equipWeapon : <?"],
         "display inventory": ["!displayInventory : all"],
-        "save as <?": ["!saveGame : <?"]
+        "spawn <?": [
+            "!spawnEnemy : <?"],
+        "give weapon <?": ["!giveItem : weapon <?"]
     }
 }

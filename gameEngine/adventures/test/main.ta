@@ -1,6 +1,6 @@
 init:
 !importMod : items
-!importMod : commands
+!importAsset : commands
 !importMod : enemies
 !importMod : races
 :init
@@ -8,7 +8,11 @@ init:
 
 story:
 
-!displayText : You wake up outside a dark dungeon
-!On the floor there is a sword, and a health potion
+!loadRoom : mainRoom
+!giveItem : weapon unarmed
+-equipWeapon : unarmed
+!displayFloorItems : all
+!prompt : >>
+
 
 :story
