@@ -23,7 +23,14 @@ class weapon():
 
             print(f"!! Rolling hit dice with {equippedWeapon}...")
             time.sleep(0.5)
-            hitDice = int(self.hitDice.split("x")[0]) * int(self.hitDice.split("x")[1]) 
+
+            x = 0
+            hitDice = 0
+            while x < int(self.hitDice.split("x")[1]):
+                hitDice += random.randint(0, int(self.hitDice.split("x")[0]))
+                x += 1
+
+
             hitRoll = random.randint(1, hitDice)
             print(f"!! You rolled {hitRoll}")
             time.sleep(0.5)
