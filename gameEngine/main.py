@@ -663,12 +663,14 @@ def spawnEnemy(enemy):
         runCombat()
 
 def giveItem(item):
-    itemType = item.split(":")[0]
-    itemName = item.split(":")[1]
+    itemType = item.split(" ")[0]
+    itemName = item.split(" ")[1]
     global inventory
 
     if itemType == "weapon" and itemName in weapons.keys():
         inventory["weapons"].append(itemName)
+    else:
+        print("!! Sorry, that item can't be given")
 
 def runCombat():
     enemyHealth = enemies[activeEnemy].health

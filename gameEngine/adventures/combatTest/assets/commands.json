@@ -7,6 +7,6 @@
         "spawn <?": [
             "!displayEnemy : <?",
             "!spawnEnemy : <?"],
-        "give <?": ["!giveItem : <?"]
+        "give <?": ["!giveItem : weapon <?"]
     }
 }

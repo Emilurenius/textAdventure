@@ -2,6 +2,7 @@ init:
 !importAsset : items
 !importAsset : commands
 !importAsset : enemies
+!importAsset : races
 :init
 
 story:
