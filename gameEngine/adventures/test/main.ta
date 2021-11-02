@@ -1,14 +1,16 @@
 init:
-!importAsset : items
+!importMod : items
 !importAsset : commands
-!importAsset : enemies
-!importAsset : races
+!importMod : enemies
+!importMod : races
 :init
 
 
 story:
 
 !loadRoom : mainRoom
+!giveItem : weapon unarmed
+-equipWeapon : unarmed
 !displayFloorItems : all
 !prompt : >>
 

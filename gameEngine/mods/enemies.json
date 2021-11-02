@@ -16,10 +16,17 @@
         },
         "dark orc": {
             "desc": "Impossible to reason with, these dark grey monsters are out for blood.",
-            "ascii": "",
+            "ascii": "enemies/dark orc",
             "health": 18,
             "AC": 9,
             "weapon": "club"
+        },
+        "zombie": {
+            "desc": "rot and visible bone scatter their bodies.",
+            "ascii": "enemies/zombie",
+            "health": 15,
+            "AC": 7,
+            "weapon": "unarmed"
         }
     }
 }
