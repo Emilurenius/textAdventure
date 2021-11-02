@@ -7,5 +7,10 @@
         "health potion": {
             "ref": "mods/items"
         }
+    },
+    "roomCommands": {
+        "enter cave": ["!setCursor : enteredCave"],
+        "leave cave": ["!setCursor : leftCave"],
+        "testCode": ["!displayText : Hello world"]
     }
 }

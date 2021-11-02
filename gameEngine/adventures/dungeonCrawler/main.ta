@@ -17,4 +17,11 @@ story:
 !displayText : What do you do?
 !prompt : >> 
 
+#enteredCave
+!displayText : You enter the cave
+!endGame
+
+#leftCave
+!displayText : You leave the cave
+
 :story

@@ -265,6 +265,10 @@ def saveGame(saveName, supressPrompts=False):
     if not supressPrompts:
         print(f"Saved current progress as {saveName}")
 
+def endGame():
+    global gameOver
+    gameOver = True
+
 def removeFileExtention(file, extention):
     return file.replace(extention, "")
 
@@ -358,7 +362,7 @@ def prompt(text):
                         if x.startswith("!"):
                             commandList = getCommand(x)
                             runCommand(commandList)
-        
+
     except IndexError:
         print("!! Oops! Seems you are missing part of the command! Remember, you can write help for a list of all commands")
 
@@ -573,6 +577,12 @@ def runStory(story, i):
         elif story[i] == ":story":
             return i
 
+        elif story[i].startswith("!") and " : " not in story[i]:
+            command = story[i].replace("!", "")
+            command = commands.get(command, None)
+            if command:
+                command()
+
         elif story[i].startswith("!"):
             commandList = getCommand(story[i])
             command = commands.get(commandList[0], None)
@@ -777,7 +787,8 @@ commands = {
     "spawnEnemy": spawnEnemy,
     "giveItem": giveItem,
     "printASCII": printASCII,
-    "saveGame": saveGame
+    "saveGame": saveGame,
+    "endGame": endGame
 }
 
 if __name__ == "__main__":
