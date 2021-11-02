@@ -12,7 +12,7 @@ story:
 !giveItem : weapon unarmed
 -equipWeapon : unarmed
 !displayFloorItems : all
-!prompt : >>
+!prompt : >> 
 
 
 :story
