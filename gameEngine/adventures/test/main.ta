@@ -8,6 +8,10 @@ init:
 
 story:
 
-!saveGame : newSave
+!loadRoom : mainRoom
+!displayFloorItems : all
+!prompt : >>
+!spawnEnemy : 
+
 
 :story
