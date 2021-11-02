@@ -15,6 +15,18 @@
         "unarmed": {
             "ref": "assets/items",
             "amount": 1
+        },
+        "axe": {
+            "ref": "assets/items",
+            "amount": 1
+        },
+        "club": {
+            "ref": "assets/items",
+            "amount": 1
+        },
+        "shield": {
+            "ref": "assets/items",
+            "amount": 1
         }
     }
 }
