@@ -228,7 +228,6 @@ def main():
         runStory(adventure, adventureProgress)
 
 
-
 def saveGame(saveName, supressPrompts=False):
 
     saveData = {
