@@ -43,7 +43,7 @@ class weapon():
                 x = 0
                 damageDice = 0
                 while x < int(self.damageDice.split("x")[1]):
-                    damageDice += random.randint(1, int(self.damageDice.split["x"][0]))
+                    damageDice += random.randint(1, int(self.damageDice.split("x")[0]))
                     x += 1
 
                 modifier = int(races[playerRace].strength / 3)
@@ -79,7 +79,7 @@ class weapon():
                 x = 0
                 damageDice = 0
                 while x < int(self.damageDice.split("x")[1]):
-                    damageDice += random.randint(1, int(self.damageDice.split["x"][0]))
+                    damageDice += random.randint(1, int(self.damageDice.split("x")[0]))
                     x += 1
                 print(f"!! {activeEnemy} rolled {damageDice}")
                 time.sleep(1)
