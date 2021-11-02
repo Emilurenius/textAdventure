@@ -7,6 +7,7 @@ for i in dirPath:
     temp += (f"{i}/")
 dirPath = temp
 gameOver = False
+breakPrompt = False
 
 class weapon():
     def __init__(self, name, desc, damageDice, hitDice, weight):
@@ -161,7 +162,8 @@ class enemy():
 class room():
     def __init__(self, name):
         self.name = name
-        self.floorItems = False
+        self.floorItems = {}
+        self.commands = {}
 
     def setFloorItems(self, floorItems):
         self.floorItems = floorItems
@@ -186,6 +188,7 @@ class race():
 
 selectedAdventure = ""
 adventureProgress = 0
+cursorMoved = False
 
 weapons = {}
 armors = {}
@@ -269,6 +272,21 @@ def endGame():
     global gameOver
     gameOver = True
 
+def setCursor(cursorPos):
+    global cursorMoved
+    global adventureProgress
+    cursorMoved = True
+
+    if cursorPos.isnumeric():
+        adventureProgress = int(cursorPos)
+    else:
+        adventureFile = loadAdventure(selectedAdventure)
+        i = 0
+        for line in adventureFile:
+            if line.startswith("#") and cursorPos == line.replace("#", ""):
+                adventureProgress = i
+            i += 1
+
 def removeFileExtention(file, extention):
     return file.replace(extention, "")
 
@@ -279,92 +297,104 @@ def printASCII(filePath):
     with open(f"{dirPath}adventures/{selectedAdventure}/ascii/{filePath}.txt") as TXT:
         print(TXT.read())
 
+def setBreakPrompt():
+    global breakPrompt
+    breakPrompt = True
+
 def prompt(text):
+    global breakPrompt
+
+    if breakPrompt:
+        breakPrompt = False
+        return
+
+    def runPrompt(k, v):
+        multiWordFill = False
+        if "<?" in k:
+            splitCommand = k.split(" ")
+            
+            i = 0
+            variableIndex = 0
+            for x in splitCommand:
+                if INsplit[i] == x:
+                    commandFound = True
+                elif x == "<?>":
+                    variableIndex = i
+                    commandFound = True
+                elif x == "<?":
+                    variableIndex = i
+                    commandFound = True
+                    multiWordFill = True
+                else:
+                    commandFound = False
+                    break
+                i += 1
+
+            if commandFound and multiWordFill == False:
+
+                for x in v:
+                    if "<?>" in x:
+                        command = x.replace("<?>", INsplit[variableIndex])
+                    else:
+                        command = x
+
+                    if command.startswith("!"):
+                        runCommand(command)
+
+            elif commandFound and multiWordFill:
+                i = variableIndex
+                multiWord = ""
+                while i < len(INsplit):
+                    multiWord += INsplit[i] + " "
+                    i += 1
+                multiWord = multiWord[:-1]
+                
+                for x in v:
+                    if "<?" in x:
+                        command = x.replace("<?", multiWord)
+                    else:
+                        command = x
+                    if command.startswith("!"):
+                        runCommand(command)
+
+        else:
+            splitCommand = k.split(" ")
+            i = 0
+            commandFound = True
+            for x in splitCommand:
+                if x == INsplit[i]:
+                    commandFound = True
+                else:
+                    commandFound = False
+                    break
+                i += 1
+            
+            if commandFound:
+                for x in v:
+                    if x.startswith("!"):
+                        runCommand(x)
+    
     IN = input(text)
-    INsplit = IN.split(" ")
 
     if not IN:
         return
-    elif IN == "help":
+
+    INsplit = IN.split(" ")
+
+    if IN == "help":
         print("!! Available commands:\n")
 
         for command in adventureCommands.keys():
             time.sleep(0.5)
             print(f">> {command}")
-
-    try:
-    
+    else:
         for k, v in adventureCommands.items():
-            multiWordFill = False
-            if "<?" in k:
-                splitCommand = k.split(" ")
-                
-                i = 0
-                variableIndex = 0
-                for x in splitCommand:
-                    if INsplit[i] == x:
-                        commandFound = True
-                    elif x == "<?>":
-                        variableIndex = i
-                        commandFound = True
-                    elif x == "<?":
-                        variableIndex = i
-                        commandFound = True
-                        multiWordFill = True
-                    else:
-                        commandFound = False
-                        break
-                    i += 1
+            if IN == k:
+                runPrompt(k, v)
 
-                if commandFound and multiWordFill == False:
-
-                    for x in v:
-                        if "<?>" in x:
-                            command = x.replace("<?>", INsplit[variableIndex])
-                        else:
-                            command = x
-
-                        if command.startswith("!"):
-                            commandList = getCommand(command)
-                            runCommand(commandList)
-
-                elif commandFound and multiWordFill:
-                    i = variableIndex
-                    multiWord = ""
-                    while i < len(INsplit):
-                        multiWord += INsplit[i] + " "
-                        i += 1
-                    multiWord = multiWord[:-1]
-                    
-                    for x in v:
-                        if "<?" in x:
-                            command = x.replace("<?", multiWord)
-                        else:
-                            command = x
-                        if command.startswith("!"):
-                            commandList = getCommand(command)
-                            runCommand(commandList)
-
-            else:
-                splitCommand = k.split(" ")
-                i = 0
-                commandFound = True
-                for x in splitCommand:
-                    if x == INsplit[i]:
-                        commandFound = True
-                    else:
-                        commandFound = False
-                        break
-                    i += 1
-                
-                if commandFound:
-                    for x in v:
-                        if x.startswith("!"):
-                            commandList = getCommand(x)
-                            runCommand(commandList)
-
-    except IndexError:
-        print("!! Oops! Seems you are missing part of the command! Remember, you can write help for a list of all commands")
+        for k, v in activeRoom.commands.items():
+            if IN == k:
+                runPrompt(k, v)
 
     prompt(text)
 
@@ -383,13 +413,24 @@ def getCommand(commandString):
     commandString = commandString.split(" //")[0]
     return commandString.split(" : ")
 
-def runCommand(commandList):
-    command = commands.get(commandList[0], None)
-    if command:
-        command(commandList[1])
-        return True
-    else:
-        return False
+def runCommand(command):
+    if command.startswith("!") and " : " not in command: # Seperate handler for commands without variables
+        command = command.replace("!", "")
+        command = commands.get(command, None)
+        if command:
+            command()
+
+    elif command.startswith("!"): # Seperate handler for commands with commands with variables
+        commandList = getCommand(command)
+        command = commands.get(commandList[0], None)
+        if command:
+            command(commandList[1])
+
+    elif command.startswith("-"): # Seperate handler for supressed commands (Command will not print anything in the terminal)
+        commandList = getCommand(command)
+        command = commands.get(commandList[0], None)
+        if command:
+            command(commandList[1], True)
 
 def printAdventures():
     print("Loading adventures...")
@@ -551,7 +592,10 @@ def loadRoom(selectedRoom):
     activeRoom = room(selectedRoom)
 
     if data["floorItems"]:
-        activeRoom.setFloorItems(data["floorItems"])
+        #activeRoom.setFloorItems(data["floorItems"])
+        activeRoom.floorItems = data["floorItems"]
+    if data["roomCommands"]:
+        activeRoom.commands = data["roomCommands"]
 
 def displayFloorItems(type):
     activeRoom.displayFloorItems(type=type)
@@ -571,36 +615,25 @@ def loadAsset(assetName):
     loadAssetData(data)
 
 def runStory(story, i):
+    global adventureProgress 
+    global cursorMoved
     while True:
+        
+
         if gameOver:
             return i
         elif story[i] == ":story":
             return i
 
-        elif story[i].startswith("!") and " : " not in story[i]:
-            command = story[i].replace("!", "")
-            command = commands.get(command, None)
-            if command:
-                command()
+        runCommand(story[i])
 
-        elif story[i].startswith("!"):
-            commandList = getCommand(story[i])
-            command = commands.get(commandList[0], None)
-            if command:
-                command(commandList[1])
 
-        elif story[i].startswith("-"): # Seperate handler for supressed commands (Command will not print anything in the terminal)
-            commandList = getCommand(story[i])
-            command = commands.get(commandList[0], None)
-            if command:
-                try:
-                    command(commandList[1], True)
-                except:
-                    print(sys.exc_info())
-
-        i += 1
-        global adventureProgress 
-        adventureProgress = i
+        if cursorMoved:
+            i = adventureProgress
+            cursorMoved = False
+        else:
+            i += 1
+            adventureProgress = i
 
 def pickup(item, supressPrompts=False):
 
@@ -788,7 +821,9 @@ commands = {
     "giveItem": giveItem,
     "printASCII": printASCII,
     "saveGame": saveGame,
-    "endGame": endGame
+    "endGame": endGame,
+    "setCursor": setCursor,
+    "breakPrompt": setBreakPrompt
 }
 
 if __name__ == "__main__":

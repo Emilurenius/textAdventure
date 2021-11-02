@@ -7,6 +7,7 @@ init:
 
 
 story:
+
 !giveItem : weapon unarmed
 -equipWeapon : unarmed
 !loadRoom : startArea
@@ -18,10 +19,14 @@ story:
 !prompt : >> 
 
 #enteredCave
+!sleep : 0.5
 !displayText : You enter the cave
+!sleep : 1
 !endGame
 
 #leftCave
+!sleep : 0.5
 !displayText : You leave the cave
+!sleep : 1
 
 :story

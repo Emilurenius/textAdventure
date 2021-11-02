@@ -9,8 +9,8 @@
         }
     },
     "roomCommands": {
-        "enter cave": ["!setCursor : enteredCave"],
-        "leave cave": ["!setCursor : leftCave"],
+        "enter cave": ["!setCursor : enteredCave", "!breakPrompt"],
+        "leave cave": ["!setCursor : leftCave", "!breakPrompt"],
         "testCode": ["!displayText : Hello world"]
     }
 }
