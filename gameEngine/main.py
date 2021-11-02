@@ -27,7 +27,7 @@ class weapon():
             x = 0
             hitDice = 0
             while x < int(self.hitDice.split("x")[1]):
-                hitDice += random.randint(0, self.hitDice.split("x")[0])
+                hitDice += random.randint(0, int(self.hitDice.split("x")[0]))
                 x += 1
 
 
