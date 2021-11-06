@@ -387,6 +387,9 @@ def prompt(text):
         for command in adventureCommands.keys():
             time.sleep(0.5)
             print(f">> {command}")
+        for command in activeRoom.commands.keys():
+            time.sleep(0.5)
+            print(f">> {command}")
     else:
         for k, v in adventureCommands.items():
             runPrompt(k, v)
@@ -591,7 +594,6 @@ def loadRoom(selectedRoom):
 
     if data["floorItems"]:
         activeRoom.floorItems = data["floorItems"]
-        print(activeRoom.floorItems)
     if data["roomCommands"]:
         activeRoom.commands = data["roomCommands"]
 

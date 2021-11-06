@@ -15,8 +15,10 @@ story:
 !sleep : 1
 !displayText : On the floor, there is a sword and a health potion
 !sleep : 1
+#whatDoLoop
 !displayText : What do you do?
 !prompt : >> 
+!setCursor : whatDoLoop
 
 #enteredCave
 !loadRoom : cave
