@@ -10,6 +10,6 @@
     },
     "roomCommands": {
         "enter cave": ["!setCursor : enteredCave", "!breakPrompt"],
-        "leave cave": ["!setCursor : leftCave", "!breakPrompt"]
+        "leave area": ["!setCursor : leftCave", "!breakPrompt"]
     }
 }

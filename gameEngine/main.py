@@ -255,7 +255,8 @@ def saveGame(saveName, supressPrompts=False):
         "inventory": inventory,
         "room": {
             "name": activeRoom.name,
-            "floorItems": activeRoom.floorItems
+            "floorItems": activeRoom.floorItems,
+            "roomCommands": activeRoom.commands
         },
         "equippedWeapon": equippedWeapon,
         "playerRace": playerRace,
@@ -478,7 +479,10 @@ def loadSave(saveName):
         playerRace = save["playerRace"]
         activeEnemies = save["activeEnemies"]
         activeRoom = room(save["room"]["name"])
-        activeRoom.setFloorItems(save["room"]["floorItems"])
+        if "floorItems" in save["room"]:
+            activeRoom.floorItems = save["room"]["floorItems"]
+        if "roomCommands" in save["room"]:
+            activeRoom.commands = save["room"]["roomCommands"]
         adventureProgress = int(save["storyPos"])
         i = 0
         while True:
@@ -712,14 +716,15 @@ def displayInventory(type):
 def displayEnemy(enemy):
     enemies[enemy].displayAscii()
 
-def spawnEnemy(enemy):
+def spawnEnemy(enemy, supressPrompts=False):
     if enemy in enemies.keys():
         global activeEnemies
         activeEnemies[enemy] = {
             "health": enemies[enemy].health
         }
         
-        print(f"!! {enemy} is attacking you")
+        if not supressPrompts:
+            print(f"!! {enemy} is attacking you")
         time.sleep(1)
 
 def giveItem(item):

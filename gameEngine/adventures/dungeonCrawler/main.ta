@@ -43,6 +43,7 @@ story:
 !sleep : 0.5
 !displayEnemy : skeleton
 !spawnEnemy : skeleton
+!runCombat
 !endGame
 
 #leftCave

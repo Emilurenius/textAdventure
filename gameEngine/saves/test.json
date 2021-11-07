@@ -1,29 +1,37 @@
 {
-    "selectedAdventure": "tutorial",
-    "storyPos": 44,
+    "selectedAdventure": "dungeonCrawler",
+    "storyPos": 19,
     "inventory": {
         "weapons": [
-            "unarmed",
-            "sword"
+            "unarmed"
         ],
-        "consumables": {
-            "health potion": {
-                "amount": 1
-            }
-        },
+        "consumables": {},
         "equipment": [],
         "armor": []
     },
     "room": {
-        "name": "mainRoom",
+        "name": "startArea",
         "floorItems": {
-            "torch": {
-                "ref": "assets/items",
+            "sword": {
+                "ref": "mods/items",
                 "amount": 1
+            },
+            "health potion": {
+                "ref": "mods/items"
             }
+        },
+        "roomCommands": {
+            "enter cave": [
+                "!setCursor : enteredCave",
+                "!breakPrompt"
+            ],
+            "leave area": [
+                "!setCursor : leftCave",
+                "!breakPrompt"
+            ]
         }
     },
-    "equippedWeapon": "sword",
-    "playerRace": "orc",
-    "activeEnemy": ""
+    "equippedWeapon": "unarmed",
+    "playerRace": "human",
+    "activeEnemies": {}
 }
