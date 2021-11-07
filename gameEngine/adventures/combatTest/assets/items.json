@@ -35,7 +35,7 @@
             "damageType": "slashing",
             "weight": 1800
         },
-        "smite": {
+        "divine smite": {
             "desc": "An admin tool for hitting and killing anything every time",
             "damageDice": "100x100",
             "hitDice": "100x100",

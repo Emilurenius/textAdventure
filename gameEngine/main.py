@@ -724,7 +724,9 @@ def spawnEnemy(enemy):
 
 def giveItem(item):
     itemType = item.split(" ")[0]
-    itemName = item.split(" ")[1]
+    itemName = item.split(" ")
+    itemName.pop(0)
+    itemName = " ".join(itemName)
     global inventory
 
     if itemType == "weapon" and itemName in weapons.keys():
