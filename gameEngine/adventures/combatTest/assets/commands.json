@@ -4,9 +4,8 @@
         "pick up <?": ["!pickup : <?"],
         "equip <?": ["!equipWeapon : <?"],
         "display inventory": ["!displayInventory : all"],
-        "spawn <?": [
-            "!displayEnemy : <?",
-            "!spawnEnemy : <?"],
+        "spawn <?": ["!spawnEnemy : <?"],
+        "runCombat": ["!runCombat"],
         "give weapon <?": ["!giveItem : weapon <?"]
     }
 }

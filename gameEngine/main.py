@@ -59,35 +59,35 @@ class weapon():
 
         elif mode == "enemy":
             
-            print(f"!! {activeEnemy} is attacking!")
+            print(f"!! {target} is attacking!")
             time.sleep(1)
-            print(f"!! {activeEnemy} is rolling hit dice with {self.name}...")
+            print(f"!! {target} is rolling hit dice with {self.name}...")
             time.sleep(1)
             x = 0
             hitDice = 0
             while x < int(self.hitDice.split("x")[1]):
                 hitDice += random.randint(1, int(self.hitDice.split("x")[0]))
                 x += 1
-            print(f"!! {activeEnemy} rolled {hitDice}")
+            print(f"!! {target} rolled {hitDice}")
             time.sleep(1)
 
             if hitDice > playerStats["AC"]:
                 print("!! Ouch, that hits!")
                 time.sleep(1)
 
-                print(f"!! {activeEnemy} is rolling damage dice...")
+                print(f"!! {target} is rolling damage dice...")
                 time.sleep(1)
                 x = 0
                 damageDice = 0
                 while x < int(self.damageDice.split("x")[1]):
                     damageDice += random.randint(1, int(self.damageDice.split("x")[0]))
                     x += 1
-                print(f"!! {activeEnemy} rolled {damageDice}")
+                print(f"!! {target} rolled {damageDice}")
                 time.sleep(1)
                 return damageDice
             
             else:
-                print(f"!! {activeEnemy} missed!")
+                print(f"!! {target} missed!")
                 time.sleep(1)
                 return False
 
@@ -147,7 +147,7 @@ class enemy():
         printASCII(self.ascii)
 
     def attack(self):
-        result = weapons[self.weapon].attack("player", "enemy")
+        result = weapons[self.weapon].attack(self.name, "enemy")
 
         if result:
             playerStats["health"] -= result
@@ -213,7 +213,7 @@ adventureCommands = {}
 
 activeRoom = room("No room") # Initialize the active room as an empty room with no features
 enemies = {}
-activeEnemy = ""
+activeEnemies = {}
 
 def main():
     print("!! Text adventure Engine !!")
@@ -259,7 +259,7 @@ def saveGame(saveName, supressPrompts=False):
         },
         "equippedWeapon": equippedWeapon,
         "playerRace": playerRace,
-        "activeEnemy": activeEnemy
+        "activeEnemies": activeEnemies
     }
 
     with open(f"{dirPath}saves/{saveName}.json", "w") as outFile:
@@ -470,13 +470,13 @@ def loadSave(saveName):
         global inventory
         global equippedWeapon
         global playerRace
-        global activeEnemy
+        global activeEnemies
         global activeRoom
         global adventureProgress
         inventory = save["inventory"]
         equippedWeapon = save["equippedWeapon"]
         playerRace = save["playerRace"]
-        activeEnemy = save["activeEnemy"]
+        activeEnemies = save["activeEnemies"]
         activeRoom = room(save["room"]["name"])
         activeRoom.setFloorItems(save["room"]["floorItems"])
         adventureProgress = int(save["storyPos"])
@@ -592,9 +592,9 @@ def loadRoom(selectedRoom):
     global activeRoom
     activeRoom = room(selectedRoom)
 
-    if data["floorItems"]:
+    if "floorItems" in data:
         activeRoom.floorItems = data["floorItems"]
-    if data["roomCommands"]:
+    if "roomCommands" in data:
         activeRoom.commands = data["roomCommands"]
 
 def displayFloorItems(type):
@@ -714,12 +714,13 @@ def displayEnemy(enemy):
 
 def spawnEnemy(enemy):
     if enemy in enemies.keys():
-        global activeEnemy
-        activeEnemy = enemy
+        global activeEnemies
+        activeEnemies[enemy] = {
+            "health": enemies[enemy].health
+        }
         
         print(f"!! {enemy} is attacking you")
         time.sleep(1)
-        runCombat()
 
 def giveItem(item):
     itemType = item.split(" ")[0]
@@ -732,7 +733,11 @@ def giveItem(item):
         print("!! Sorry, that item can't be given")
 
 def runCombat():
-    enemyHealth = enemies[activeEnemy].health
+    global activeEnemies
+
+    if len(activeEnemies) < 1:
+        return
+
     while not gameOver:
 
         scroll()
@@ -747,13 +752,20 @@ def runCombat():
         time.sleep(0.5)
         IN = input(">> ")
 
-        if IN == "attack":
-            result = weapons[equippedWeapon].attack(activeEnemy)
+        if fnmatch.fnmatch(IN, "attack *"):
+            enemyName = IN.split(" ")
+            del enemyName[0]
+            enemyName = " ".join(enemyName)
+            print(enemyName)
+            result = weapons[equippedWeapon].attack(enemyName)
 
             if result:
-                enemyHealth -= result
-                print(f"!! {activeEnemy}'s health is now {enemyHealth}")
+                activeEnemies[enemyName]['health'] -= result
+                print(f"!! {enemyName}'s health is now {activeEnemies[enemyName]['health']}")
                 time.sleep(1)
+
+                if activeEnemies[enemyName]['health'] <= 0:
+                    del activeEnemies[enemyName]
 
         elif fnmatch.fnmatch(IN, "use *"):
             useCommand = IN.split(" ")
@@ -783,23 +795,24 @@ def runCombat():
             if fleeCheck:
                 print("!! You got away!")
                 time.sleep(0.5)
-                break
+                return
             else:
-                print(f"!! The {activeEnemy} caught up to you")
+                print(f"!! The enemies caught up to you")
                 time.sleep(0.5)
 
         else:
             continue # Prompt a response from the user again, if no action was done
-
-        if enemyHealth <= 0: # End combat if enemy is dead
+        
+        if len(activeEnemies) < 1:
             time.sleep(0.5)
             scroll()
             time.sleep(0.1)
-            print(f"!! You have defeated the {activeEnemy}")
+            print(f"!! You have defeated all the enemies")
             time.sleep(0.5)
-            break
+            return
 
-        enemies[activeEnemy].attack()
+        for k, v in activeEnemies.items():
+            enemies[k].attack()
 
 initCommands = {
     "importMod": loadMod,
@@ -818,6 +831,7 @@ commands = {
     "displayInventory": displayInventory,
     "displayEnemy": displayEnemy,
     "spawnEnemy": spawnEnemy,
+    "runCombat": runCombat,
     "giveItem": giveItem,
     "printASCII": printASCII,
     "saveGame": saveGame,

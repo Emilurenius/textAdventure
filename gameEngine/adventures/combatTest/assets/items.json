@@ -34,6 +34,13 @@
             "hitDice": "20x1", 
             "damageType": "slashing",
             "weight": 1800
+        },
+        "smite": {
+            "desc": "An admin tool for hitting and killing anything every time",
+            "damageDice": "100x100",
+            "hitDice": "100x100",
+            "damageType": "smite",
+            "weight": 0
         }
     },
     "consumables": {
