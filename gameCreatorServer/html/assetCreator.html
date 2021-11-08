@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="/static/css/inputs.css">
+    <link rel="stylesheet" href="/static/css/divs.css">
+    <link rel="stylesheet" href="/static/css/body.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TextAdventure AssetCreator</title>
+</head>
+<body>
+    <div class="container">
+        <label for="assetType">Asset type:</label>
+        <select name="assetType" id="assetType" class="dropdown">
+            <option value="weapons">Weapons</option>
+            <option value="consumables">Consumables</option>
+        </select>
+    </div>
+
+    <div class="container" id="weaponsEditor" style="display: none">
+        <input type="text" id="weaponAssetName" placeholder="Asset Name">
+    </div>
+
+    <div class="container" id="consumablesEditor" style="display: none">
+        <input type="text" id="consumableName" placeholder="Asset Name">
+    </div>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="/static/javascript/functions.js"></script>
+    <script src="/static/javascript/editors.js"></script>
+</body>
+</html>

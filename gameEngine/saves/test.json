@@ -3,23 +3,20 @@
     "storyPos": 19,
     "inventory": {
         "weapons": [
-            "unarmed"
+            "unarmed",
+            "sword"
         ],
-        "consumables": {},
+        "consumables": {
+            "health potion": {
+                "amount": 1
+            }
+        },
         "equipment": [],
         "armor": []
     },
     "room": {
         "name": "startArea",
-        "floorItems": {
-            "sword": {
-                "ref": "mods/items",
-                "amount": 1
-            },
-            "health potion": {
-                "ref": "mods/items"
-            }
-        },
+        "floorItems": {},
         "roomCommands": {
             "enter cave": [
                 "!setCursor : enteredCave",
@@ -31,7 +28,7 @@
             ]
         }
     },
-    "equippedWeapon": "unarmed",
-    "playerRace": "human",
+    "equippedWeapon": "sword",
+    "playerRace": "orc",
     "activeEnemies": {}
 }

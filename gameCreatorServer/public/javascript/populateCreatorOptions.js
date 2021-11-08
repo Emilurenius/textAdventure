@@ -5,6 +5,10 @@ function populateCreatorOptions() {
         assetCreator: {
             name: "Asset/Mod Creator",
             href: `${url}/assetCreator`
+        },
+        gameCreator: {
+            name: "Game Creator",
+            href: `${url}/gameCreator`
         }
     }
 
@@ -15,4 +19,4 @@ function populateCreatorOptions() {
         button.className = "button"
         creatorOptions.appendChild(button)
     }
-}
+}populateCreatorOptions()

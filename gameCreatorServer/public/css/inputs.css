@@ -1,0 +1,16 @@
+.button {
+    text-decoration: none;
+    color: inherit;
+    background-color: #fc6d00;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 10px;
+}
+
+label {
+    color: white;
+}
+
+.dropdown {
+    margin: 10px;
+}
