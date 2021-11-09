@@ -93,7 +93,9 @@ prompt : >>
 !setCursor : townSquareLoop
 
 #enteredArmory
-
+!loadRoom : armory
 !displayText : You enter the Armory, and there's a dwarf hammering at an ingot on an anvil.
-
+#armoryLoop
+!prompt : >>
+!setCursor : armoryLoop
 :story

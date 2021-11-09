@@ -895,7 +895,7 @@ def runCombat():
 def checkShopItems(self, type):
         if type == "all":
             for key, value in self.shopItems():
-                print(f"|| {key} : {value['cost']}")
+                print(f"|| {key} : {value['price']}")
 
 #Defining script commands for the init scope.
 initCommands = {
