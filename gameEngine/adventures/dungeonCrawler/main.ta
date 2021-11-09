@@ -45,9 +45,11 @@ story:
 !displayText : You won! The skeleton is dead
 !sleep : 0.5
 !displayText : The cave is silent. It continues into the dark.
+
+#enterInsideCave
 !loadRoom : caveSkeletonKilled
 #insideCaveLoop
-!prompt : >>
+prompt : >>
 !setCursor : insideCaveLoop
 
 #furtherInCave
@@ -87,5 +89,9 @@ story:
 #townSquareLoop
 !prompt : >>
 !setCursor : townSquareLoop
+
+#enteredArmory
+
+!displayText : You enter the Armory, and there's a dwarf hammering at an ingot on an anvil.
 
 :story

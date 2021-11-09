@@ -8,7 +8,34 @@ for i in dirPath:
 dirPath = temp
 gameOver = False
 breakPrompt = False
+selectedAdventure = ""
+adventureProgress = 0
+cursorMoved = False
+weapons = {}
+armors = {}
+consumables = {}
+equipment = {}
+races = {}
+equippedWeapon = ""
+playerRace = False
+adventureCommands = {}
+enemies = {}
+activeEnemies = {}
 
+#Initialize dictionary variables for the player inventory.
+inventory = {
+    "weapons": [],
+    "consumables": {},
+    "equipment": [],
+    "armor": []
+    }
+playerStats = {
+    "health": 20,
+    "maxHealth": 20,
+    "AC": 10   
+    }
+
+#Empty the runtime folder
 def clearRuntime():
     fileList = os.listdir(f"{dirPath}runtime")
     
@@ -170,7 +197,7 @@ class room():
         self.name = name
         self.floorItems = {}
         self.commands = {}
-        self.itemsForSale = {}
+        self.shopItems = {}
 
     def displayFloorItems(self, type):
 
@@ -179,10 +206,7 @@ class room():
                 print(f"ii {item}")
                 time.sleep(0.5)
 
-    def displayItemsForSale(self, type):
-        if type == "all":
-            for k, v in self.itemsForSale.items():
-                print(f"|| {k} : {v['cost']}")
+activeRoom = room("No room") # Initialize the active room as an empty room with no features
 
 class race():
     def __init__(self, name, health, AC, intelligence, dexterity, strength):
@@ -194,35 +218,7 @@ class race():
         self.strength = 10 + strength
         print(f"{self.name} loaded...")
 
-selectedAdventure = ""
-adventureProgress = 0
-cursorMoved = False
-
-weapons = {}
-armors = {}
-consumables = {}
-equipment = {}
-races = {}
-inventory = {
-    "weapons": [],
-    "consumables": {},
-    "equipment": [],
-    "armor": []
-}
-playerStats = {
-    "health": 20,
-    "maxHealth": 20,
-    "AC": 10
-}
-equippedWeapon = ""
-playerRace = False
-
-adventureCommands = {}
-
-activeRoom = room("No room") # Initialize the active room as an empty room with no features
-enemies = {}
-activeEnemies = {}
-
+#Main loop
 def main():
     print("!! Text adventure Engine !!")
     time.sleep(1)
@@ -256,7 +252,7 @@ def main():
             adventure = loadSave(input("!! Select a save file from the list >> "))
         runStory(adventure, adventureProgress)
 
-
+#Handle saving of non-runtime things
 def saveGame(saveName, supressPrompts=False):
 
     saveData = {
@@ -279,10 +275,12 @@ def saveGame(saveName, supressPrompts=False):
     if not supressPrompts:
         print(f"Saved current progress as {saveName}")
 
+#Game over
 def endGame():
     global gameOver
     gameOver = True
 
+#Move the line you're running from to another line
 def setCursor(cursorPos):
     global cursorMoved
     global adventureProgress
@@ -298,20 +296,25 @@ def setCursor(cursorPos):
                 adventureProgress = i
             i += 1
 
+#Remove file extension
 def removeFileExtention(file, extention):
     return file.replace(extention, "")
 
+#Print text
 def displayText(text):
     print(text)
 
+#Print Ascii art
 def printASCII(filePath):
     with open(f"{dirPath}adventures/{selectedAdventure}/ascii/{filePath}.txt") as TXT:
         print(TXT.read())
 
+#Cancel a prompt to the player
 def setBreakPrompt():
     global breakPrompt
     breakPrompt = True
 
+#Get user input
 def prompt(text):
     global breakPrompt
 
@@ -413,9 +416,11 @@ def prompt(text):
 
     prompt(text)
 
+#Wait
 def sleep(secs):
     time.sleep(float(secs))
 
+#Print empty lines
 def scroll(lines=5, delay=0.1):
     i = 0
     while i < int(lines):
@@ -423,11 +428,13 @@ def scroll(lines=5, delay=0.1):
         i += 1
         time.sleep(delay)
 
+#Interpret a line in the script file.
 def getCommand(commandString):
     commandString = commandString[1:]
     commandString = commandString.split(" //")[0]
     return commandString.split(" : ")
 
+#Handle commands in the script
 def runCommand(command):
     if command.startswith("!") and " : " not in command: # Seperate handler for commands without variables
         command = command.replace("!", "")
@@ -447,6 +454,7 @@ def runCommand(command):
         if command:
             command(commandList[1], True)
 
+#Display available adventures to the player
 def printAdventures():
     print("Loading adventures...")
     time.sleep(0.5)
@@ -456,6 +464,7 @@ def printAdventures():
         print(f"|| {i}")
         time.sleep(0.1)
 
+#Display available savefiles to the player
 def printSaves():
     print("Loading saves...")
     time.sleep(0.5)
@@ -465,6 +474,7 @@ def printSaves():
         print(f"|| {removeFileExtention(i, '.json')}")
         time.sleep(0.1)
 
+#Load adventure from assets folder
 def loadAdventure(adventure):
     global selectedAdventure
     selectedAdventure = adventure
@@ -475,6 +485,7 @@ def loadAdventure(adventure):
     except:
         return False
 
+#Load save into memory and runtime.
 def loadSave(saveName):
     try:
         save = False
@@ -509,6 +520,7 @@ def loadSave(saveName):
     except:
         return False
 
+#Run commands from the story scope.
 def loadStory(story, i=0):
     while i < len(story):
         if story[i] == "init:":
@@ -520,6 +532,7 @@ def loadStory(story, i=0):
 
         i += 1
 
+#Run commands from the init scope.
 def runInit(story, i):
     while True:
         if story[i].startswith("!"):
@@ -536,6 +549,7 @@ def runInit(story, i):
 
         i += 1
 
+#Let the player pick a race to play as
 def selectRace():
     global playerRace
     if playerRace:
@@ -566,6 +580,7 @@ def selectRace():
         print("There are no races to use")
     time.sleep(2)
 
+#Load assets from assets
 def loadAssetData(data):
     if "weapons" in data:
         print("Loading weapons...")
@@ -603,6 +618,7 @@ def loadAssetData(data):
         for k, v in data["armor"].items():
             armors[k] = armor(k, v["desc"], v["ACmod"], v["weight"])
 
+#Load a room from runtime, or from assets if it's not available.
 def loadRoom(selectedRoom):
     global activeRoom
     #unless the player isnt in a room, save the previous room to the runtime
@@ -632,10 +648,14 @@ def loadRoom(selectedRoom):
         activeRoom.floorItems = data["floorItems"]
     if "roomCommands" in data:
         activeRoom.commands = data["roomCommands"]
+    if "shopItems" in data:
+        activeRoom.shopItems = data["shopItems"]
 
+#Display items that are on the floor.
 def displayFloorItems(type):
     activeRoom.displayFloorItems(type=type)
 
+#Importing mods as JSON and return it as a dictionary.
 def loadMod(modName):
     print("Importing mods...")
     with open(f"{dirPath}mods/{modName}.json") as JSON:
@@ -643,6 +663,7 @@ def loadMod(modName):
 
     loadAssetData(data)
 
+#Importing assets as JSON and return it as a dictionary.
 def loadAsset(assetName):
     print("Importing asset...")
     with open(f"{dirPath}adventures/{selectedAdventure}/assets/{assetName}.json") as JSON:
@@ -650,6 +671,7 @@ def loadAsset(assetName):
 
     loadAssetData(data)
 
+#Run the player through the story
 def runStory(story, i):
     global adventureProgress 
     global cursorMoved
@@ -671,8 +693,10 @@ def runStory(story, i):
             i += 1
             adventureProgress = i
 
+#Handle the playing picking up items
 def pickup(item, supressPrompts=False):
 
+    #If its a weapon that exists, add it to the player's weapon list.
     if item in weapons.keys() and item in activeRoom.floorItems.keys():
         if item in inventory["weapons"]:
             print(f"!! You already have that, you don't need another one.")
@@ -682,6 +706,7 @@ def pickup(item, supressPrompts=False):
             inventory["weapons"].append(item)
             activeRoom.floorItems[item]["amount"] -= 1
 
+    #If its a consumable that exists, add it to the player's consumable list.
     elif item in consumables.keys() and item in activeRoom.floorItems.keys():
         if not supressPrompts:
             print(f"!! Picked up {consumables[item].desc}")
@@ -697,6 +722,7 @@ def pickup(item, supressPrompts=False):
             print(f"!! You now have {inventory['consumables'][item]['amount']} {item}s")
         activeRoom.floorItems[item]["amount"] -= 1
 
+    #If its an equipment that exists, add it to the player's equipment list.
     elif item in equipment.keys() and item not in inventory["equipment"] and item in activeRoom.floorItems.keys():
         if not supressPrompts:
             print(f"!! Picked up {equipment[item].desc}")
@@ -704,6 +730,7 @@ def pickup(item, supressPrompts=False):
         inventory["equipment"].append(item)
         activeRoom.floorItems[item]["amount"] -= 1
 
+    #If its an armor that exists, add it to the player's armor list.
     elif item in armors.keys() and item in activeRoom.floorItems.keys():
         if not supressPrompts:
             print(f"!! Picked up {armors[item].desc}")
@@ -711,13 +738,16 @@ def pickup(item, supressPrompts=False):
         inventory["armors"].append(item)
         activeRoom.floorItems[item]["amount"] -= 1
 
+    #If nothing seems to work, tell the player it can't
     else:
         if not supressPrompts:
             print(f"!! Cannot pick up {item}")
 
-    if activeRoom.floorItems[item]["amount"] <= 0:
+    #Delete the item key if amount is 0
+    if item in activeRoom.floorItems.keys() and activeRoom.floorItems[item]["amount"] <= 0:
         del activeRoom.floorItems[item]
 
+#Handle the player equipping items
 def equipWeapon(weapon, supressPrompts=False):
     if weapon in inventory["weapons"]:
         global equippedWeapon
@@ -728,6 +758,7 @@ def equipWeapon(weapon, supressPrompts=False):
     else:
         print("!! You do not have a weapon with that name")
 
+#Display the player's inventory
 def displayInventory(type):
     print("!! Opening inventory...")
     scroll()
@@ -750,9 +781,11 @@ def displayInventory(type):
         print(f"ii {equipment}")
         time.sleep(0.5)
 
+#Load Ascii art of enemy
 def displayEnemy(enemy):
     enemies[enemy].displayAscii()
 
+#Spawn an enemy as part of the next combat sequence.
 def spawnEnemy(enemy, supressPrompts=False):
     if enemy in enemies.keys():
         global activeEnemies
@@ -764,6 +797,7 @@ def spawnEnemy(enemy, supressPrompts=False):
             print(f"!! {enemy} is attacking you")
         time.sleep(1)
 
+#Add an item to the player's inventory.
 def giveItem(item):
     itemType = item.split(" ")[0]
     itemName = item.split(" ")
@@ -776,6 +810,7 @@ def giveItem(item):
     else:
         print("!! Sorry, that item can't be given")
 
+#Start a combat sequence.
 def runCombat():
     global activeEnemies
 
@@ -858,11 +893,19 @@ def runCombat():
         for k, v in activeEnemies.items():
             enemies[k].attack()
 
+#Display a shop's items and prices.
+def checkShopItems(self, type):
+        if type == "all":
+            for key, value in self.shopItems():
+                print(f"|| {key} : {value['cost']}")
+
+#Defining script commands for the init scope.
 initCommands = {
     "importMod": loadMod,
     "importAsset": loadAsset
-}
+    }
 
+#Defining script commands for the story scope.
 commands = {
     "displayText": displayText,
     "sleep": sleep,
@@ -881,8 +924,10 @@ commands = {
     "saveGame": saveGame,
     "endGame": endGame,
     "setCursor": setCursor,
-    "breakPrompt": setBreakPrompt
-}
+    "breakPrompt": setBreakPrompt,
+    "checkShopItems": checkShopItems
+    }
 
+#Testing whether the file is ran or imported
 if __name__ == "__main__":
     main()
