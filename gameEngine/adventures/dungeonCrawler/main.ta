@@ -21,7 +21,6 @@ story:
 !setCursor : whatDoLoop
 
 #enteredCave
-!loadRoom : cave
 !sleep : 0.5
 !displayText : You enter the cave
 !sleep : 1
@@ -31,6 +30,7 @@ story:
 !sleep : 0.5
 !displayText : What now?
 #enteredCaveLoop
+!loadRoom : cave
 !prompt : >> 
 !setCursor : enteredCaveLoop
 
@@ -47,8 +47,8 @@ story:
 !displayText : You won! The skeleton is dead
 !sleep : 0.5
 !displayText : The cave is silent. It continues into the dark.
-!loadRoom : caveSkeletonKilled
 #insideCaveLoop
+!loadRoom : caveSkeletonKilled
 prompt : >>
 !setCursor : insideCaveLoop
 
@@ -58,9 +58,25 @@ prompt : >>
 !displayText : The cave splits into two routes
 !displayText : Left or right?
 #furtherInCaveLoop
+!loadRoom : furtherInCave
 prompt : >>
 !setCursor : furtherInCaveLoop
 
+#junction1Left
+!displayText : You follow the route to the left
+!sleep : 0.5
+!displayText : As you walk down the cave, the air gets warmer
+!sleep : 0.5
+!displayText : The floor is starting to warm up
+!displayText : Do you press on, or do you go back?
+!prompt : >> 
+
+#junction1PressOn
+!displayText : You press on
+!sleep : 0.5
+!displayText : the ground is scorching hot now
+!sleep : 1
+!displayText : OH NO! The floor falls out beneath you
 
 #leftArea
 !displayText : You head into the nearest town.
@@ -68,7 +84,9 @@ prompt : >>
 !displayText : You're in the middle of the town.
 !displayText : There are several shops: Armory, Magic shop, General store.
 !displayText : Where would you like to go?
+#townSquareLoop
 !loadRoom : town
 !prompt : >>
+!setCursor : townSquareLoop
 
 :story

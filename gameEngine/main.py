@@ -184,7 +184,6 @@ class room():
             for k, v in self.itemsForSale.items():
                 print(f"|| {k} : {v['cost']}")
 
-
 class race():
     def __init__(self, name, health, AC, intelligence, dexterity, strength):
         self.name = name
