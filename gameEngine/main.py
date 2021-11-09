@@ -280,7 +280,7 @@ def endGame():
     global gameOver
     gameOver = True
 
-#Move line you're running from to another line
+#Move the line you're running from to another line
 def setCursor(cursorPos):
     global cursorMoved
     global adventureProgress
@@ -894,7 +894,7 @@ def runCombat():
 #Display a shop's items and prices.
 def checkShopItems(self, type):
         if type == "all":
-            for key, value in self.shopItems.items():
+            for key, value in self.shopItems():
                 print(f"|| {key} : {value['cost']}")
 
 #Defining script commands for the init scope.
