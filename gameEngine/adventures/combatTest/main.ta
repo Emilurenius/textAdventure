@@ -7,5 +7,5 @@ init:
 
 story:
 !loadRoom : mainRoom
-!prompt : >>
+!prompt : >> 
 :story

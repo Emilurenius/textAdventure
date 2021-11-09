@@ -1,7 +1,8 @@
 {
     "roomCommands": {
         "left": [
-            ""
+            "!setCursor : junction1Left",
+            "!breakPrompt"
         ]
     }
 }

@@ -324,12 +324,16 @@ def prompt(text):
 
     def runPrompt(k, v):
         multiWordFill = False
+        splitCommand = k.split(" ")
+        
+        if len(INsplit) < len(splitCommand):
+            return
+        
         if "<?" in k:
-            splitCommand = k.split(" ")
             
             i = 0
             variableIndex = 0
-            for x in splitCommand:
+            for x in INsplit:
                 if INsplit[i] == x:
                     commandFound = True
                 elif x == "<?>":
@@ -372,11 +376,10 @@ def prompt(text):
                         runCommand(command)
 
         else:
-            splitCommand = k.split(" ")
             i = 0
             commandFound = True
-            for x in splitCommand:
-                if x == INsplit[i]:
+            for x in INsplit:
+                if x == splitCommand[i]:
                     commandFound = True
                 else:
                     commandFound = False
@@ -633,8 +636,7 @@ def loadRoom(selectedRoom):
     if os.path.exists(f"{dirPath}runtime/{selectedRoom}.json"):
         with open(f"{dirPath}runtime/{selectedRoom}.json", "r") as JSON:
             data = json.load(JSON)
-        
-    #If there's an attributeError, selectedRoom doesnt exist, meaning its a new save. Temorary solution untill I can ask Emil how to fix.
+
     else:
         with open(f"{dirPath}adventures/{selectedAdventure}/rooms/{selectedRoom}.json") as JSON:
             data = json.load(JSON)

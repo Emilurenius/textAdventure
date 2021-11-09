@@ -4,8 +4,9 @@
             "!displayText : You step outside of the cave",
             "!setCursor : whatDoLoop",
             "!breakPrompt"],
-        "Go further in": [
-            "!setCursor : furtherInCave"
+        "go further in": [
+            "!setCursor : furtherInCave",
+            "!breakPrompt"
         ]
     }
 }
