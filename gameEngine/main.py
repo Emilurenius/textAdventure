@@ -545,7 +545,8 @@ def selectRace():
         keysList = []
         for x in races.keys():
             keysList.append(x)
-        playerRace = races[keysList[int(IN)]].name
+        if int(IN) < len(keysList):
+            playerRace = races[keysList[int(IN)]].name
         print(playerRace)
 
     else:
