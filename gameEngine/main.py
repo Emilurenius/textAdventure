@@ -539,15 +539,15 @@ def selectRace():
             counter += 1
         
         IN = ""
-        while not IN.isnumeric():
+        while not IN.isnumeric() or playerRace == False:
             IN = input(">> ")
 
-        keysList = []
-        for x in races.keys():
-            keysList.append(x)
-        if int(IN) < len(keysList):
-            playerRace = races[keysList[int(IN)]].name
-        print(playerRace)
+            keysList = []
+            for x in races.keys():
+                keysList.append(x)
+            if int(IN) < len(keysList):
+                playerRace = races[keysList[int(IN)]].name
+            print(playerRace)
 
     else:
         print("There are no races to use")
