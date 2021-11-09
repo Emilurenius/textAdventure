@@ -1,0 +1,11 @@
+{
+    "roomCommands": {
+        "leave cave": [
+            "!displayText : You step outside of the cave",
+            "!setCursor : whatDoLoop",
+            "!breakPrompt"],
+        "Go further in": [
+            "!setCursor : furtherInCave"
+        ]
+    }
+}

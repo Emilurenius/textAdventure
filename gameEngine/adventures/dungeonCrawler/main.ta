@@ -47,13 +47,20 @@ story:
 !displayText : You won! The skeleton is dead
 !sleep : 0.5
 !displayText : The cave is silent. It continues into the dark.
-!endGame
+!loadRoom : caveSkeletonKilled
+#insideCaveLoop
+prompt : >>
+!setCursor : insideCaveLoop
 
-#leftCave
+#furtherInCave
+!displayText : You move further into the cave
 !sleep : 0.5
-!displayText : You leave the cave
-!sleep : 1
-!endGame
+!displayText : The cave splits into two routes
+!displayText : Left or right?
+#furtherInCaveLoop
+prompt : >>
+!setCursor : furtherInCaveLoop
+
 
 #leftArea
 !displayText : You head into the nearest town.
