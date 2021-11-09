@@ -1,0 +1,20 @@
+{
+    "roomCommands": {
+        "leave armory": ["!setCursor : inTown", "!displayText : You leave the armory.", "!breakPrompt"],
+        "check available goods": ["!setCursor : armoryGoods", "!breakPrompt"]
+    },
+    "shopItems": {
+        "leather armor": {
+            "ref": "",
+            "price": "50"
+        },
+        "chain mail": {
+            "ref": "",
+            "price": "200"
+        },
+        "plate mail": {
+            "ref": "",
+            "price": "500"
+        }
+    }
+}
