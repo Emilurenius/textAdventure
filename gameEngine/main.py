@@ -170,17 +170,20 @@ class room():
         self.name = name
         self.floorItems = {}
         self.commands = {}
-
-    def setFloorItems(self, floorItems):
-        self.floorItems = floorItems
+        self.itemsForSale = {}
 
     def displayFloorItems(self, type):
-        floorItems = self.floorItems
 
         if type == "all":
-            for item in floorItems.keys():
+            for item in self.floorItems.keys():
                 print(f"ii {item}")
                 time.sleep(0.5)
+
+    def displayItemsForSale(self, type):
+        if type == "all":
+            for k, v in self.itemsForSale.items():
+                print(f"|| {k} : {v['cost']}")
+
 
 class race():
     def __init__(self, name, health, AC, intelligence, dexterity, strength):
