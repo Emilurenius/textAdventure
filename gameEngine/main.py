@@ -591,8 +591,26 @@ def loadAssetData(data):
             armors[k] = armor(k, v["desc"], v["ACmod"], v["weight"])
 
 def loadRoom(selectedRoom):
-    with open(f"{dirPath}adventures/{selectedAdventure}/rooms/{selectedRoom}.json") as JSON:
-        data = json.load(JSON)
+    """
+    #unless the player isnt in a room, save the previous room to the runtime
+    if activeRoom.name != "No room": 
+        roomData = {
+            activeRoom
+        }
+
+        with open(f"{dirPath}runtime/{activeRoom.name}.json", "w") as outFile:
+            json.dump(roomData, outFile, indent=4)
+    """
+    #If the room exists in the runtime, load that, else load from assets.
+    try:
+        if os.path.exists(f"{dirPath}runtime/{selectedRoom.name}.json"):
+            with open(f"{dirPath}runtime/{selectedRoom.name}.json") as JSON:
+                data = json.load(JSON)
+        
+    #If there's an attributeError, selectedRoom doesnt exist, meaning its a new save. Temorary solution untill I can ask Emil how to fix.
+    except AttributeError:
+        with open(f"{dirPath}adventures/{selectedAdventure}/rooms/{selectedRoom}.json") as JSON:
+            data = json.load(JSON)
 
     global activeRoom
     activeRoom = room(selectedRoom)
@@ -642,12 +660,15 @@ def runStory(story, i):
 
 def pickup(item, supressPrompts=False):
 
-    if item in weapons.keys() and item not in inventory["weapons"] and item in activeRoom.floorItems.keys():
-        if not supressPrompts:
-            print(f"!! Picked up {weapons[item].desc}")
+    if item in weapons.keys():
+        if item in inventory["weapons"] and item in activeRoom.floorItems.keys():
+            print(f"!! You already have that, you don't need another one.")
+        else:    
+            if not supressPrompts:
+                print(f"!! Picked up {weapons[item].desc}")
 
-        inventory["weapons"].append(item)
-        del activeRoom.floorItems[item]
+            inventory["weapons"].append(item)
+            del activeRoom.floorItems[item]
 
     elif item in consumables.keys() and item in activeRoom.floorItems.keys():
         if not supressPrompts:

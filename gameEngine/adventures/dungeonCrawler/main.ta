@@ -53,5 +53,15 @@ story:
 !sleep : 0.5
 !displayText : You leave the cave
 !sleep : 1
+!endGame
+
+#leftArea
+!displayText : You head into the nearest town.
+!sleep : 1
+!displayText : You're in the middle of the town.
+!displayText : There are several shops: Armory, Magic shop, General store.
+!displayText : Where would you like to go?
+!loadRoom : town
+!prompt : >>
 
 :story
