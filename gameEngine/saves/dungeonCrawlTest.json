@@ -1,0 +1,39 @@
+{
+    "selectedAdventure": "dungeonCrawler",
+    "storyPos": 41,
+    "inventory": {
+        "weapons": [
+            "unarmed",
+            "sword"
+        ],
+        "consumables": {
+            "health potion": {
+                "amount": 1
+            }
+        },
+        "equipment": [],
+        "armor": []
+    },
+    "room": {
+        "name": "cave",
+        "floorItems": {
+            "torch": {
+                "ref": "mods/items",
+                "amount": 1
+            }
+        },
+        "roomCommands": {
+            "leave cave": [
+                "!setCursor : leftCave",
+                "!breakPrompt"
+            ],
+            "investigate sound": [
+                "!setCursor : investigateCaveSound",
+                "!breakPrompt"
+            ]
+        }
+    },
+    "equippedWeapon": "sword",
+    "playerRace": "orc",
+    "activeEnemies": {}
+}

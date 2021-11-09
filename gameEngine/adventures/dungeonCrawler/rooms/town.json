@@ -3,6 +3,10 @@
         "armory": ["!setCursor : enteredArmory", "!breakPrompt"],
         "magic shop": ["!setCursor : enteredMagicShop", "!breakPrompt"],
         "general store": ["!setCursor : enteredStore", "!breakPrompt"],
-        "leave town": ["!displayText : You went back to the cave entrance." ,"!setCursor : whatDoLoop", "!loadRoom : startArea", "!breakPrompt"]
+        "leave town": [
+            "!displayText : You went back to the cave entrance.",
+            "!setCursor : whatDoLoop",
+            "!loadRoom : startArea",
+            "!breakPrompt"]
     }
 }
