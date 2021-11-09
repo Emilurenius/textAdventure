@@ -3,7 +3,13 @@
     margin-top: 30px;
     margin-left: auto;
     margin-right: auto;
+    padding: 5px;
     background-color: #404a80;
     width: 80%;
     border-radius: 15px;
+    color: white;
+}
+
+.alignLeft {
+    text-align: left;
 }

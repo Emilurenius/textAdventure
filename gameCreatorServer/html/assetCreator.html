@@ -19,11 +19,35 @@
     </div>
 
     <div class="container" id="weaponsEditor" style="display: none">
-        <input type="text" id="weaponAssetName" placeholder="Asset Name">
+        <input type="text" id="weaponName" placeholder="Weapon Name" class="smallTextInput">
+        <br>
+        <input type="text" id="weaponDesc" placeholder="Description" class="bigTextInput">
+        <p>
+            Damage Dice : 
+            <input type="number" id="dDiceMultiplier" class="inlineNumberIN">
+             D 
+             <input type="number" id="dDiceType" class="inlineNumberIN">
+        </p>
+        <p>
+            Hit Dice : 
+            <input type="number" id="hDiceMultiplier" class="inlineNumberIN">
+             D 
+             <input type="number" id="hDiceType" class="inlineNumberIN">
+        </p>
+        <input type="text" id="weaponDT" class="smallTextInput" placeholder="Damage Type">
+        <br>
+        <input type="number" id="weaponWeight" class="smallTextInput" placeholder="Weight (Grams)">
+        <br>
+        <button class="button" id="addWeapon">Add asset</button>
     </div>
 
     <div class="container" id="consumablesEditor" style="display: none">
         <input type="text" id="consumableName" placeholder="Asset Name">
+    </div>
+
+    <div class="container" id="jsonDisplay">
+        <pre class="alignLeft" id="jsonTextContainer"></pre>
+        <a class="button relativeButton" id="downloadJSON">Download JSON</a>
     </div>
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>

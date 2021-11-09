@@ -7,10 +7,28 @@
     border-radius: 10px;
 }
 
+.relativeButton {
+    position: relative;
+    bottom: -15px;
+}
+
 label {
     color: white;
 }
 
 .dropdown {
     margin: 10px;
+}
+
+.inlineNumberIN {
+    max-width: 30px;
+}
+
+.smallTextInput {
+    margin: 10px
+}
+
+.bigTextInput {
+    margin: 10px;
+    width: 80%;
 }
