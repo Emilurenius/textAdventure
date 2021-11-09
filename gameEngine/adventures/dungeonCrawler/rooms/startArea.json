@@ -2,10 +2,11 @@
     "floorItems": {
         "sword": {
             "ref": "mods/items",
-            "amount": 1
+            "amount": 2
         },
         "health potion": {
-            "ref": "mods/items"
+            "ref": "mods/items",
+            "amount": 1
         }
     },
     "roomCommands": {

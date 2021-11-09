@@ -1,0 +1,18 @@
+{
+    "floorItems": {
+        "sword": {
+            "ref": "mods/items",
+            "amount": 1
+        }
+    },
+    "roomCommands": {
+        "enter cave": [
+            "!setCursor : enteredCave",
+            "!breakPrompt"
+        ],
+        "leave area": [
+            "!setCursor : leftArea",
+            "!breakPrompt"
+        ]
+    }
+}
