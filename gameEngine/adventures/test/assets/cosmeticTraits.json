@@ -1,0 +1,15 @@
+{
+    "cosmeticTraits": {
+        "eyes": {
+            "angryEyes": {
+                "displayName": "angry eyes"
+            },
+            "kindEyes": {
+                "displayName": "angry eyes"
+            },
+            "sleepyEyes": {
+                "displayName": "sleepy eyes"
+            }
+        }
+    }
+}
