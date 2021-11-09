@@ -9,6 +9,12 @@ dirPath = temp
 gameOver = False
 breakPrompt = False
 
+def clearRuntime():
+    fileList = os.listdir(f"{dirPath}runtime")
+    
+    for f in fileList:
+        os.remove(f"{dirPath}runtime/{f}")
+
 class weapon():
     def __init__(self, name, desc, damageDice, hitDice, weight):
         self.name = name
@@ -220,6 +226,8 @@ def main():
     time.sleep(1)
     scroll()
     time.sleep(0.5)
+    
+    clearRuntime()
 
     newLoad = False
     while newLoad != "new" and newLoad != "load":

@@ -13,7 +13,7 @@ story:
 !loadRoom : startArea
 !displayText : You wake up outside a dark dungeon
 !sleep : 1
-!displayText : On the floor, there is a sword and a health potion
+!displayText : On the floor, there is a sword and two health potion
 !sleep : 1
 #whatDoLoop
 !displayText : What do you do?
