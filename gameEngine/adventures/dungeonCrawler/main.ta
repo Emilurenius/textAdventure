@@ -44,6 +44,9 @@ story:
 !displayEnemy : skeleton
 !spawnEnemy : skeleton
 !runCombat
+!displayText : You won! The skeleton is dead
+!sleep : 0.5
+!displayText : The cave is silent. It continues into the dark.
 !endGame
 
 #leftCave
