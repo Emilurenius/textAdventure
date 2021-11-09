@@ -27,8 +27,8 @@ class weapon():
 
             x = 0
             hitDice = 0
-            while x < int(self.hitDice.split("x")[1]):
-                hitDice += random.randint(1, int(self.hitDice.split("x")[0]))
+            while x < int(self.hitDice.split("d")[0]):
+                hitDice += random.randint(1, int(self.hitDice.split("x")[1]))
                 x += 1
 
             print(f"!! You rolled {hitDice}")
@@ -43,8 +43,8 @@ class weapon():
 
                 x = 0
                 damageDice = 0
-                while x < int(self.damageDice.split("x")[1]):
-                    damageDice += random.randint(1, int(self.damageDice.split("x")[0]))
+                while x < int(self.damageDice.split("d")[0]):
+                    damageDice += random.randint(1, int(self.damageDice.split("x")[1]))
                     x += 1
 
                 modifier = int(races[playerRace].strength / 3)
@@ -65,8 +65,8 @@ class weapon():
             time.sleep(1)
             x = 0
             hitDice = 0
-            while x < int(self.hitDice.split("x")[1]):
-                hitDice += random.randint(1, int(self.hitDice.split("x")[0]))
+            while x < int(self.hitDice.split("d")[0]):
+                hitDice += random.randint(1, int(self.hitDice.split("d")[1]))
                 x += 1
             print(f"!! {target} rolled {hitDice}")
             time.sleep(1)
@@ -79,8 +79,8 @@ class weapon():
                 time.sleep(1)
                 x = 0
                 damageDice = 0
-                while x < int(self.damageDice.split("x")[1]):
-                    damageDice += random.randint(1, int(self.damageDice.split("x")[0]))
+                while x < int(self.damageDice.split("d")[0]):
+                    damageDice += random.randint(1, int(self.damageDice.split("d")[1]))
                     x += 1
                 print(f"!! {target} rolled {damageDice}")
                 time.sleep(1)

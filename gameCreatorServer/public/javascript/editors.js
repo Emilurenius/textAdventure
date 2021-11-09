@@ -54,8 +54,8 @@ function editors() {
         }
         asset["weapons"][weaponName] = {
             desc: weaponDesc,
-            damageDice: `${dDiceType}x${dDiceMultiplier}`,
-            hitDice: `${hDiceType}x${hDiceMultiplier}`,
+            damageDice: `${dDiceMultiplier}d${dDiceType}`,
+            hitDice: `${hDiceMultiplier}d${hDiceType}`,
             damageType: weaponDT,
             weight: weaponWeight
         }
