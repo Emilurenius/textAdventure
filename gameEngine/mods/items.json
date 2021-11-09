@@ -7,6 +7,13 @@
             "damageType": "blunt",
             "weight": 0
         },
+        "quarterstaff": {
+            "desc": "A long rod of wood, for fighting purposes.",
+            "damageDice": "6x1",
+            "hitDice": "20x1",
+            "damageType": "blunt",
+            "weight":1000
+            },
         "sword": {
             "desc": "A shiny and pointy sword",
             "damageDice": "8x1",
