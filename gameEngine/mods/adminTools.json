@@ -1,0 +1,28 @@
+{
+    "weapons": {
+        "divine smite": {
+            "desc": "An admin tool for hitting and killing anything every time",
+            "damageDice": "100d100",
+            "hitDice": "100d100",
+            "damageType": "smite",
+            "weight": 0
+        }
+    },
+    "commands": {
+        "give weapon <?": ["!giveItem : weapon <?"],
+        "godmode": [
+            "!giveItem : weapon divine smite", 
+            "!equipWeapon : divine smite",
+            "!displayText : God mode activated"
+        ]
+    },
+    "races": {
+        "god": {
+            "health": 1000,
+            "AC": 1000,
+            "intelligence": 1000,
+            "dexterity": 1000,
+            "strength": 1000
+        }
+    }
+}

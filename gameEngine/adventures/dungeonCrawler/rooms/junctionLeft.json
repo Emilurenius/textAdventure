@@ -1,7 +1,8 @@
 {
     "roomCommands": {
-        "press on": {
-            
-        }
+        "press on": [
+            "!setCursor : junction1LeftPressOn",
+            "!breakPrompt"
+        ]
     }
 }
