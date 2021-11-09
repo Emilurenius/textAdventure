@@ -9,6 +9,39 @@ dirPath = temp
 gameOver = False
 breakPrompt = False
 
+selectedAdventure = ""
+adventureProgress = 0
+cursorMoved = False
+
+weapons = {}
+armors = {}
+consumables = {}
+equipment = {}
+races = {}
+
+equippedWeapon = ""
+playerRace = False
+
+adventureCommands = {}
+
+activeRoom = room("No room") # Initialize the active room as an empty room with no features
+enemies = {}
+activeEnemies = {}
+
+#Initialize dictionary variables for the player inventory.
+inventory = {
+    "weapons": [],
+    "consumables": {},
+    "equipment": [],
+    "armor": []
+    }
+
+playerStats = {
+    "health": 20,
+    "maxHealth": 20,
+    "AC": 10   
+    }
+
 def clearRuntime():
     fileList = os.listdir(f"{dirPath}runtime")
     
@@ -194,35 +227,6 @@ class race():
         self.strength = 10 + strength
         print(f"{self.name} loaded...")
 
-selectedAdventure = ""
-adventureProgress = 0
-cursorMoved = False
-
-weapons = {}
-armors = {}
-consumables = {}
-equipment = {}
-races = {}
-inventory = {
-    "weapons": [],
-    "consumables": {},
-    "equipment": [],
-    "armor": []
-}
-playerStats = {
-    "health": 20,
-    "maxHealth": 20,
-    "AC": 10
-}
-equippedWeapon = ""
-playerRace = False
-
-adventureCommands = {}
-
-activeRoom = room("No room") # Initialize the active room as an empty room with no features
-enemies = {}
-activeEnemies = {}
-
 def main():
     print("!! Text adventure Engine !!")
     time.sleep(1)
@@ -255,7 +259,6 @@ def main():
         while not adventure:
             adventure = loadSave(input("!! Select a save file from the list >> "))
         runStory(adventure, adventureProgress)
-
 
 def saveGame(saveName, supressPrompts=False):
 
@@ -859,7 +862,7 @@ def runCombat():
 initCommands = {
     "importMod": loadMod,
     "importAsset": loadAsset
-}
+    }
 
 commands = {
     "displayText": displayText,
@@ -879,8 +882,9 @@ commands = {
     "saveGame": saveGame,
     "endGame": endGame,
     "setCursor": setCursor,
-    "breakPrompt": setBreakPrompt
-}
+    "breakPrompt": setBreakPrompt,
+    "checkShopItems": checkShopItems
+    }
 
 if __name__ == "__main__":
     main()
