@@ -49,7 +49,7 @@ story:
 #enterInsideCave
 !loadRoom : caveSkeletonKilled
 #insideCaveLoop
-prompt : >>
+!prompt : >>
 !setCursor : insideCaveLoop
 
 #furtherInCave
