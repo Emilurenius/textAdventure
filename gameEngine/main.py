@@ -894,9 +894,9 @@ def runCombat():
             enemies[k].attack()
 
 #Display a shop's items and prices.
-def checkShopItems(self, type):
+def checkShopItems(type):
         if type == "all":
-            for key, value in self.shopItems():
+            for key, value in activeRoom.shopItems():
                 print(f"|| {key} : {value['price']}")
 
 #Defining script commands for the init scope.
