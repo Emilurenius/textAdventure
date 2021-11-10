@@ -1,7 +1,8 @@
 {
     "roomCommands": {
         "leave armory": ["!setCursor : inTown", "!displayText : You leave the armory.", "!breakPrompt"],
-        "check available goods": ["!checkShopItems : all", "!breakPrompt"]
+        "check available goods": ["!checkShopItems : all"],
+        "look at wares": ["!checkShopItems : all"]
     },
     "shopItems": {
         "leather armor": {
