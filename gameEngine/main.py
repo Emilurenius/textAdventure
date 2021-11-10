@@ -334,7 +334,7 @@ def prompt(text):
             i = 0
             variableIndex = 0
             for x in INsplit:
-                if INsplit[i] == x:
+                if splitCommand[i] == x:
                     commandFound = True
                 elif x == "<?>":
                     variableIndex = i
