@@ -442,7 +442,7 @@ def runCommand(command):
         if command:
             command()
 
-    elif command.startswith("!"): # Seperate handler for commands with commands with variables
+    elif command.startswith("!"): # Seperate handler for commands with variables
         commandList = getCommand(command)
         command = commands.get(commandList[0], None)
         if command:
