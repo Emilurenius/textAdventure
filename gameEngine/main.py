@@ -411,8 +411,6 @@ def prompt(text):
             print(f">> {command}")
     else:
         for k, v in adventureCommands.items():
-            if k == "pick up <?":
-                print("pick up found")
             runPrompt(k, v)
 
         for k, v in activeRoom.commands.items():
@@ -900,8 +898,8 @@ def runCombat():
 #Display a shop's items and prices.
 def checkShopItems(type):
         if type == "all":
-            for key, value in activeRoom.shopItems():
-                print(f"|| {key} : {value['price']}")
+            for key, value in activeRoom.shopItems.items():
+                print(f"|| {key} : {value['price']} gold")
 
 #Defining script commands for the init scope.
 initCommands = {
