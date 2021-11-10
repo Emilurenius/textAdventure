@@ -333,13 +333,15 @@ def prompt(text):
             
             i = 0
             variableIndex = 0
-            for x in INsplit:
-                if splitCommand[i] == x:
+            for x in splitCommand:
+                if INsplit[i] == x:
                     commandFound = True
                 elif x == "<?>":
                     variableIndex = i
                     commandFound = True
                 elif x == "<?":
+                    if k == "pick up <?":
+                        print("Converted variable space to variable")
                     variableIndex = i
                     commandFound = True
                     multiWordFill = True
@@ -409,6 +411,8 @@ def prompt(text):
             print(f">> {command}")
     else:
         for k, v in adventureCommands.items():
+            if k == "pick up <?":
+                print("pick up found")
             runPrompt(k, v)
 
         for k, v in activeRoom.commands.items():
