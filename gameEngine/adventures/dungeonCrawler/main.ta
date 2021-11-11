@@ -92,7 +92,9 @@ story:
 
 #enteredArmory
 !loadRoom : armory
-!displayText : You enter the Armory, and there's a dwarf hammering at an ingot on an anvil.
+!openShop
+!displayText : You enter the Armory, and there's a dwarf hammering at an ingot on an anvil, he gives you a bag of 100 gold, just cuz.
+!addGold : 100
 #armoryLoop
 !prompt : >>
 !setCursor : armoryLoop

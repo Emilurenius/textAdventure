@@ -5,5 +5,10 @@
         "equip <?": ["!equipWeapon : <?"],
         "display inventory": ["!displayInventory : all"],
         "save as <?": ["!saveGame : <?"]
+    },
+
+    "shopCommands": {
+        "check available goods": ["!checkShopItems : all"],
+        "look at wares": ["!checkShopItems : all"]
     }
 }

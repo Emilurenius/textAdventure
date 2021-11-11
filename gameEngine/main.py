@@ -19,6 +19,7 @@ races = {}
 equippedWeapon = ""
 playerRace = False
 adventureCommands = {}
+shopCommands = {}
 enemies = {}
 activeEnemies = {}
 
@@ -27,7 +28,8 @@ inventory = {
     "weapons": [],
     "consumables": {},
     "equipment": [],
-    "armor": []
+    "armor": [],
+    "gold": 0
     }
 playerStats = {
     "health": 20,
@@ -619,7 +621,13 @@ def loadAssetData(data):
         print("Loading armor...")
         for k, v in data["armor"].items():
             armors[k] = armor(k, v["desc"], v["ACmod"], v["weight"])
-            
+
+    if "shopCommands" in data:
+        print("Loading shops' commands")
+        for k, v in data["shopCommands"].items():
+            shopCommands[k] = v
+            print(k)
+
 #Load a room from runtime, or from assets if it's not available.
 def loadRoom(selectedRoom):
     global activeRoom
@@ -652,6 +660,10 @@ def loadRoom(selectedRoom):
         activeRoom.commands = data["roomCommands"]
     if "shopItems" in data:
         activeRoom.shopItems = data["shopItems"]
+
+def setActiveRoomShop():
+    for k, v in shopCommands.items():
+        activeRoom.commands[k] = v
 
 #Display items that are on the floor.
 def displayFloorItems(type):
@@ -764,6 +776,7 @@ def equipWeapon(weapon, supressPrompts=False):
 def displayInventory(type):
     print("!! Opening inventory...")
     scroll()
+    print("!! Gold: ", inventory["gold"])
     print("!! Weapons:")
     time.sleep(0.5)
     for weapon in inventory["weapons"]:
@@ -901,6 +914,18 @@ def checkShopItems(type):
             for key, value in activeRoom.shopItems.items():
                 print(f"|| {key} : {value['price']} gold")
 
+def buyItem(item):
+    if item in activeRoom.shopItems.items and inventory["gold"] >= activeRoom.shopItems[item]["cost"]:
+        giveItem(activeRoom.shopItems[item]["type"], item)
+        inventory["gold"] -= activeRoom.shopItems[item]["cost"]
+
+def addGold(gold):
+    gold = int(gold)
+    if not "gold" in inventory:
+        inventory["gold"] = gold
+    else:
+        inventory["gold"] += gold
+
 #Defining script commands for the init scope.
 initCommands = {
     "importMod": loadMod,
@@ -927,7 +952,9 @@ commands = {
     "endGame": endGame,
     "setCursor": setCursor,
     "breakPrompt": setBreakPrompt,
-    "checkShopItems": checkShopItems
+    "checkShopItems": checkShopItems,
+    "addGold": addGold,
+    "openShop": setActiveRoomShop
     }
 
 #Testing whether the file is ran or imported
