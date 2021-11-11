@@ -619,7 +619,7 @@ def loadAssetData(data):
         print("Loading armor...")
         for k, v in data["armor"].items():
             armors[k] = armor(k, v["desc"], v["ACmod"], v["weight"])
-
+            
 #Load a room from runtime, or from assets if it's not available.
 def loadRoom(selectedRoom):
     global activeRoom

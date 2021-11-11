@@ -256,4 +256,93 @@ story:
 :story
 ```
 
+### !equipWeapon
+
+This command is used to equip a weapon that the player has in his/her inventory
+
+Let's look at an example:
+
+In this example, the player's inventory looks like this:
+```
+inventory = {
+    "weapons": ["sword"],
+    "consumables": {},
+    "equipment": [],
+    "armor": []
+    }
+```
+
+This is how you would equip the sword:
+```
+story:
+!equipWeapon : sword
+:story
+```
+
+Terminal output : 
+```
+equipped <desc>
+```
+
+The sword will now be used during combat untill another weapon is equipped.
+
+### !displayInventory
+
+This command displays the items in the player's inventory
+
+The list printed out by this command will change automatically when items are added to the player's inventory
+
+The command takes one variable, that currently only can have one valid value: `all`. In the future, this variable will be used to decide what inventory items to display.
+
+In this example, the player's inventory looks like this:
+```
+inventory = {
+    "weapons": ["unarmed", "sword"],
+    "consumables": {
+        "health potion": {
+            "amount": 2
+        }
+    },
+    "equipment": [],
+    "armor": []
+    }
+```
+
+This is how you would write the script:
+```
+main:
+!displayInventory : all
+:main
+```
+
+Terminal output:
+```
+!! Weapons:
+ii unarmed
+ii sword
+!! consumables:
+ii 2 health potion/s
+!! equipment:
+```
+
+!displayInventory can also show what weapon you have equipped. Because of this, running the previously explained command first would be reflected:
+
+Example:
+```
+main:
+!equipWeapon : sword
+!displayInventory : all
+:main
+```
+
+Terminal output:
+```
+!! Weapons:
+ii unarmed
+ii sword ** Equipped **
+!! consumables:
+ii 2 health potion/s
+!! equipment:
+```
+
 # More commands will be explained soon!
