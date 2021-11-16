@@ -10,6 +10,31 @@
             "sleepyEyes": {
                 "displayName": "sleepy eyes"
             }
+        },
+        "height": {
+            "tall": {
+                "displayName": "tall"
+            },
+            "short": {
+                "displayName": "short"
+            },
+            "medium": {
+                "displayName": "medium"
+            }
+        },
+        "bodyType": {
+            "fat": {
+                "displayName": "fat"
+            },
+            "skinny": {
+                "displayName": "skinny"
+            },
+            "chisseled": {
+                "displayName": "chisseled"
+            },
+            "normal": {
+                "displayName": "normal"
+            }
         }
     }
 }

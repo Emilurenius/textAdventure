@@ -3,6 +3,7 @@ init:
 !importAsset : commands
 !importMod : enemies
 !importMod : races
+!importAsset : cosmeticTraits
 :init
 
 

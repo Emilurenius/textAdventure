@@ -22,6 +22,8 @@ adventureCommands = {}
 shopCommands = {}
 enemies = {}
 activeEnemies = {}
+cosmeticChoice = False
+cosmetics = {}
 
 #Initialize dictionary variables for the player inventory.
 inventory = {
@@ -549,6 +551,7 @@ def runInit(story, i):
         elif story[i] == ":init":
             print("Initialization complete...")
             selectRace()
+            chooseCosmetics()
             return i
 
         i += 1
@@ -584,6 +587,38 @@ def selectRace():
         print("There are no races to use")
     time.sleep(2)
 
+def chooseCosmetics():
+    global cosmeticChoice
+    if cosmeticChoice:
+        return
+    
+    scroll()
+    global cosmetics
+    if cosmetics:
+        print("!! How do your eyes look: ")
+        counter = 0 
+        for x in cosmetics["eyes"].keys(): 
+            print(f"{counter} {x}")
+            time.sleep(0.5)
+            counter += 1
+
+        IN = ""
+        while not IN.isnumeric() or cosmeticChoice == False:
+            IN = input(">> ")
+
+            keysList = []
+            for x in cosmetics.keys():
+                keysList.append(x)
+            if int(IN) < len(keysList):
+                cosmeticChoice = cosmetics[keysList[int(IN)]].name
+            print(cosmeticChoice)
+    
+    else:
+        print("There are no cosmetic choices")
+    time.sleep(2)
+
+
+
 #Load assets from assets
 def loadAssetData(data):
     if "weapons" in data:
@@ -616,6 +651,10 @@ def loadAssetData(data):
         print("Loading races...")
         for k, v in data["races"].items():
             races[k] = race(k, v["health"], v["AC"], v["intelligence"], v["dexterity"], v["strength"])
+
+    if "cosmeticTraits" in data:
+        print("Loading cosmetics...")
+
 
     if "armor" in data:
         print("Loading armor...")
