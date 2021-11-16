@@ -2,36 +2,36 @@
     "weapons": {
         "unarmed": {
             "desc": "Your fists",
-            "damageDice": "1x1",
-            "hitDice": "20x1",
+            "damageDice": "1d1",
+            "hitDice": "1d20",
             "damageType": "blunt",
             "weight": 0
         },
         "sword": {
             "desc": "A shiny and pointy sword",
-            "damageDice": "8x1",
-            "hitDice" : "20x1",
+            "damageDice": "1d8",
+            "hitDice" : "1d20",
             "damageType": "slashing",
             "weight": 800
         },
         "club": {
             "desc": "A large blunt wooden weapon",
-            "damageDice": "4x1",
-            "hitDice" : "20x1",
+            "damageDice": "1d4",
+            "hitDice" : "1d20",
             "damageType": "blunt",
             "weight": 900
         },
         "bow": {
             "desc": "A shortbow showing age and tear",
-            "damageDice": "6x1",
-            "hitDice": "20x1",
+            "damageDice": "1d6",
+            "hitDice": "1d20",
             "damageType": "piercing",
             "weight": 500
         },
         "axe": {
             "desc": "A sharp axe meant to cut foes not wood",
-            "damageDice": "6x2",
-            "hitDice": "20x1", 
+            "damageDice": "2d6",
+            "hitDice": "1d20", 
             "damageType": "slashing",
             "weight": 1800
         }
