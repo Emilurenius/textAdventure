@@ -20,6 +20,13 @@
             "intelligence": 2,
             "dexterity": 6,
             "strength": 2
+        },
+        "Remil": {
+            "health": 10,
+            "ac": 10,
+            "intelligence": -10,
+            "dexterity": -10,
+            "strength": 10
         }
     }
 }
