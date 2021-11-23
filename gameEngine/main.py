@@ -571,7 +571,7 @@ def selectRace():
             print(f"{counter} {x}")
             time.sleep(0.5)
             counter += 1
-        
+        #hvorfor eksisterer Cemil? Ingen vet.
         IN = ""
         while not IN.isnumeric() or playerRace == False:
             IN = input(">> ")
@@ -652,7 +652,7 @@ def loadAssetData(data):
         for k, v in data["races"].items():
             races[k] = race(k, v["health"], v["AC"], v["intelligence"], v["dexterity"], v["strength"])
 
-    if "cosmeticTraits" in data:
+    if "cosmeticTraits" in data: #cemil er en bitch. Ingen liker han. Bøg er det han er.
         print("Loading cosmetics...")
 
 
