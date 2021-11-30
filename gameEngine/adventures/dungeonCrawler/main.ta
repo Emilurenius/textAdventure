@@ -49,7 +49,7 @@ story:
 #enterInsideCave
 !loadRoom : caveSkeletonKilled
 #insideCaveLoop
-!prompt : >>
+!prompt : >> 
 !setCursor : insideCaveLoop
 
 #furtherInCave
@@ -59,7 +59,7 @@ story:
 !displayText : Left or right?
 !loadRoom : furtherInCave
 #furtherInCaveLoop
-!prompt : >>
+!prompt : >> 
 !setCursor : furtherInCaveLoop
 
 #junction1Left
@@ -67,9 +67,12 @@ story:
 !sleep : 0.5
 !displayText : As you walk down the cave, the air gets warmer
 !sleep : 0.5
+!loadRoom : junctionLeft
 !displayText : The floor is starting to warm up
+#junction1LeftLoop
 !displayText : Do you press on, or do you go back?
 !prompt : >> 
+!setCursor : junction1LeftLoop
 
 #junction1LeftPressOn
 !displayText : You press on
@@ -87,7 +90,7 @@ story:
 !displayText : Where would you like to go?
 !loadRoom : town
 #townSquareLoop
-!prompt : >>
+!prompt : >> 
 !setCursor : townSquareLoop
 
 #enteredArmory
@@ -96,6 +99,6 @@ story:
 !displayText : You enter the Armory, and there's a dwarf hammering at an ingot on an anvil, he gives you a bag of 100 gold, just cuz.
 !addGold : 100
 #armoryLoop
-!prompt : >>
+!prompt : >> 
 !setCursor : armoryLoop
 :story
