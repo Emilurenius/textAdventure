@@ -44,7 +44,8 @@ def clearRuntime():
     fileList = os.listdir(f"{dirPath}runtime")
     
     for f in fileList:
-        os.remove(f"{dirPath}runtime/{f}")
+        if f != ".gitignore":
+            os.remove(f"{dirPath}runtime/{f}")
 
 class weapon():
     def __init__(self, name, desc, damageDice, hitDice, weight):
@@ -616,8 +617,6 @@ def chooseCosmetics():
     else:
         print("There are no cosmetic choices")
     time.sleep(2)
-
-
 
 #Load assets from assets
 def loadAssetData(data):
