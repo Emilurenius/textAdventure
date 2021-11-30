@@ -655,7 +655,6 @@ def loadAssetData(data):
     if "cosmeticTraits" in data: #cemil er en bitch. Ingen liker han. Bøg er det han er.
         print("Loading cosmetics...")
 
-
     if "armor" in data:
         print("Loading armor...")
         for k, v in data["armor"].items():
