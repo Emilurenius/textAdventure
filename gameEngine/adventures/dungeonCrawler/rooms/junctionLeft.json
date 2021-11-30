@@ -3,6 +3,13 @@
         "press on": [
             "!setCursor : junction1LeftPressOn",
             "!breakPrompt"
+        ],
+        "go back": [
+            "!setCursor : furtherInCaveLoop",
+            "!loadRoom : furtherInCave",
+            "!displayText : You go back to the junction",
+            "!sleep : 0.5",
+            "!displayText : Left or right?"
         ]
     }
 }
