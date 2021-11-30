@@ -8,6 +8,7 @@
     "roomCommands": {
         "leave cave": [
             "!displayText : You step outside of the cave",
+            "!loadRoom : startArea",
             "!setCursor : whatDoLoop", "!breakPrompt"],
         "investigate sound": [
             "!setCursor : investigateCaveSound",
