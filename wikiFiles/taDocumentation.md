@@ -656,7 +656,7 @@ This command can be useful for example when you create a command for the user th
 ### !investigate
 
 `!investigate` is a command that is used to let the player investigate items.
-A room can include an attribute called `investigateables` This is a dictionary of different investigateable items and objects.
+A room can include an attribute called `investigateables`. This is a dictionary of different investigateable items and objects.
 When something in this dictionary is investigated, a list of commands in .ta format defined by the game creator will be run by the game engine.
 
 This lets you create custom events for investigating items and objects in your game world
