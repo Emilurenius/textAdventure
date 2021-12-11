@@ -146,9 +146,9 @@ Some other commands available will automatically call this command with a set am
 
 The prompt command is used to tell the game engine that you want the player to interact with the world before going any further.
 
-You cannot use this command to get an answer to a question, or let the player make a desicion.
+You can use this command to give players the chance to influence, interact with, and move around in your world.
 
-Commands available for the player are defined in assets and mods that are imported. 
+Commands available for the player are defined in assets, mods and rooms that are imported, room commands only available to the player when they're in the corresponding room.
 
 Example:
 ```
@@ -164,9 +164,27 @@ A prompt lets you interact with the world around you
 ```
 You can define how the prompt will look, and can add custom text, or use different symbols. This means that the prompt command works like the displayText command, but it asks for input from the player afterwards.
 
+Therefore, this is also valid:
+
+Example:
+```
+story:
+!displayText : Prompts can display anything in the terminal!
+!prompt : Enter command: 
+:story
+```
+Terminal output: 
+```
+Prompts can display anything in the terminal!
+Enter command:
+```
+
 ### !loadRoom:
 
-loadroom is used to load a json defined room. These rooms are used to define what is around the player, and can contain items.
+loadroom is used to load a json defined room. These rooms are used to define what is around the player, 
+and can contain items and commands.
+
+Rooms are also where shops selling items to the player are defined.
 
 The loadRoom command is written like this:
 
@@ -177,6 +195,8 @@ story:
 ```
 
 This command will load a room with the name mainRoom.
+
+When a room is loaded, all commands defined under "roomCommands" in the JSON file, will be executable after the player is prompted for a response.
 
 To load another room later, simply just write the same command with the name of the new room.
 
@@ -281,10 +301,10 @@ story:
 
 Terminal output : 
 ```
-equipped <desc>
+equipped A shiny and pointy sword
 ```
 
-The sword will now be used during combat untill another weapon is equipped.
+The sword will now be used during combat until another weapon is equipped.
 
 ### !displayInventory
 
@@ -344,5 +364,145 @@ ii sword ** Equipped **
 ii 2 health potion/s
 !! equipment:
 ```
+
+### !spawnEnemy
+!spawnEnemy spawns an enemy into the game for the player to fight against. 
+
+Example:
+```
+story:
+!spawnEnemy : skeleton
+:story
+```
+Terminal output:
+```
+!! skeleton is attacking you
+```
+
+The command only displays the text, and adds the enemy to the next encounter, but does not begin combat. That is done with a seperate command called `!runCombat`
+
+If you want to spawn an enemy without displaying text in the terminal, you can use `-` instead of `!` like this:
+```
+story:
+-spawnEnemy : skeleton
+:story
+```
+Terminal output:
+`None`
+
+### !runCombat
+
+!runCombat begins combat with all enemies spawned beforehand with `!spawnEnemy`
+
+All combat actions are handled in the engine, so all you have to do to initialize a fight with a skeleton in your game is this:
+```
+story:
+!displayEnemy : skeleton
+!spawnEnemy : skeleton
+!runCombat
+:story
+```
+Terminal output:
+```
+                              _.--""-._
+  .                         ."         ".
+ / \    ,^.         /(     Y             |      )\
+/   `---. |--'\    (  \__..'--   -   -- -'""-.-'  )
+|        :|    `>   '.     l_..-------.._l      .'
+|      __l;__ .'      "-.__.||_.-'v'-._||`"----"
+ \  .-' | |  `              l._       _.'
+  \/    | |                   l`^^'^^'j
+        | |                _   \_____/     _
+        j |               l `--__)-'(__.--' |
+        | |               | /`---``-----'"1 |  ,-----.
+        | |               )/  `--' '---'   \'-'  ___  `-.
+        | |              //  `-'  '`----'  /  ,-'   I`.  \
+      _ L |_            //  `-.-.'`-----' /  /  |   |  `. \
+     '._' / \         _/(   `/   )- ---' ;  /__.J   L.__.\ :
+      `._;/7(-.......'  /        ) (     |  |            | |
+      `._;l _'--------_/        )-'/     :  |___.    _._./ ;
+        | |                 .__ )-'\  __  \  \  I   1   / /
+        `-'                /   `-\-(-'   \ \  `.|   | ,' /
+                           \__  `-'    __/  `-. `---'',-'
+                              )-._.-- (        `-----'
+                             )(  l\ o ('..-.
+                       _..--' _'-' '--'.-. |
+                __,,-'' _,,-''            \ \
+               f'. _,,-'                   \ \
+              ()--  |                       \ \
+                \.  |                       /  \
+                  \ \                      |._  |
+                   \ \                     |  ()|
+                    \ \                     \  /
+                     ) `-.                   | |
+                    // .__)                  | |
+                 _.//7'                      | |
+               '---'                         j_| `
+                                            (| |
+                                             |  \
+                                             |lllj
+                                             |||||
+!! skeleton is attacking you
+```
+After this terminal output, combat will automatically start, and your script will be resumed after combat is over.
+
+
+### !displayEnemy
+
+!displayEnemy displays the ascii stored in a .txt file referred to by the JSON file that defines the enemy.
+
+This ascii can include any letters found on the keyboard. Support for further letters is sketchy, but experimentation is encouraged.
+
+Here is an example displaying a skeleton after spawning it:
+```
+story:
+!spawnEnemy : skeleton
+!displayEnemy : skeleton
+:story
+```
+Terminal output:
+```
+!! skeleton is attacking you
+                              _.--""-._
+  .                         ."         ".
+ / \    ,^.         /(     Y             |      )\
+/   `---. |--'\    (  \__..'--   -   -- -'""-.-'  )
+|        :|    `>   '.     l_..-------.._l      .'
+|      __l;__ .'      "-.__.||_.-'v'-._||`"----"
+ \  .-' | |  `              l._       _.'
+  \/    | |                   l`^^'^^'j
+        | |                _   \_____/     _
+        j |               l `--__)-'(__.--' |
+        | |               | /`---``-----'"1 |  ,-----.
+        | |               )/  `--' '---'   \'-'  ___  `-.
+        | |              //  `-'  '`----'  /  ,-'   I`.  \
+      _ L |_            //  `-.-.'`-----' /  /  |   |  `. \
+     '._' / \         _/(   `/   )- ---' ;  /__.J   L.__.\ :
+      `._;/7(-.......'  /        ) (     |  |            | |
+      `._;l _'--------_/        )-'/     :  |___.    _._./ ;
+        | |                 .__ )-'\  __  \  \  I   1   / /
+        `-'                /   `-\-(-'   \ \  `.|   | ,' /
+                           \__  `-'    __/  `-. `---'',-'
+                              )-._.-- (        `-----'
+                             )(  l\ o ('..-.
+                       _..--' _'-' '--'.-. |
+                __,,-'' _,,-''            \ \
+               f'. _,,-'                   \ \
+              ()--  |                       \ \
+                \.  |                       /  \
+                  \ \                      |._  |
+                   \ \                     |  ()|
+                    \ \                     \  /
+                     ) `-.                   | |
+                    // .__)                  | |
+                 _.//7'                      | |
+               '---'                         j_| `
+                                            (| |
+                                             |  \
+                                             |lllj
+                                             |||||
+```
+
+You might notice that the name of the enemy is defined for both commands. This is because the commands are independent. Meaning you could display an enemy that is not currently spawned.
 
 # More commands will be explained soon!

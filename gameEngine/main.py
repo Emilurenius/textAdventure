@@ -1,5 +1,6 @@
 import time, os, json, random, fnmatch, sys
 
+#region Initialize global variables
 dirPath = os.path.realpath(__file__).split("\\")
 dirPath.pop()
 temp = ""
@@ -24,6 +25,7 @@ enemies = {}
 activeEnemies = {}
 cosmeticChoice = False
 cosmetics = {}
+#endregion Initialize global variables
 
 #Initialize dictionary variables for the player inventory.
 inventory = {
@@ -981,9 +983,9 @@ commands = {
     "pickup": pickup,
     "equipWeapon": equipWeapon,
     "displayInventory": displayInventory,
-    "displayEnemy": displayEnemy,
     "spawnEnemy": spawnEnemy,
     "runCombat": runCombat,
+    "displayEnemy": displayEnemy,
     "giveItem": giveItem,
     "printASCII": printASCII,
     "saveGame": saveGame,
