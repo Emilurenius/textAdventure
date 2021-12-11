@@ -1,14 +1,13 @@
 init:
-!importMod : items
-!importAsset : commands
-!importMod : enemies
-!importMod : races
-!importAsset : cosmeticTraits
+importMod : items
+importAsset : commands
+importMod : enemies
+importMod : races
+importAsset : cosmeticTraits
 :init
 
 
 story:
-#loop
-!displayText : This will be printed forever
-!setCursor : loop
+!loadRoom : mainRoom
+!prompt : >> 
 :story

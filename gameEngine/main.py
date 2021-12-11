@@ -205,6 +205,7 @@ class room():
         self.floorItems = {}
         self.commands = {}
         self.shopItems = {}
+        self.investigateables = False
 
     def displayFloorItems(self, type):
 
@@ -700,6 +701,8 @@ def loadRoom(selectedRoom):
         activeRoom.commands = data["roomCommands"]
     if "shopItems" in data:
         activeRoom.shopItems = data["shopItems"]
+    if 'investigateables' in data:
+        activeRoom.investigateables = data['investigateables']
 
 def setActiveRoomShop():
     for k, v in shopCommands.items():
@@ -997,6 +1000,15 @@ def addGold(gold):
     else:
         inventory["gold"] += gold
 
+def investigate(obj):
+    if activeRoom.investigateables:
+        if obj in activeRoom.investigateables.keys():
+            for command in activeRoom.investigateables[obj]:
+                print(command)
+                runCommand(command)
+    else:
+        print('There is nothing to investigate')
+
 #Defining script commands for the init scope.
 initCommands = {
     "importMod": loadMod,
@@ -1025,7 +1037,8 @@ commands = {
     "breakPrompt": setBreakPrompt,
     "checkShopItems": checkShopItems,
     "addGold": addGold,
-    "openShop": setActiveRoomShop
+    "openShop": setActiveRoomShop,
+    'investigate': investigate
     }
 
 #Testing whether the file is ran or imported

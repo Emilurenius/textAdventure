@@ -24,5 +24,15 @@
             "ref": "assets/items",
             "amount": 1
         }
+    },
+    "investigateables": {
+        "object": [
+            "!displayText : An investigateable object has been investigated!"
+        ]
+    },
+    "roomCommands": {
+        "investigate <?": [
+            "!investigate : <?"
+        ]
     }
 }
