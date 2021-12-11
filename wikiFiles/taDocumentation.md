@@ -1,5 +1,6 @@
 # .ta (textAdventure) scripting language file
 
+<!-- #region General info -->
 The .ta file extention is used by the textAdventure scripting language. These files are interpreted by the game engine.
 
 This wiki file will go through the different commands, and syntax of a .ta file, and how you can use it to create your own text adventure!
@@ -7,6 +8,7 @@ This wiki file will go through the different commands, and syntax of a .ta file,
 There will be no indepth explanainations of how to set up an adventure folder with all required files. Another wiki file will be written with that info.
 
 For now, you can look at the premade tutorial for some hints at how it is set up.
+<!-- #endregion General info -->
 
 ## init scope:
 
