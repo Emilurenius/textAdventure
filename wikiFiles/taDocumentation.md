@@ -126,7 +126,6 @@ story:
 
 Terminal output:
 ```
-story:
 Hello
 
 
@@ -381,15 +380,6 @@ Terminal output:
 
 The command only displays the text, and adds the enemy to the next encounter, but does not begin combat. That is done with a seperate command called `!runCombat`
 
-If you want to spawn an enemy without displaying text in the terminal, you can use `-` instead of `!` like this:
-```
-story:
--spawnEnemy : skeleton
-:story
-```
-Terminal output:
-`None`
-
 ### !runCombat
 
 !runCombat begins combat with all enemies spawned beforehand with `!spawnEnemy`
@@ -504,5 +494,28 @@ Terminal output:
 ```
 
 You might notice that the name of the enemy is defined for both commands. This is because the commands are independent. Meaning you could display an enemy that is not currently spawned.
+
+### !giveItem
+
+!giveItem can be used to give a player an item that isn't available to pick up in the currently loaded room.
+
+For example if you want to have an NPC that gives your player an item
+
+Example:
+```
+story:
+!displayText : It's dangerous to go alone!
+!displayText : Take this.
+!giveItem : sword
+:story
+```
+Terminal output:
+```
+It's dangerous to go alone!
+Take this.
+!! Picked up A shiny and pointy sword
+```
+
+You do not need to define what type of item it is. Just give the name of the item, and as long as some type of item with that name exists, it will be added to the player's inventory.
 
 # More commands will be explained soon!
