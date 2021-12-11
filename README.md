@@ -14,4 +14,4 @@ Documentation for this project is ongoing, but not complete. Any relevant info y
 [Wiki](https://github.com/Emilurenius/textAdventure/wiki)
 
 ## Documentation:
-[Scripting language](https://github.com/Emilurenius/textAdventure/wiki/.ta-Scripting-language-documentation)
+* [Scripting language](https://github.com/Emilurenius/textAdventure/wiki/.ta-Scripting-language-documentation)
