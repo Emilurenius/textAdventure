@@ -853,7 +853,7 @@ def spawnEnemy(enemy, supressPrompts=False):
         time.sleep(1)
 
 #Add an item to the player's inventory.
-def giveItem(item):
+def giveItem(item, supressPrompts=False):
     itemType = item.split(" ")[0]
     itemName = item.split(" ")
     itemName.pop(0)
@@ -862,7 +862,7 @@ def giveItem(item):
 
     if itemType == "weapon" and itemName in weapons.keys():
         inventory["weapons"].append(itemName)
-    else:
+    elif not supressPrompts:
         print("!! Sorry, that item can't be given")
 
 #Start a combat sequence.
