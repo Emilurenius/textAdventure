@@ -653,4 +653,40 @@ Then this will be shown, since it won't ask for another command
 ```
 This command can be useful for example when you create a command for the user that moves him/her to a new location, and you don't wish the player to issue more commands before being moved.
 
+### !investigate
+
+`!investigate` is a command that is used to let the player investigate items.
+A room can include an attribute called `investigateables` This is a dictionary of different investigateable items and objects.
+When something in this dictionary is investigated, a list of commands in .ta format defined by the game creator will be run by the game engine.
+
+This lets you create custom events for investigating items and objects in your game world
+
+In this example, the room JSON file will look like this:
+```
+{
+    "investigateables": {
+        "object": [
+            "!displayText : An investigateable object has been investigated!"
+        ]
+    },
+    "roomCommands": {
+        "investigate <?": [
+            "!investigate : <?"
+        ]
+    }
+}
+```
+Now let's investigate the object:
+```
+story:
+!loadRoom : mainRoom
+!prompt >> 
+:story
+```
+Console output:
+```
+>> investigate object
+An investigateable object has been investigated!
+```
+
 # More commands will be explained soon!
