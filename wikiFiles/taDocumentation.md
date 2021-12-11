@@ -518,4 +518,137 @@ Take this.
 
 You do not need to define what type of item it is. Just give the name of the item, and as long as some type of item with that name exists, it will be added to the player's inventory.
 
+### !printASCII
+
+!printASCII can be used to print a text file with ASCII art.
+
+Any .txt files placed within the `ascii` folder inside an adventure folder.
+This means that ascii is adventure exclusive, and different games can have different ascii be printed with the same name.
+
+`displayEnemy` uses this function under the hood as well, but only giving you acces to files within the `enemies` folder inside the `ascii` folder
+
+`printASCII` should only be used if there are no other functions to display the ascii file you wish to display
+
+Since `printASCII` is made to be able to display any file within the `ascii` folder, it has support for subdirectories
+
+Here is an example, printing a weapon in the subdirectory `weapons`:
+```
+story:
+!printASCII : weapons/axe
+:story
+```
+Terminal output:
+```
+  ,  /\  .  
+ //`-||-'\\ 
+(| -=||=- |)
+ \\,-||-.// 
+  `  ||  '  
+     ||     
+     ||     
+     ||     
+     ||     
+     ||     
+     ()
+
+```
+
+### !saveGame
+
+`!saveGame` does what it sounds like: It saves the current state of the game.
+
+The game engine gathers all relevant data, and stores it in a JSON file that is dumped into the saves folder.
+This JSON file is then used when the save is loaded to set everything up the way it was.
+
+The command needs to be given a savename, like this: 
+```
+!saveGame : autosave
+```
+
+### !endGame
+
+`!endGame` is used to end the game early. It sets a flag in the game engine, that makes it stop the game.
+
+This can be used to end the game early, for example if the player walks into a trap and dies, or finds a secret ending.
+
+`!endGame` is not needed if the game can only end at the bottom of the `story` scope, as the game engine will end the game automatically when coming to the end.
+
+### !setCursor
+
+`!setCursor` is used to move the cursor to another position in the .ta file. This changes the line that the game engine is reading from.
+
+Here is an example of using `!setCursor` to create a loop:
+```
+story:
+#loopBookMark
+!displayText : This will be printed forever
+!setCursor : loopBookMark
+:story
+```
+Terminal output:
+```
+This will be printed forever
+This will be printed forever
+This will be printed forever
+This will be printed forever
+This will be printed forever
+This will be printed forever
+This will be printed forever
+This will be printed forever
+...
+```
+As you can see, it is possible to use bookmarks to have a place to put the cursor without having to update the line numbers every time you change your code.
+
+If you prefer to move the cursor to a specific line, instead of a bookmark, that is possible too, by just giving it a number instead of a bookmark name:
+```
+0 story:
+1 !displayText : This will be printed forever
+2 !setCursor : 1
+3:story
+```
+Terminal output:
+```
+This will be printed forever
+This will be printed forever
+This will be printed forever
+This will be printed forever
+This will be printed forever
+This will be printed forever
+This will be printed forever
+This will be printed forever
+...
+```
+
+### !breakPrompt
+
+`!breakPrompt` can be used to change the behaviour of `!prompt`. 
+Usually, `!prompt` will ask for a new command after a command has been given, giving the player the chance to issue more than one command.
+If `!breakPrompt` has been run, it will set a flag, that will stop `!prompt` from asking for an input.
+
+This command is not made to be used in the main script, but rather inside the command issued by the player itself.
+
+Here is an example of the code for a command:
+```
+{
+    "check ground": ["!displayFloorItems : all", "!breakPrompt"]
+}
+```
+Now let's try out the command:
+```
+story:
+!displayText : This will be shown first
+!prompt : >> 
+!displayText : Then this will be shown, since it won't ask for another command
+:Story
+```
+Terminal output:
+```
+This will be shown first
+>> check ground
+ii sword
+ii health potion
+Then this will be shown, since it won't ask for another command
+```
+This command can be useful for example when you create a command for the user that moves him/her to a new location, and you don't wish the player to issue more commands before being moved.
+
 # More commands will be explained soon!

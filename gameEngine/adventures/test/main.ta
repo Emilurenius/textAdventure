@@ -8,10 +8,7 @@ init:
 
 
 story:
-!displayText : It's dangerous to go alone!
-!displayText : Take this.
-!giveItem : sword
-!giveItem : health potion
-!giveItem : torch
-!giveItem : leather armor
+#loop
+!displayText : This will be printed forever
+!setCursor : loop
 :story
