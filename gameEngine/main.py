@@ -778,26 +778,29 @@ def pickup(item, supressPrompts=False):
 
     #If its an equipment that exists, add it to the player's equipment list.
     elif item in equipment.keys() and item not in inventory["equipment"] and item in activeRoom.floorItems.keys():
-        if not supressPrompts:
-            print(f"!! Picked up {equipment[item].desc}")
 
-        inventory["equipment"].append(item)
-        activeRoom.floorItems[item]["amount"] -= 1
+        if item in inventory['equipment']:
+            print(f'!! You already have {equipment[item].desc}')
+        else:
+            if not supressPrompts:
+                print(f"!! Picked up {equipment[item].desc}")
+            inventory["equipment"].append(item)
+            activeRoom.floorItems[item]["amount"] -= 1
 
     #If its an armor that exists, add it to the player's armor list.
     elif item in armors.keys() and item in activeRoom.floorItems.keys():
-        if not supressPrompts:
-            print(f"!! Picked up {armors[item].desc}")
-
-        inventory["armors"].append(item)
-        activeRoom.floorItems[item]["amount"] -= 1
+        if item in inventory['armor']:
+            if not supressPrompts:
+                print(f"!! Picked up {armors[item].desc}")
+            inventory["armor"].append(item)
+            activeRoom.floorItems[item]["amount"] -= 1
 
     #If nothing seems to work, tell the player it can't
     else:
         if not supressPrompts:
             print(f"!! Cannot pick up {item}")
 
-    #Delete the item key if amount is 0
+    #Delete the item key from floorItems if amount is 0
     if item in activeRoom.floorItems.keys() and activeRoom.floorItems[item]["amount"] <= 0:
         del activeRoom.floorItems[item]
 
@@ -854,16 +857,44 @@ def spawnEnemy(enemy, supressPrompts=False):
 
 #Add an item to the player's inventory.
 def giveItem(item, supressPrompts=False):
-    itemType = item.split(" ")[0]
-    itemName = item.split(" ")
-    itemName.pop(0)
-    itemName = " ".join(itemName)
     global inventory
 
-    if itemType == "weapon" and itemName in weapons.keys():
-        inventory["weapons"].append(itemName)
-    elif not supressPrompts:
-        print("!! Sorry, that item can't be given")
+    if item in weapons.keys():
+        if item in inventory['weapons']:
+            
+            if not supressPrompts:
+                print(f'!! You were given {weapons[item].desc} But you already had one')
+        else:
+            inventory["weapons"].append(item)
+            if not supressPrompts:
+                print(f'!! You were given {weapons[item].desc}')
+    elif item in consumables.keys():
+        if item in inventory["consumables"].keys():
+            if not supressPrompts:
+                print(f'!! You were given {consumables[item].desc}')
+            inventory["consumables"][item]["amount"] += 1
+        else:
+            inventory["consumables"][item] = {
+                "amount": 1
+            }
+            if not supressPrompts:
+                print(f'!! You were given {consumables[item].desc}\nYou now have {inventory["consumables"][item]["amount"]}')
+    elif item in equipment.keys():
+        if item in inventory['equipment']:
+            if not supressPrompts:
+                print(f'!! You were given {equipment[item].desc} But you already have one')
+        else:
+            inventory["equipment"].append(item)
+            if not supressPrompts:
+                print(f'You were given {equipment[item].desc}')
+    elif item in armors.keys():
+        if item in inventory['armor']:
+            if not supressPrompts:
+                print(f'!! You were given {armors[item].desc} But you already have one')
+        else:
+            inventory["armor"].append(item)
+            if not supressPrompts:
+                print(f'You were given {armors[item].desc}')
 
 #Start a combat sequence.
 def runCombat():
