@@ -1,0 +1,25 @@
+{
+    "name": "ta",
+    "displayName": "textAdventure",
+    "description": "TextAdventure programming language for the textAdventure game engine",
+    "version": "0.0.1",
+    "engines": {
+        "vscode": "^1.63.0"
+    },
+    "categories": [
+        "Programming Languages"
+    ],
+    "contributes": {
+        "languages": [{
+            "id": "ta",
+            "aliases": ["textAdventure", "ta"],
+            "extensions": [".ta"],
+            "configuration": "./language-configuration.json"
+        }],
+        "grammars": [{
+            "language": "ta",
+            "scopeName": "source.ta",
+            "path": "./syntaxes/ta.tmLanguage.json"
+        }]
+    }
+}

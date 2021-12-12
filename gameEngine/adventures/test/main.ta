@@ -8,6 +8,6 @@ importAsset : cosmeticTraits
 
 
 story:
-!loadRoom : mainRoom
+!loadRoom : mainRoom // Loads the main room
 !prompt : >> 
 :story
