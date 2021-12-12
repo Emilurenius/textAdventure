@@ -15,8 +15,9 @@ Documentation for this project is ongoing, but not complete. Any relevant info y
 
 ## Syntax highlighting?
 
-If you want syntax highlighting for the .ta scripting language in vscode, grab the folder in this repository called `ta syntax highlighting`,
-and move it into vscode's extentions folder
+Syntax highlighting in vscode is available for the .ta scripting language.
+
+Grab the folder in this repository called `ta syntax highlighting`, and move it into vscode's extentions folder to get syntax highlighting
 
 ## Documentation:
 * [Scripting language](https://github.com/Emilurenius/textAdventure/wiki/.ta-Scripting-language-documentation)
