@@ -13,5 +13,10 @@ If you wish to help developing, or just create your own version, feel free to do
 Documentation for this project is ongoing, but not complete. Any relevant info you may need to start creating your own game can be found on the
 [Wiki](https://github.com/Emilurenius/textAdventure/wiki)
 
+## Syntax highlighting?
+
+If you want syntax highlighting for the .ta scripting language in vscode, grab the folder in this repository called `ta syntax highlighting`,
+and move it into vscode's extentions folder
+
 ## Documentation:
 * [Scripting language](https://github.com/Emilurenius/textAdventure/wiki/.ta-Scripting-language-documentation)
