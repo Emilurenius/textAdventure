@@ -575,7 +575,7 @@ def selectRace():
             print(f"{counter} {x}")
             time.sleep(0.5)
             counter += 1
-        #hvorfor eksisterer Cemil? Ingen vet.
+        #hvorfor eksisterer Cemil? Ingen vet. (The fuck?)
         IN = ""
         while not IN.isnumeric() or playerRace == False:
             IN = input(">> ")
@@ -589,7 +589,6 @@ def selectRace():
 
     else:
         print("There are no races to use")
-    time.sleep(2)
 
 def chooseCosmetics():
     global cosmeticChoice
@@ -619,7 +618,6 @@ def chooseCosmetics():
     
     else:
         print("There are no cosmetic choices")
-    time.sleep(2)
 
 #Load assets from assets
 def loadAssetData(data):
