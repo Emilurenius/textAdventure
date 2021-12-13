@@ -21,3 +21,4 @@ Grab the folder in this repository called `ta syntax highlighting`, and move it 
 
 ## Documentation:
 * [Scripting language](https://github.com/Emilurenius/textAdventure/wiki/.ta-Scripting-language-documentation)
+* [Creating assets and mods](https://github.com/Emilurenius/textAdventure/wiki/Creating-Assets-and-Mods)
