@@ -184,7 +184,7 @@ class enemy():
         print(f"{self.name} loaded")
 
     def displayAscii(self):
-        printASCII(self.ascii)
+        printASCII(`enemies/${self.ascii}`)
 
     def attack(self):
         result = weapons[self.weapon].attack(self.name, "enemy")
@@ -654,7 +654,6 @@ def loadAssetData(data):
 
     if "cosmeticTraits" in data: #cemil er en bitch. Ingen liker han. Bøg er det han er.
         print("Loading cosmetics...")
-
 
     if "armor" in data:
         print("Loading armor...")
