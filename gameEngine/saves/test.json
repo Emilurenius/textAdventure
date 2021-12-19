@@ -1,34 +1,81 @@
 {
     "selectedAdventure": "dungeonCrawler",
-    "storyPos": 19,
+    "storyPos": 20,
     "inventory": {
-        "weapons": [
-            "unarmed",
-            "sword"
-        ],
-        "consumables": {
-            "health potion": {
-                "amount": 1
-            }
-        },
+        "weapons": [],
+        "consumables": {},
         "equipment": [],
-        "armor": []
+        "armor": [],
+        "gold": 0
     },
     "room": {
         "name": "startArea",
-        "floorItems": {},
+        "floorItems": {
+            "sword": {
+                "ref": "mods/items",
+                "amount": 1
+            },
+            "health potion": {
+                "ref": "mods/items",
+                "amount": 2
+            }
+        },
         "roomCommands": {
             "enter cave": [
                 "!setCursor : enteredCave",
                 "!breakPrompt"
             ],
             "leave area": [
-                "!setCursor : leftCave",
+                "!setCursor : leftArea",
                 "!breakPrompt"
             ]
         }
     },
-    "equippedWeapon": "sword",
-    "playerRace": "orc",
-    "activeEnemies": {}
+    "equippedWeapon": "",
+    "playerRace": "god",
+    "activeEnemies": {},
+    "runtime": {
+        "cave.json": {
+            "floorItems": {
+                "torch": {
+                    "ref": "mods/items",
+                    "amount": 1
+                }
+            },
+            "roomCommands": {
+                "leave cave": [
+                    "!displayText : You step outside of the cave",
+                    "!loadRoom : startArea",
+                    "!setCursor : whatDoLoop",
+                    "!breakPrompt"
+                ],
+                "investigate sound": [
+                    "!setCursor : investigateCaveSound",
+                    "!breakPrompt"
+                ]
+            }
+        },
+        "startArea.json": {
+            "floorItems": {
+                "sword": {
+                    "ref": "mods/items",
+                    "amount": 1
+                },
+                "health potion": {
+                    "ref": "mods/items",
+                    "amount": 2
+                }
+            },
+            "roomCommands": {
+                "enter cave": [
+                    "!setCursor : enteredCave",
+                    "!breakPrompt"
+                ],
+                "leave area": [
+                    "!setCursor : leftArea",
+                    "!breakPrompt"
+                ]
+            }
+        }
+    }
 }

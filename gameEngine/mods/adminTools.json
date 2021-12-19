@@ -11,7 +11,7 @@
     "commands": {
         "give weapon <?": ["!giveItem : weapon <?"],
         "godmode": [
-            "!giveItem : weapon divine smite", 
+            "!giveItem : divine smite", 
             "!equipWeapon : divine smite",
             "!displayText : God mode activated"
         ]

@@ -6,9 +6,15 @@
         "display inventory": ["!displayInventory : all"],
         "spawn <?": [
             "!displayEnemy : <?",
-            "!spawnEnemy : <?"],
+            "!spawnEnemy : <?"
+        ],
         "runCombat": ["!runCombat"],
         "save as <?": ["!saveGame : <?"],
         "give weapon <?": ["!giveItem : weapon <?"]
+    },
+    "roomCommands": {
+        "investigate <?": [
+            "!investigate : <?"
+        ]
     }
 }

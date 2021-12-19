@@ -1,0 +1,34 @@
+{
+    "characters": {
+        "Brian": {
+            "dialog": {
+                "initial": {
+                    "prompt": "Hello traveller! How is your day?",
+                    "responses": {
+                        "1": {
+                            "resp": "Good, and you?",
+                            "next": "initialGoodRes"
+                        },
+                        "2": {
+                            "resp": "Pretty shitty, and you?",
+                            "next": "initialBadRes"
+                        },
+                        "3": {
+                            "resp": "Shut up stranger!",
+                            "next": "initialShutUp"
+                        }
+                    }
+                },
+                "initialGoodRes": {
+                    "prompt": "Good to hear! I am just fine!"
+                },
+                "initialBadRes": {
+                    "prompt": "Oh no! That's horrible! Anything I can do to help?"
+                },
+                "initialShutUp": {
+                    "prompt": "Ah, I see. I'll leave you to it then..."
+                }
+            }
+        }
+    }
+}

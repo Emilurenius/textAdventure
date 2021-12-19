@@ -263,183 +263,32 @@ def main():
             adventure = loadSave(input("!! Select a save file from the list >> "))
         runStory(adventure, adventureProgress)
 
-#Handle saving of non-runtime things
-def saveGame(saveName, supressPrompts=False):
-
-    saveData = {
-        "selectedAdventure": selectedAdventure,
-        "storyPos": adventureProgress,
-        "inventory": inventory,
-        "room": {
-            "name": activeRoom.name,
-            "floorItems": activeRoom.floorItems,
-            "roomCommands": activeRoom.commands
-        },
-        "equippedWeapon": equippedWeapon,
-        "playerRace": playerRace,
-        "activeEnemies": activeEnemies
-    }
-
-    with open(f"{dirPath}saves/{saveName}.json", "w") as outFile:
-        json.dump(saveData, outFile, indent=4)
-
-    if not supressPrompts:
-        print(f"Saved current progress as {saveName}")
-
-#Game over
-def endGame():
-    global gameOver
-    gameOver = True
-
-#Move the line you're running from to another line
-def setCursor(cursorPos):
-    global cursorMoved
-    global adventureProgress
-    cursorMoved = True
-
-    if cursorPos.isnumeric():
-        adventureProgress = int(cursorPos)
-    else:
-        adventureFile = loadAdventure(selectedAdventure)
-        i = 0
-        for line in adventureFile:
-            if line.startswith("#") and cursorPos == line.replace("#", ""):
-                adventureProgress = i
-            i += 1
+#region internal functions
 
 #Remove file extension
 def removeFileExtention(file, extention):
     return file.replace(extention, "")
 
-#Print text
-def displayText(text):
-    print(text)
+#Display available adventures to the player
+def printAdventures():
+    print("Loading adventures...")
+    time.sleep(0.5)
+    adventures = os.listdir(f"{dirPath}adventures")
 
-#Print Ascii art
-def printASCII(filePath):
-    with open(f"{dirPath}adventures/{selectedAdventure}/ascii/{filePath}.txt") as TXT:
-        print(TXT.read())
+    for i in adventures:
+        print(f"|| {i}")
+        time.sleep(0.1)
 
-#Cancel a prompt to the player
-def setBreakPrompt():
-    global breakPrompt
-    breakPrompt = True
-
-#Get user input
-def prompt(text):
-    global breakPrompt
-
-    if breakPrompt:
-        breakPrompt = False
-        return
-
-    def runPrompt(k, v):
-        multiWordFill = False
-        splitCommand = k.split(" ")
-        
-        if len(INsplit) < len(splitCommand):
-            return
-        
-        if "<?" in k:
-            
-            i = 0
-            variableIndex = 0
-            for x in splitCommand:
-                if INsplit[i] == x:
-                    commandFound = True
-                elif x == "<?>":
-                    variableIndex = i
-                    commandFound = True
-                elif x == "<?":
-                    if k == "pick up <?":
-                        print("Converted variable space to variable")
-                    variableIndex = i
-                    commandFound = True
-                    multiWordFill = True
-                else:
-                    commandFound = False
-                    break
-                i += 1
-
-            if commandFound and multiWordFill == False:
-
-                for x in v:
-                    if "<?>" in x:
-                        command = x.replace("<?>", INsplit[variableIndex])
-                    else:
-                        command = x
-
-                    if command.startswith("!"):
-                        runCommand(command)
-
-            elif commandFound and multiWordFill:
-                i = variableIndex
-                multiWord = ""
-                while i < len(INsplit):
-                    multiWord += INsplit[i] + " "
-                    i += 1
-                multiWord = multiWord[:-1]
-                
-                for x in v:
-                    if "<?" in x:
-                        command = x.replace("<?", multiWord)
-                    else:
-                        command = x
-                    if command.startswith("!"):
-                        runCommand(command)
-
-        else:
-            i = 0
-            commandFound = True
-            for x in INsplit:
-                if x == splitCommand[i]:
-                    commandFound = True
-                else:
-                    commandFound = False
-                    break
-                i += 1
-            
-            if commandFound:
-                for x in v:
-                    if x.startswith("!"):
-                        runCommand(x)
-    
-    IN = input(text)
-
-    if not IN:
-        return
-
-    INsplit = IN.split(" ")
-
-    if IN == "help":
-        print("!! Available commands:\n")
-
-        for command in assetData["adventureCommands"].keys():
-            time.sleep(0.5)
-            print(f">> {command}")
-        for command in activeRoom.commands.keys():
-            time.sleep(0.5)
-            print(f">> {command}")
-    else:
-        for k, v in assetData["adventureCommands"].items():
-            runPrompt(k, v)
-
-        for k, v in activeRoom.commands.items():
-            runPrompt(k, v)
-
-    prompt(text)
-
-#Wait
-def sleep(secs):
-    time.sleep(float(secs))
-
-#Print empty lines
-def scroll(lines=5, delay=0.1):
-    i = 0
-    while i < int(lines):
-        print("")
-        i += 1
-        time.sleep(delay)
+#Load adventure from assets folder
+def loadAdventure(adventure):
+    global selectedAdventure
+    selectedAdventure = adventure
+    try:
+        with open(f"{dirPath}adventures/{adventure}/main.ta") as f:
+            data = f.read().splitlines()
+        return data
+    except:
+        return False
 
 #Interpret a line in the script file.
 def getCommand(commandString):
@@ -467,16 +316,6 @@ def runCommand(command):
         if command:
             command(commandList[1], True)
 
-#Display available adventures to the player
-def printAdventures():
-    print("Loading adventures...")
-    time.sleep(0.5)
-    adventures = os.listdir(f"{dirPath}adventures")
-
-    for i in adventures:
-        print(f"|| {i}")
-        time.sleep(0.1)
-
 #Display available savefiles to the player
 def printSaves():
     print("Loading saves...")
@@ -486,17 +325,6 @@ def printSaves():
     for i in saves:
         print(f"|| {removeFileExtention(i, '.json')}")
         time.sleep(0.1)
-
-#Load adventure from assets folder
-def loadAdventure(adventure):
-    global selectedAdventure
-    selectedAdventure = adventure
-    try:
-        with open(f"{dirPath}adventures/{adventure}/main.ta") as f:
-            data = f.read().splitlines()
-        return data
-    except:
-        return False
 
 #Load save into memory and runtime.
 def loadSave(saveName):
@@ -669,6 +497,231 @@ def loadAssetData(data):
             assetData["shopCommands"][k] = v
             print(k)
 
+#Run the player through the story
+def runStory(story, i):
+    global adventureProgress 
+    global cursorMoved
+    while True:
+        
+
+        if gameOver:
+            return i
+        elif story[i] == ":story":
+            return i
+
+        runCommand(story[i])
+
+
+        if cursorMoved:
+            i = adventureProgress
+            cursorMoved = False
+        else:
+            i += 1
+            adventureProgress = i
+
+#endregion internal functions
+
+#region gameEngine functions
+
+#Importing mods as JSON and return it as a dictionary.
+def loadMod(modName):
+    print("Importing mods...")
+    with open(f"{dirPath}mods/{modName}.json") as JSON:
+        data = json.load(JSON)
+
+    loadAssetData(data)
+
+#Importing assets as JSON and return it as a dictionary.
+def loadAsset(assetName):
+    print("Importing asset...")
+    with open(f"{dirPath}adventures/{selectedAdventure}/assets/{assetName}.json") as JSON:
+        data = json.load(JSON)
+
+    loadAssetData(data)
+
+#Handle saving of non-runtime things
+def saveGame(saveName, supressPrompts=False):
+
+    runtimeFiles = os.listdir(f"{dirPath}runtime")
+    runtimeFiles = filter(lambda x: x.endswith('.json'), runtimeFiles)
+
+    runtimeData = {}
+    for file in runtimeFiles:
+        with open(f"{dirPath}runtime/{file}") as JSON:
+            runtimeData[file] = json.load(JSON)
+
+    saveData = {
+        "selectedAdventure": selectedAdventure,
+        "storyPos": adventureProgress,
+        "inventory": inventory,
+        "room": {
+            "name": activeRoom.name,
+            "floorItems": activeRoom.floorItems,
+            "roomCommands": activeRoom.commands
+        },
+        "equippedWeapon": equippedWeapon,
+        "playerRace": playerRace,
+        "activeEnemies": activeEnemies,
+        "runtime": runtimeData
+    }
+
+    with open(f"{dirPath}saves/{saveName}.json", "w") as outFile:
+        json.dump(saveData, outFile, indent=4)
+
+    if not supressPrompts:
+        print(f"Saved current progress as {saveName}")
+
+#Game over
+def endGame():
+    global gameOver
+    gameOver = True
+
+#Move the line you're running from to another line
+def setCursor(cursorPos):
+    global cursorMoved
+    global adventureProgress
+    cursorMoved = True
+
+    if cursorPos.isnumeric():
+        adventureProgress = int(cursorPos)
+    else:
+        adventureFile = loadAdventure(selectedAdventure)
+        i = 0
+        for line in adventureFile:
+            if line.startswith("#") and cursorPos == line.replace("#", ""):
+                adventureProgress = i
+            i += 1
+
+#Print text
+def displayText(text):
+    print(text)
+
+#Print Ascii art
+def printASCII(filePath):
+    with open(f"{dirPath}adventures/{selectedAdventure}/ascii/{filePath}.txt") as TXT:
+        print(TXT.read())
+
+#Cancel a prompt to the player
+def setBreakPrompt():
+    global breakPrompt
+    breakPrompt = True
+
+#Get user input
+def prompt(text):
+    global breakPrompt
+
+    if breakPrompt:
+        breakPrompt = False
+        return
+
+    def runPrompt(k, v):
+        multiWordFill = False
+        splitCommand = k.split(" ")
+        
+        if len(INsplit) < len(splitCommand):
+            return
+        
+        if "<?" in k:
+            
+            i = 0
+            variableIndex = 0
+            for x in splitCommand:
+                if INsplit[i] == x:
+                    commandFound = True
+                elif x == "<?>":
+                    variableIndex = i
+                    commandFound = True
+                elif x == "<?":
+                    if k == "pick up <?":
+                        print("Converted variable space to variable")
+                    variableIndex = i
+                    commandFound = True
+                    multiWordFill = True
+                else:
+                    commandFound = False
+                    break
+                i += 1
+
+            if commandFound and multiWordFill == False:
+
+                for x in v:
+                    if "<?>" in x:
+                        command = x.replace("<?>", INsplit[variableIndex])
+                    else:
+                        command = x
+
+                    if command.startswith("!"):
+                        runCommand(command)
+
+            elif commandFound and multiWordFill:
+                i = variableIndex
+                multiWord = ""
+                while i < len(INsplit):
+                    multiWord += INsplit[i] + " "
+                    i += 1
+                multiWord = multiWord[:-1]
+                
+                for x in v:
+                    if "<?" in x:
+                        command = x.replace("<?", multiWord)
+                    else:
+                        command = x
+                    if command.startswith("!"):
+                        runCommand(command)
+
+        else:
+            i = 0
+            commandFound = True
+            for x in INsplit:
+                if x == splitCommand[i]:
+                    commandFound = True
+                else:
+                    commandFound = False
+                    break
+                i += 1
+            
+            if commandFound:
+                for x in v:
+                    if x.startswith("!"):
+                        runCommand(x)
+    
+    IN = input(text)
+
+    if not IN:
+        return
+
+    INsplit = IN.split(" ")
+
+    if IN == "help":
+        print("!! Available commands:\n")
+
+        for command in assetData["adventureCommands"].keys():
+            time.sleep(0.5)
+            print(f">> {command}")
+        for command in activeRoom.commands.keys():
+            time.sleep(0.5)
+            print(f">> {command}")
+    else:
+        for k, v in assetData["adventureCommands"].items():
+            runPrompt(k, v)
+
+        for k, v in activeRoom.commands.items():
+            runPrompt(k, v)
+
+    prompt(text)
+
+#Wait
+def sleep(secs):
+    time.sleep(float(secs))
+
+#Print empty lines
+def scroll(lines=5, delay=0.1):
+    i = 0
+    while i < int(lines):
+        print("")
+        i += 1
+        time.sleep(delay)
+
 #Load a room from runtime, or from assets if it's not available.
 def loadRoom(selectedRoom):
     global activeRoom
@@ -711,44 +764,6 @@ def setActiveRoomShop():
 #Display items that are on the floor.
 def displayFloorItems(type):
     activeRoom.displayFloorItems(type=type)
-
-#Importing mods as JSON and return it as a dictionary.
-def loadMod(modName):
-    print("Importing mods...")
-    with open(f"{dirPath}mods/{modName}.json") as JSON:
-        data = json.load(JSON)
-
-    loadAssetData(data)
-
-#Importing assets as JSON and return it as a dictionary.
-def loadAsset(assetName):
-    print("Importing asset...")
-    with open(f"{dirPath}adventures/{selectedAdventure}/assets/{assetName}.json") as JSON:
-        data = json.load(JSON)
-
-    loadAssetData(data)
-
-#Run the player through the story
-def runStory(story, i):
-    global adventureProgress 
-    global cursorMoved
-    while True:
-        
-
-        if gameOver:
-            return i
-        elif story[i] == ":story":
-            return i
-
-        runCommand(story[i])
-
-
-        if cursorMoved:
-            i = adventureProgress
-            cursorMoved = False
-        else:
-            i += 1
-            adventureProgress = i
 
 #Handle the playing picking up items
 def pickup(item, supressPrompts=False):
@@ -1008,6 +1023,8 @@ def investigate(obj):
                 runCommand(command)
     else:
         print('There is nothing to investigate')
+
+#endregion gameEngine functions
 
 #Defining script commands for the init scope.
 initCommands = {

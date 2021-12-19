@@ -30,9 +30,5 @@
             "!displayText : An investigateable object has been investigated!"
         ]
     },
-    "roomCommands": {
-        "investigate <?": [
-            "!investigate : <?"
-        ]
-    }
+    "characters": ["Brian"]
 }

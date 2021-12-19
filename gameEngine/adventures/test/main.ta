@@ -1,9 +1,5 @@
 init:
-importMod : items
-importAsset : commands
-importMod : enemies
-importMod : races
-importAsset : cosmeticTraits
+
 :init
 
 
