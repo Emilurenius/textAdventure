@@ -12,19 +12,22 @@ breakPrompt = False
 selectedAdventure = ""
 adventureProgress = 0
 cursorMoved = False
-weapons = {}
-armors = {}
-consumables = {}
-equipment = {}
-races = {}
 equippedWeapon = ""
 playerRace = False
-adventureCommands = {}
-shopCommands = {}
-enemies = {}
 activeEnemies = {}
 cosmeticChoice = False
-cosmetics = {}
+
+assetData = {
+    'weapons': {},
+    'armors': {},
+    'consumables': {},
+    'equipment': {},
+    'races': {},
+    'adventureCommands': {},
+    'shopCommands': {},
+    'enemies': {},
+    'cosmetics': {}
+}
 #endregion Initialize global variables
 
 #Initialize dictionary variables for the player inventory.
@@ -74,7 +77,7 @@ class weapon():
             print(f"!! You rolled {hitDice}")
             time.sleep(0.5)
 
-            if hitDice > int(enemies[target].AC):
+            if hitDice > int(assetData["enemies"][target].AC):
                 print("!! That hits!")
                 time.sleep(1)
                 
@@ -87,7 +90,7 @@ class weapon():
                     damageDice += random.randint(1, int(self.damageDice.split("d")[1]))
                     x += 1
 
-                modifier = int(races[playerRace].strength / 3)
+                modifier = int(assetData["races"][playerRace].strength / 3)
                 print(f"!! You rolled {damageDice} + {modifier}")
                 time.sleep(0.5)
                 return damageDice + modifier
@@ -187,7 +190,7 @@ class enemy():
         printASCII(f'enemies/{self.ascii}')
 
     def attack(self):
-        result = weapons[self.weapon].attack(self.name, "enemy")
+        result = assetData['weapons'][self.weapon].attack(self.name, "enemy")
 
         if result:
             playerStats["health"] -= result
@@ -411,14 +414,14 @@ def prompt(text):
     if IN == "help":
         print("!! Available commands:\n")
 
-        for command in adventureCommands.keys():
+        for command in assetData["adventureCommands"].keys():
             time.sleep(0.5)
             print(f">> {command}")
         for command in activeRoom.commands.keys():
             time.sleep(0.5)
             print(f">> {command}")
     else:
-        for k, v in adventureCommands.items():
+        for k, v in assetData["adventureCommands"].items():
             runPrompt(k, v)
 
         for k, v in activeRoom.commands.items():
@@ -567,11 +570,11 @@ def selectRace():
         return
 
     scroll()
-    global races
-    if races:
+    global assetData
+    if assetData["races"]:
         print("!! Please select a race: ")
         counter = 0
-        for x in races.keys():
+        for x in assetData["races"].keys():
             print(f"{counter} {x}")
             time.sleep(0.5)
             counter += 1
@@ -581,10 +584,10 @@ def selectRace():
             IN = input(">> ")
 
             keysList = []
-            for x in races.keys():
+            for x in assetData["races"].keys():
                 keysList.append(x)
             if int(IN) < len(keysList):
-                playerRace = races[keysList[int(IN)]].name
+                playerRace = assetData["races"][keysList[int(IN)]].name
             print(playerRace)
 
     else:
@@ -596,11 +599,11 @@ def chooseCosmetics():
         return
     
     scroll()
-    global cosmetics
-    if cosmetics:
+    global assetData
+    if assetData["cosmetics"]:
         print("!! How do your eyes look: ")
         counter = 0 
-        for x in cosmetics["eyes"].keys(): 
+        for x in assetData["cosmetics"]["eyes"].keys(): 
             print(f"{counter} {x}")
             time.sleep(0.5)
             counter += 1
@@ -610,10 +613,10 @@ def chooseCosmetics():
             IN = input(">> ")
 
             keysList = []
-            for x in cosmetics.keys():
+            for x in assetData["cosmetics"].keys():
                 keysList.append(x)
             if int(IN) < len(keysList):
-                cosmeticChoice = cosmetics[keysList[int(IN)]].name
+                cosmeticChoice = assetData["cosmetics"][keysList[int(IN)]].name
             print(cosmeticChoice)
     
     else:
@@ -624,33 +627,33 @@ def loadAssetData(data):
     if "weapons" in data:
         print("Loading weapons...")
         for k, v in data["weapons"].items():
-            weapons[k] = weapon(k, v["desc"], v["damageDice"], v["hitDice"], v["weight"])
+            assetData['weapons'][k] = weapon(k, v["desc"], v["damageDice"], v["hitDice"], v["weight"])
     
     if "consumables" in data:
         print("Loading consumables...")
         for k, v in data["consumables"].items():
-            consumables[k] = consumable(k, v["desc"], v["effect"])
+            assetData["consumables"][k] = consumable(k, v["desc"], v["effect"])
 
     if "equipment" in data:
         print("Loading equipment...")
         for k, v in data["equipment"].items():
-            equipment[k] = equipmentClass(k, v["desc"], v["effect"])
+            assetData["equipment"][k] = equipmentClass(k, v["desc"], v["effect"])
 
     if "commands" in data:
         print("Loading commands...")
         for k, v in data["commands"].items():
-            adventureCommands[k] = v
+            assetData["adventureCommands"][k] = v
             print(k)
 
     if "enemies" in data:
         print("Loading enemies...")
         for k, v in data["enemies"].items():
-            enemies[k] = enemy(k, v["desc"], v["ascii"], v["health"], v["AC"], v["weapon"])
+            assetData["enemies"][k] = enemy(k, v["desc"], v["ascii"], v["health"], v["AC"], v["weapon"])
     
     if "races" in data:
         print("Loading races...")
         for k, v in data["races"].items():
-            races[k] = race(k, v["health"], v["AC"], v["intelligence"], v["dexterity"], v["strength"])
+            assetData["races"][k] = race(k, v["health"], v["AC"], v["intelligence"], v["dexterity"], v["strength"])
 
     if "cosmeticTraits" in data: #cemil er en bitch. Ingen liker han. Bøg er det han er.
         print("Loading cosmetics...")
@@ -658,12 +661,12 @@ def loadAssetData(data):
     if "armor" in data:
         print("Loading armor...")
         for k, v in data["armor"].items():
-            armors[k] = armor(k, v["desc"], v["ACmod"], v["weight"])
+            assetData["armors"][k] = armor(k, v["desc"], v["ACmod"], v["weight"])
 
     if "shopCommands" in data:
         print("Loading shops' commands")
         for k, v in data["shopCommands"].items():
-            shopCommands[k] = v
+            assetData["shopCommands"][k] = v
             print(k)
 
 #Load a room from runtime, or from assets if it's not available.
@@ -702,7 +705,7 @@ def loadRoom(selectedRoom):
         activeRoom.investigateables = data['investigateables']
 
 def setActiveRoomShop():
-    for k, v in shopCommands.items():
+    for k, v in assetData["shopCommands"].items():
         activeRoom.commands[k] = v
 
 #Display items that are on the floor.
@@ -751,19 +754,19 @@ def runStory(story, i):
 def pickup(item, supressPrompts=False):
 
     #If its a weapon that exists, add it to the player's weapon list.
-    if item in weapons.keys() and item in activeRoom.floorItems.keys():
+    if item in assetData['weapons'].keys() and item in activeRoom.floorItems.keys():
         if item in inventory["weapons"]:
             print(f"!! You already have that, you don't need another one.")
         else:
             if not supressPrompts:
-                print(f"!! Picked up {weapons[item].desc}")
+                print(f"!! Picked up {assetData['weapons'][item].desc}")
             inventory["weapons"].append(item)
             activeRoom.floorItems[item]["amount"] -= 1
 
     #If its a consumable that exists, add it to the player's consumable list.
-    elif item in consumables.keys() and item in activeRoom.floorItems.keys():
+    elif item in assetData["consumables"].keys() and item in activeRoom.floorItems.keys():
         if not supressPrompts:
-            print(f"!! Picked up {consumables[item].desc}")
+            print(f'!! Picked up {assetData["consumables"][item].desc}')
 
         if item in inventory["consumables"].keys():
             inventory["consumables"][item]["amount"] += 1
@@ -777,21 +780,21 @@ def pickup(item, supressPrompts=False):
         activeRoom.floorItems[item]["amount"] -= 1
 
     #If its an equipment that exists, add it to the player's equipment list.
-    elif item in equipment.keys() and item not in inventory["equipment"] and item in activeRoom.floorItems.keys():
+    elif item in assetData["equipment"].keys() and item not in inventory["equipment"] and item in activeRoom.floorItems.keys():
 
         if item in inventory['equipment']:
-            print(f'!! You already have {equipment[item].desc}')
+            print(f'!! You already have {assetData["equipment"][item].desc}')
         else:
             if not supressPrompts:
-                print(f"!! Picked up {equipment[item].desc}")
+                print(f'!! Picked up {assetData["equipment"][item].desc}')
             inventory["equipment"].append(item)
             activeRoom.floorItems[item]["amount"] -= 1
 
     #If its an armor that exists, add it to the player's armor list.
-    elif item in armors.keys() and item in activeRoom.floorItems.keys():
+    elif item in assetData["armors"].keys() and item in activeRoom.floorItems.keys():
         if item in inventory['armor']:
             if not supressPrompts:
-                print(f"!! Picked up {armors[item].desc}")
+                print(f'!! Picked up {assetData["armors"][item].desc}')
             inventory["armor"].append(item)
             activeRoom.floorItems[item]["amount"] -= 1
 
@@ -841,14 +844,14 @@ def displayInventory(type):
 
 #Load Ascii art of enemy
 def displayEnemy(enemy):
-    enemies[enemy].displayAscii()
+    assetData["enemies"][enemy].displayAscii()
 
 #Spawn an enemy as part of the next combat sequence.
 def spawnEnemy(enemy, supressPrompts=False):
-    if enemy in enemies.keys():
+    if enemy in assetData["enemies"].keys():
         global activeEnemies
         activeEnemies[enemy] = {
-            "health": enemies[enemy].health
+            "health": assetData["enemies"][enemy].health
         }
         
         if not supressPrompts:
@@ -859,42 +862,42 @@ def spawnEnemy(enemy, supressPrompts=False):
 def giveItem(item, supressPrompts=False):
     global inventory
 
-    if item in weapons.keys():
+    if item in assetData['weapons'].keys():
         if item in inventory['weapons']:
             
             if not supressPrompts:
-                print(f'!! You were given {weapons[item].desc} But you already had one')
+                print(f'!! You were given {assetData["weapons"][item].desc} But you already had one')
         else:
             inventory["weapons"].append(item)
             if not supressPrompts:
-                print(f'!! You were given {weapons[item].desc}')
-    elif item in consumables.keys():
+                print(f'!! You were given {assetData["weapons"][item].desc}')
+    elif item in assetData["consumables"].keys():
         if item in inventory["consumables"].keys():
             if not supressPrompts:
-                print(f'!! You were given {consumables[item].desc}')
+                print(f'!! You were given {assetData["consumables"][item].desc}')
             inventory["consumables"][item]["amount"] += 1
         else:
             inventory["consumables"][item] = {
                 "amount": 1
             }
             if not supressPrompts:
-                print(f'!! You were given {consumables[item].desc}\nYou now have {inventory["consumables"][item]["amount"]}')
-    elif item in equipment.keys():
+                print(f'!! You were given {assetData["consumables"][item].desc}\nYou now have {inventory["consumables"][item]["amount"]}')
+    elif item in assetData["equipment"].keys():
         if item in inventory['equipment']:
             if not supressPrompts:
-                print(f'!! You were given {equipment[item].desc} But you already have one')
+                print(f'!! You were given {assetData["equipment"][item].desc} But you already have one')
         else:
             inventory["equipment"].append(item)
             if not supressPrompts:
-                print(f'You were given {equipment[item].desc}')
-    elif item in armors.keys():
+                print(f'You were given {assetData["equipment"][item].desc}')
+    elif item in assetData["armors"].keys():
         if item in inventory['armor']:
             if not supressPrompts:
-                print(f'!! You were given {armors[item].desc} But you already have one')
+                print(f'!! You were given {assetData["armors"][item].desc} But you already have one')
         else:
             inventory["armor"].append(item)
             if not supressPrompts:
-                print(f'You were given {armors[item].desc}')
+                print(f'You were given {assetData["armors"][item].desc}')
 
 #Start a combat sequence.
 def runCombat():
@@ -922,7 +925,7 @@ def runCombat():
             del enemyName[0]
             enemyName = " ".join(enemyName)
             print(enemyName)
-            result = weapons[equippedWeapon].attack(enemyName)
+            result = assetData['weapons'][equippedWeapon].attack(enemyName)
 
             if result:
                 activeEnemies[enemyName]['health'] -= result
@@ -940,7 +943,7 @@ def runCombat():
 
             if consumableName in inventory["consumables"].keys():
                 if inventory["consumables"][consumableName]["amount"] > 0:
-                    if consumables[consumableName].use():
+                    if assetData["consumables"][consumableName].use():
                         continue
                 else:
                     print("!! You do not have more of that consumable")
@@ -977,7 +980,7 @@ def runCombat():
             return
 
         for k, v in activeEnemies.items():
-            enemies[k].attack()
+            assetData["enemies"][k].attack()
 
 #Display a shop's items and prices.
 def checkShopItems(type):
