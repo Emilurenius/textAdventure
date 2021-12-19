@@ -184,7 +184,7 @@ class enemy():
         print(f"{self.name} loaded")
 
     def displayAscii(self):
-        printASCII(`enemies/${self.ascii}`)
+        printASCII(f'enemies/{self.ascii}')
 
     def attack(self):
         result = weapons[self.weapon].attack(self.name, "enemy")
