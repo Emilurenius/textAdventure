@@ -245,17 +245,14 @@ def main():
     
     clearRuntime()
 
-    newLoad = False
-    while newLoad != "new" and newLoad != "load":
-        print("!! Please select an option to continue:")
-        newLoad = input("new / load >> ")
+    newLoad, index = menuSelect('Please select an option to continue:', ['new', 'load'])
 
     if newLoad == "new":
-        printAdventures()
+        adventures = os.listdir(f"{dirPath}adventures")
         
-        adventure = False
-        while not adventure:
-            adventure = loadAdventure(input("Select one of the above adventures >> "))
+
+        option, index = menuSelect('Select an adventure:', adventures)
+        adventure = loadAdventure(option)
         scroll()
         i = loadStory(adventure)
         scroll()
@@ -264,10 +261,9 @@ def main():
         time.sleep(1)
 
     elif newLoad == "load":
-        printSaves()
-        adventure = False
-        while not adventure:
-            adventure = loadSave(input("!! Select a save file from the list >> "))
+        saves = os.listdir(f"{dirPath}saves")
+        option, index = menuSelect('What save do you wish to load?', saves)
+        adventure = loadSave(option)
         runStory(adventure, adventureProgress)
 
 #region internal functions
@@ -1061,12 +1057,6 @@ def investigate(obj):
 def talkTo(character):
     if character in activeRoom.characters:
         dialog = assetData['characters'][character]['dialog']
-
-        # options = []
-        # for k, v in dialog['initial']['responses'].items():
-        #     options.append(v['resp'])
-        # option, index = menuSelect(dialog['initial']['prompt'], options)
-        # print(option, index)
 
         dialogIndex = 'initial'
         while True:
