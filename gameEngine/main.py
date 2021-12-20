@@ -353,6 +353,12 @@ def loadSave(saveName):
         if "roomCommands" in save["room"]:
             activeRoom.commands = save["room"]["roomCommands"]
         adventureProgress = int(save["storyPos"])
+
+        if 'runtime' in save:
+            for k, v in save['runtime'].items():
+                with open(f"{dirPath}runtime/{k}.json", "w") as outFile:
+                    json.dump(v, outFile, indent=4)
+
         i = 0
         while True:
             if adventure[i] == "init:":

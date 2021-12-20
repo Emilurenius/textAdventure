@@ -1,41 +1,42 @@
 {
     "selectedAdventure": "dungeonCrawler",
-    "storyPos": 20,
+    "storyPos": 101,
     "inventory": {
-        "weapons": [],
-        "consumables": {},
-        "equipment": [],
-        "armor": [],
-        "gold": 0
-    },
-    "room": {
-        "name": "startArea",
-        "floorItems": {
-            "sword": {
-                "ref": "mods/items",
-                "amount": 1
-            },
+        "weapons": [
+            "sword",
+            "divine smite"
+        ],
+        "consumables": {
             "health potion": {
-                "ref": "mods/items",
                 "amount": 2
             }
         },
+        "equipment": [],
+        "armor": [],
+        "gold": 100
+    },
+    "room": {
+        "name": "armory",
+        "floorItems": {},
         "roomCommands": {
-            "enter cave": [
-                "!setCursor : enteredCave",
+            "leave armory": [
+                "!setCursor : inTown",
+                "!displayText : You leave the armory.",
                 "!breakPrompt"
             ],
-            "leave area": [
-                "!setCursor : leftArea",
-                "!breakPrompt"
+            "check available goods": [
+                "!checkShopItems : all"
+            ],
+            "look at wares": [
+                "!checkShopItems : all"
             ]
         }
     },
-    "equippedWeapon": "",
+    "equippedWeapon": "divine smite",
     "playerRace": "god",
     "activeEnemies": {},
     "runtime": {
-        "cave.json": {
+        "cave.json.json": {
             "floorItems": {
                 "torch": {
                     "ref": "mods/items",
@@ -56,16 +57,7 @@
             }
         },
         "startArea.json": {
-            "floorItems": {
-                "sword": {
-                    "ref": "mods/items",
-                    "amount": 1
-                },
-                "health potion": {
-                    "ref": "mods/items",
-                    "amount": 2
-                }
-            },
+            "floorItems": {},
             "roomCommands": {
                 "enter cave": [
                     "!setCursor : enteredCave",
@@ -73,6 +65,42 @@
                 ],
                 "leave area": [
                     "!setCursor : leftArea",
+                    "!breakPrompt"
+                ]
+            }
+        },
+        "startArea.json.json": {
+            "floorItems": {},
+            "roomCommands": {
+                "enter cave": [
+                    "!setCursor : enteredCave",
+                    "!breakPrompt"
+                ],
+                "leave area": [
+                    "!setCursor : leftArea",
+                    "!breakPrompt"
+                ]
+            }
+        },
+        "town.json": {
+            "floorItems": {},
+            "roomCommands": {
+                "armory": [
+                    "!setCursor : enteredArmory",
+                    "!breakPrompt"
+                ],
+                "magic shop": [
+                    "!setCursor : enteredMagicShop",
+                    "!breakPrompt"
+                ],
+                "general store": [
+                    "!setCursor : enteredStore",
+                    "!breakPrompt"
+                ],
+                "cave": [
+                    "!displayText : You went back to the cave entrance.",
+                    "!setCursor : whatDoLoop",
+                    "!loadRoom : startArea",
                     "!breakPrompt"
                 ]
             }
