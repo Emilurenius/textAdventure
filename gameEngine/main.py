@@ -1026,6 +1026,8 @@ def investigate(obj):
 
 #endregion gameEngine functions
 
+#region defining gameEngine commands
+
 #Defining script commands for the init scope.
 initCommands = {
     "importMod": loadMod,
@@ -1058,6 +1060,8 @@ commands = {
     'investigate': investigate
     }
 
-#Testing whether the file is ran or imported
+#endregion defining gameEngine commands
+
+#Testing whether the file is run or imported
 if __name__ == "__main__":
     main()
