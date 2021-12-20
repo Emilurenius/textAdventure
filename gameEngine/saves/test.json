@@ -1,109 +1,54 @@
 {
-    "selectedAdventure": "dungeonCrawler",
-    "storyPos": 101,
+    "selectedAdventure": "test",
+    "storyPos": 8,
     "inventory": {
-        "weapons": [
-            "sword",
-            "divine smite"
-        ],
-        "consumables": {
-            "health potion": {
-                "amount": 2
-            }
-        },
+        "weapons": [],
+        "consumables": {},
         "equipment": [],
         "armor": [],
-        "gold": 100
+        "gold": 0
     },
     "room": {
-        "name": "armory",
-        "floorItems": {},
-        "roomCommands": {
-            "leave armory": [
-                "!setCursor : inTown",
-                "!displayText : You leave the armory.",
-                "!breakPrompt"
-            ],
-            "check available goods": [
-                "!checkShopItems : all"
-            ],
-            "look at wares": [
-                "!checkShopItems : all"
-            ]
-        }
-    },
-    "equippedWeapon": "divine smite",
-    "playerRace": "god",
-    "activeEnemies": {},
-    "runtime": {
-        "cave.json.json": {
-            "floorItems": {
-                "torch": {
-                    "ref": "mods/items",
-                    "amount": 1
-                }
+        "name": "mainRoom",
+        "floorItems": {
+            "sword": {
+                "ref": "assets/items",
+                "amount": 1
             },
-            "roomCommands": {
-                "leave cave": [
-                    "!displayText : You step outside of the cave",
-                    "!loadRoom : startArea",
-                    "!setCursor : whatDoLoop",
-                    "!breakPrompt"
-                ],
-                "investigate sound": [
-                    "!setCursor : investigateCaveSound",
-                    "!breakPrompt"
-                ]
+            "health potion": {
+                "ref": "assets/items",
+                "amount": 1
+            },
+            "torch": {
+                "ref": "assets/items",
+                "amount": 1
+            },
+            "axe": {
+                "ref": "assets/items",
+                "amount": 1
+            },
+            "club": {
+                "ref": "assets/items",
+                "amount": 1
+            },
+            "shield": {
+                "ref": "assets/items",
+                "amount": 1
             }
         },
-        "startArea.json": {
-            "floorItems": {},
-            "roomCommands": {
-                "enter cave": [
-                    "!setCursor : enteredCave",
-                    "!breakPrompt"
-                ],
-                "leave area": [
-                    "!setCursor : leftArea",
-                    "!breakPrompt"
-                ]
-            }
+        "roomCommands": {},
+        "shopItems": {},
+        "investigateables": {
+            "object": [
+                "!displayText : An investigateable object has been investigated!"
+            ]
         },
-        "startArea.json.json": {
-            "floorItems": {},
-            "roomCommands": {
-                "enter cave": [
-                    "!setCursor : enteredCave",
-                    "!breakPrompt"
-                ],
-                "leave area": [
-                    "!setCursor : leftArea",
-                    "!breakPrompt"
-                ]
-            }
-        },
-        "town.json": {
-            "floorItems": {},
-            "roomCommands": {
-                "armory": [
-                    "!setCursor : enteredArmory",
-                    "!breakPrompt"
-                ],
-                "magic shop": [
-                    "!setCursor : enteredMagicShop",
-                    "!breakPrompt"
-                ],
-                "general store": [
-                    "!setCursor : enteredStore",
-                    "!breakPrompt"
-                ],
-                "cave": [
-                    "!displayText : You went back to the cave entrance.",
-                    "!setCursor : whatDoLoop",
-                    "!loadRoom : startArea",
-                    "!breakPrompt"
-                ]
-            }
-        }
-    }
+        "characters": [
+            "Brian"
+        ]
+    },
+    "equippedWeapon": "",
+    "playerRace": false,
+    "activeEnemies": {},
+    "runtime": {}
 }

@@ -10,9 +10,7 @@
         ],
         "runCombat": ["!runCombat"],
         "save as <?": ["!saveGame : <?"],
-        "give weapon <?": ["!giveItem : weapon <?"]
-    },
-    "roomCommands": {
+        "give weapon <?": ["!giveItem : weapon <?"],
         "investigate <?": [
             "!investigate : <?"
         ]

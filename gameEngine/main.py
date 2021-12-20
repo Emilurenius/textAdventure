@@ -26,7 +26,8 @@ assetData = {
     'adventureCommands': {},
     'shopCommands': {},
     'enemies': {},
-    'cosmetics': {}
+    'cosmetics': {},
+    'characters': {}
 }
 #endregion Initialize global variables
 
@@ -210,7 +211,8 @@ class room():
         self.floorItems = {}
         self.commands = {}
         self.shopItems = {}
-        self.investigateables = False
+        self.investigateables = {}
+        self.characters = []
 
     def displayFloorItems(self, type):
 
@@ -352,6 +354,12 @@ def loadSave(saveName):
             activeRoom.floorItems = save["room"]["floorItems"]
         if "roomCommands" in save["room"]:
             activeRoom.commands = save["room"]["roomCommands"]
+        if 'shopItems' in save['room']:
+            activeRoom.shopItems = save['room']['shopItems']
+        if 'investigateables' in save['room']:
+            activeRoom.investigateables = save['room']['investigateables']
+        if 'characters' in save['room']:
+            activeRoom.characters = save['room']['characters']
         adventureProgress = int(save["storyPos"])
 
         if 'runtime' in save:
@@ -502,9 +510,15 @@ def loadAssetData(data):
             assetData["armors"][k] = armor(k, v["desc"], v["ACmod"], v["weight"])
 
     if "shopCommands" in data:
-        print("Loading shops' commands")
+        print("Loading shop commands")
         for k, v in data["shopCommands"].items():
             assetData["shopCommands"][k] = v
+            print(k)
+
+    if 'characters' in data:
+        print('Loading characters')
+        for k, v in data['characters'].items():
+            assetData['characters'][k] = v
             print(k)
 
 #Run the player through the story
@@ -559,7 +573,6 @@ def saveGame(saveName, supressPrompts=False):
     for file in runtimeFiles:
         with open(f"{dirPath}runtime/{file}") as JSON:
             runtimeData[file] = json.load(JSON)
-
     saveData = {
         "selectedAdventure": selectedAdventure,
         "storyPos": adventureProgress,
@@ -567,7 +580,10 @@ def saveGame(saveName, supressPrompts=False):
         "room": {
             "name": activeRoom.name,
             "floorItems": activeRoom.floorItems,
-            "roomCommands": activeRoom.commands
+            "roomCommands": activeRoom.commands,
+            'shopItems': activeRoom.shopItems,
+            'investigateables': activeRoom.investigateables,
+            'characters': activeRoom.characters
         },
         "equippedWeapon": equippedWeapon,
         "playerRace": playerRace,
@@ -766,6 +782,8 @@ def loadRoom(selectedRoom):
         activeRoom.shopItems = data["shopItems"]
     if 'investigateables' in data:
         activeRoom.investigateables = data['investigateables']
+    if 'characters' in data:
+        activeRoom.characters = data['characters']
 
 def setActiveRoomShop():
     for k, v in assetData["shopCommands"].items():
