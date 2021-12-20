@@ -5,15 +5,15 @@
                 "initial": {
                     "prompt": "Hello traveller! How is your day?",
                     "responses": {
-                        "1": {
+                        "0": {
                             "resp": "Good, and you?",
                             "next": "initialGoodRes"
                         },
-                        "2": {
+                        "1": {
                             "resp": "Pretty shitty, and you?",
                             "next": "initialBadRes"
                         },
-                        "3": {
+                        "2": {
                             "resp": "Shut up stranger!",
                             "next": "initialShutUp"
                         }

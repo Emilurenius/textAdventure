@@ -6,5 +6,6 @@ init:
 
 story:
 !loadRoom : mainRoom // Loads the main room
+!talkTo : Brian
 !prompt : >> 
 :story

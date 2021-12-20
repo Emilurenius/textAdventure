@@ -1,4 +1,5 @@
 import time, os, json, random, fnmatch, sys
+from pick import pick
 
 #region Initialize global variables
 dirPath = os.path.realpath(__file__).split("\\")
@@ -543,6 +544,11 @@ def runStory(story, i):
             i += 1
             adventureProgress = i
 
+def menuSelect(title, options):
+    option, index = pick(options, title, indicator='=>', default_index=0)
+
+    return option, index
+
 #endregion internal functions
 
 #region gameEngine functions
@@ -1052,6 +1058,32 @@ def investigate(obj):
     else:
         print('There is nothing to investigate')
 
+def talkTo(character):
+    if character in activeRoom.characters:
+        dialog = assetData['characters'][character]['dialog']
+
+        # options = []
+        # for k, v in dialog['initial']['responses'].items():
+        #     options.append(v['resp'])
+        # option, index = menuSelect(dialog['initial']['prompt'], options)
+        # print(option, index)
+
+        dialogIndex = 'initial'
+        while True:
+            options = []
+            if 'responses' in dialog[dialogIndex]:
+                for k, v in dialog[dialogIndex]['responses'].items():
+                    options.append(v['resp'])
+                options.append('Leave conversation')
+                option, index = menuSelect(dialog[dialogIndex]['prompt'], options)
+                if option == 'Leave conversation':
+                    break
+                dialogIndex = dialog[dialogIndex]['responses'][str(index)]['next']
+            else:
+                options.append('Leave conversation')
+                option, index = menuSelect(dialog[dialogIndex]['prompt'], options)
+                break
+
 #endregion gameEngine functions
 
 #region defining gameEngine commands
@@ -1085,7 +1117,8 @@ commands = {
     "checkShopItems": checkShopItems,
     "addGold": addGold,
     "openShop": setActiveRoomShop,
-    'investigate': investigate
+    'investigate': investigate,
+    'talkTo': talkTo
     }
 
 #endregion defining gameEngine commands
