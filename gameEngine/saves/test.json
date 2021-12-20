@@ -1,6 +1,6 @@
 {
-    "selectedAdventure": "test",
-    "storyPos": 8,
+    "selectedAdventure": "dungeonCrawler",
+    "storyPos": 20,
     "inventory": {
         "weapons": [],
         "consumables": {},
@@ -9,46 +9,33 @@
         "gold": 0
     },
     "room": {
-        "name": "mainRoom",
+        "name": "startArea",
         "floorItems": {
             "sword": {
-                "ref": "assets/items",
+                "ref": "mods/items",
                 "amount": 1
             },
             "health potion": {
-                "ref": "assets/items",
-                "amount": 1
-            },
-            "torch": {
-                "ref": "assets/items",
-                "amount": 1
-            },
-            "axe": {
-                "ref": "assets/items",
-                "amount": 1
-            },
-            "club": {
-                "ref": "assets/items",
-                "amount": 1
-            },
-            "shield": {
-                "ref": "assets/items",
-                "amount": 1
+                "ref": "mods/items",
+                "amount": 2
             }
         },
-        "roomCommands": {},
-        "shopItems": {},
-        "investigateables": {
-            "object": [
-                "!displayText : An investigateable object has been investigated!"
+        "roomCommands": {
+            "enter cave": [
+                "!setCursor : enteredCave",
+                "!breakPrompt"
+            ],
+            "leave area": [
+                "!setCursor : leftArea",
+                "!breakPrompt"
             ]
         },
-        "characters": [
-            "Brian"
-        ]
+        "shopItems": {},
+        "investigateables": {},
+        "characters": []
     },
     "equippedWeapon": "",
-    "playerRace": false,
+    "playerRace": "god",
     "activeEnemies": {},
     "runtime": {}
 }

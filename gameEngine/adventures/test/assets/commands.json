@@ -5,7 +5,6 @@
         "equip <?": ["!equipWeapon : <?"],
         "display inventory": ["!displayInventory : all"],
         "spawn <?": [
-            "!displayEnemy : <?",
             "!spawnEnemy : <?"
         ],
         "runCombat": ["!runCombat"],

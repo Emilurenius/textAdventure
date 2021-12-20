@@ -240,8 +240,6 @@ class race():
 def main():
     print("!! Text adventure Engine !!")
     time.sleep(1)
-    scroll()
-    time.sleep(0.5)
     
     clearRuntime()
 
@@ -253,9 +251,7 @@ def main():
 
         option, index = menuSelect('Select an adventure:', adventures)
         adventure = loadAdventure(option)
-        scroll()
         i = loadStory(adventure)
-        scroll()
         i = runStory(adventure, i + 1)
         print("!! The story has come to an end")
         time.sleep(1)
@@ -382,6 +378,7 @@ def loadStory(story, i=0):
         if story[i] == "init:":
             print("Initializing...")
             i = runInit(story, i + 1)
+            scroll()
 
         elif story[i] == "story:":
             return i
@@ -415,23 +412,9 @@ def selectRace():
     scroll()
     global assetData
     if assetData["races"]:
-        print("!! Please select a race: ")
-        counter = 0
-        for x in assetData["races"].keys():
-            print(f"{counter} {x}")
-            time.sleep(0.5)
-            counter += 1
         #hvorfor eksisterer Cemil? Ingen vet. (The fuck?)
-        IN = ""
-        while not IN.isnumeric() or playerRace == False:
-            IN = input(">> ")
-
-            keysList = []
-            for x in assetData["races"].keys():
-                keysList.append(x)
-            if int(IN) < len(keysList):
-                playerRace = assetData["races"][keysList[int(IN)]].name
-            print(playerRace)
+        print(assetData['races'].keys())
+        playerRace, index = menuSelect('Please select a race:', list(assetData['races'].keys()))
 
     else:
         print("There are no races to use")
@@ -944,8 +927,36 @@ def giveItem(item, supressPrompts=False):
             if not supressPrompts:
                 print(f'You were given {assetData["armors"][item].desc}')
 
-#Start a combat sequence.
 def runCombat():
+    global activeEnemies
+
+    combatArea = []
+
+    for a in range(20):
+        combatArea.append([' ' for b in range(20)])
+    enemyList = []
+    i = 1
+    for x in activeEnemies.keys():
+
+        enemyList.append(f'{x} = {i}')
+
+        while True:
+            enemyPosX = random.randint(0, 19)
+            enemyPosY = random.randint(0, 19)
+
+            if combatArea[enemyPosX][enemyPosY] == ' ':
+                combatArea[enemyPosX][enemyPosY] = str(i)
+                break
+
+        i += 1
+
+    print(enemyList)
+    for x in combatArea:
+        print(''.join(['-' for i in range(77)]))
+        print(' | '.join(x))
+
+#Start a combat sequence.
+def oldrunCombat():
     global activeEnemies
 
     if len(activeEnemies) < 1:
