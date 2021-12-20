@@ -52,6 +52,8 @@ def clearRuntime():
         if f != ".gitignore":
             os.remove(f"{dirPath}runtime/{f}")
 
+#region gameEngine classes
+
 class weapon():
     def __init__(self, name, desc, damageDice, hitDice, weight):
         self.name = name
@@ -228,6 +230,8 @@ class race():
         self.dexterity = 10 + dexterity
         self.strength = 10 + strength
         print(f"{self.name} loaded...")
+
+#endregion gameEngine classes
 
 #Main loop
 def main():
