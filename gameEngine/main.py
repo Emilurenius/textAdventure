@@ -1,6 +1,6 @@
 import time, os, json, random, fnmatch, sys
 from pick import pick
-#Change done from chromebook!
+
 #region Initialize global variables
 dirPath = os.path.realpath(__file__).split("\\")
 dirPath.pop()
