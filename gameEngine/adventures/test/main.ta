@@ -2,6 +2,7 @@ init:
 !importAsset : characters
 !importAsset : commands
 !importMod : enemies
+!importMod : items
 :init
 
 

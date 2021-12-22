@@ -1,22 +1,36 @@
 import time, os, json, random, fnmatch, sys
 from pick import pick
 
-#region Initialize global variables
-dirPath = os.path.realpath(__file__).split("\\")
+dirPath = os.path.realpath(__file__)
+if '\\' in dirPath:
+    dirPath = dirPath.split('\\')
+elif '/' in dirPath:
+    dirPath = dirPath.split('/')
 dirPath.pop()
 temp = ""
 for i in dirPath:
     temp += (f"{i}/")
 dirPath = temp
-gameOver = False
-breakPrompt = False
-selectedAdventure = ""
-adventureProgress = 0
-cursorMoved = False
-equippedWeapon = ""
-playerRace = False
-activeEnemies = {}
-cosmeticChoice = False
+
+runtime = {
+    'dirPath': dirPath,
+    'gameOver': False,
+    'breakPrompt': False,
+    'selectedAdventure': '',
+    'adventureProgress': 0,
+    'cursorMoved': False,
+    'equippedWeapon': '',
+    'playerRace': False,
+    'activeEnemies': {},
+    'cosmeticChoice': False
+}
+
+dirPath = None
+temp = None
+
+#region Initialize global variables
+
+
 
 assetData = {
     'weapons': {},
@@ -48,11 +62,11 @@ playerStats = {
 
 #Empty the runtime folder
 def clearRuntime():
-    fileList = os.listdir(f"{dirPath}runtime")
+    fileList = os.listdir(f"{runtime['dirPath']}runtime")
     
     for f in fileList:
         if f != ".gitignore":
-            os.remove(f"{dirPath}runtime/{f}")
+            os.remove(f"{runtime['dirPath']}runtime/{f}")
 
 #region gameEngine classes
 
@@ -69,7 +83,7 @@ class weapon():
 
         if mode == "player":
 
-            print(f"!! Rolling hit dice with {equippedWeapon}...")
+            print(f"!! Rolling hit dice with {runtime['equippedWeapon']}...")
             time.sleep(0.5)
 
             x = 0
@@ -94,7 +108,7 @@ class weapon():
                     damageDice += random.randint(1, int(self.damageDice.split("d")[1]))
                     x += 1
 
-                modifier = int(assetData["races"][playerRace].strength / 3)
+                modifier = int(assetData["races"][runtime['playerRace']].strength / 3)
                 print(f"!! You rolled {damageDice} + {modifier}")
                 time.sleep(0.5)
                 return damageDice + modifier
@@ -202,8 +216,8 @@ class enemy():
 
         if playerStats["health"] <= 0:
             print("!! You died!")
-            global gameOver
-            gameOver = True
+            global runtime
+            runtime['gameOver'] = True
             time.sleep(1)
 
 class room():
@@ -246,7 +260,7 @@ def main():
     newLoad, index = menuSelect('Please select an option to continue:', ['new', 'load'])
 
     if newLoad == "new":
-        adventures = os.listdir(f"{dirPath}adventures")
+        adventures = os.listdir(f"{runtime['dirPath']}adventures")
         
 
         option, index = menuSelect('Select an adventure:', adventures)
@@ -257,10 +271,10 @@ def main():
         time.sleep(1)
 
     elif newLoad == "load":
-        saves = os.listdir(f"{dirPath}saves")
+        saves = os.listdir(f"{runtime['dirPath']}saves")
         option, index = menuSelect('What save do you wish to load?', saves)
         adventure = loadSave(option)
-        runStory(adventure, adventureProgress)
+        runStory(adventure, runtime['adventureProgress'])
 
 #region internal functions
 
@@ -272,7 +286,7 @@ def removeFileExtention(file, extention):
 def printAdventures():
     print("Loading adventures...")
     time.sleep(0.5)
-    adventures = os.listdir(f"{dirPath}adventures")
+    adventures = os.listdir(f"{runtime['dirPath']}adventures")
 
     for i in adventures:
         print(f"|| {i}")
@@ -280,10 +294,10 @@ def printAdventures():
 
 #Load adventure from assets folder
 def loadAdventure(adventure):
-    global selectedAdventure
-    selectedAdventure = adventure
+    global runtime
+    runtime['selectedAdventure'] = adventure
     try:
-        with open(f"{dirPath}adventures/{adventure}/main.ta") as f:
+        with open(f"{runtime['dirPath']}adventures/{adventure}/main.ta") as f:
             data = f.read().splitlines()
         return data
     except:
@@ -319,7 +333,7 @@ def runCommand(command):
 def printSaves():
     print("Loading saves...")
     time.sleep(0.5)
-    saves = os.listdir(f"{dirPath}saves")
+    saves = os.listdir(f"{runtime['dirPath']}saves")
 
     for i in saves:
         print(f"|| {removeFileExtention(i, '.json')}")
@@ -328,19 +342,14 @@ def printSaves():
 #Load save into memory and runtime.
 def loadSave(saveName):
     try:
+        global runtime
         save = False
-        with open(f"{dirPath}saves/{saveName}.json") as f:
+        with open(f"{runtime['dirPath']}saves/{saveName}.json") as f:
             save = json.load(f)
         adventure = loadAdventure(save["selectedAdventure"])
-        global inventory
-        global equippedWeapon
-        global playerRace
-        global activeEnemies
-        global activeRoom
-        global adventureProgress
         inventory = save["inventory"]
-        equippedWeapon = save["equippedWeapon"]
-        playerRace = save["playerRace"]
+        runtime['equippedWeapon'] = save["equippedWeapon"]
+        runtime['playerRace'] = save["playerRace"]
         activeEnemies = save["activeEnemies"]
         activeRoom = room(save["room"]["name"])
         if "floorItems" in save["room"]:
@@ -353,11 +362,11 @@ def loadSave(saveName):
             activeRoom.investigateables = save['room']['investigateables']
         if 'characters' in save['room']:
             activeRoom.characters = save['room']['characters']
-        adventureProgress = int(save["storyPos"])
+        runtime['adventureProgress'] = int(save["storyPos"])
 
         if 'runtime' in save:
             for k, v in save['runtime'].items():
-                with open(f"{dirPath}runtime/{k}.json", "w") as outFile:
+                with open(f"{runtime['dirPath']}runtime/{k}.json", "w") as outFile:
                     json.dump(v, outFile, indent=4)
 
         i = 0
@@ -405,8 +414,8 @@ def runInit(story, i):
 
 #Let the player pick a race to play as
 def selectRace():
-    global playerRace
-    if playerRace:
+    global runtime
+    if runtime['playerRace']:
         return
 
     scroll()
@@ -414,14 +423,14 @@ def selectRace():
     if assetData["races"]:
         #hvorfor eksisterer Cemil? Ingen vet. (The fuck?)
         print(assetData['races'].keys())
-        playerRace, index = menuSelect('Please select a race:', list(assetData['races'].keys()))
+        runtime['playerRace'], index = menuSelect('Please select a race:', list(assetData['races'].keys()))
 
     else:
         print("There are no races to use")
 
 def chooseCosmetics():
-    global cosmeticChoice
-    if cosmeticChoice:
+    global runtime
+    if runtime['cosmeticChoice']:
         return
     
     scroll()
@@ -435,15 +444,15 @@ def chooseCosmetics():
             counter += 1
 
         IN = ""
-        while not IN.isnumeric() or cosmeticChoice == False:
+        while not IN.isnumeric() or runtime['cosmeticChoice'] == False:
             IN = input(">> ")
 
             keysList = []
             for x in assetData["cosmetics"].keys():
                 keysList.append(x)
             if int(IN) < len(keysList):
-                cosmeticChoice = assetData["cosmetics"][keysList[int(IN)]].name
-            print(cosmeticChoice)
+                runtime['cosmeticChoice'] = assetData["cosmetics"][keysList[int(IN)]].name
+            print(runtime['cosmeticChoice'])
     
     else:
         print("There are no cosmetic choices")
@@ -503,12 +512,12 @@ def loadAssetData(data):
 
 #Run the player through the story
 def runStory(story, i):
-    global adventureProgress 
-    global cursorMoved
+    global runtime 
+    global runtime
     while True:
         
 
-        if gameOver:
+        if runtime['gameOver']:
             return i
         elif story[i] == ":story":
             return i
@@ -516,12 +525,12 @@ def runStory(story, i):
         runCommand(story[i])
 
 
-        if cursorMoved:
-            i = adventureProgress
-            cursorMoved = False
+        if runtime['cursorMoved']:
+            i = runtime['adventureProgress']
+            runtime['cursorMoved'] = False
         else:
             i += 1
-            adventureProgress = i
+            runtime['adventureProgress'] = i
 
 def menuSelect(title, options):
     option, index = pick(options, title, indicator='=>', default_index=0)
@@ -535,7 +544,7 @@ def menuSelect(title, options):
 #Importing mods as JSON and return it as a dictionary.
 def loadMod(modName):
     print("Importing mods...")
-    with open(f"{dirPath}mods/{modName}.json") as JSON:
+    with open(f"{runtime['dirPath']}mods/{modName}.json") as JSON:
         data = json.load(JSON)
 
     loadAssetData(data)
@@ -543,7 +552,7 @@ def loadMod(modName):
 #Importing assets as JSON and return it as a dictionary.
 def loadAsset(assetName):
     print("Importing asset...")
-    with open(f"{dirPath}adventures/{selectedAdventure}/assets/{assetName}.json") as JSON:
+    with open(f"{runtime['dirPath']}adventures/{runtime['selectedAdventure']}/assets/{assetName}.json") as JSON:
         data = json.load(JSON)
 
     loadAssetData(data)
@@ -551,16 +560,16 @@ def loadAsset(assetName):
 #Handle saving of non-runtime things
 def saveGame(saveName, supressPrompts=False):
 
-    runtimeFiles = os.listdir(f"{dirPath}runtime")
+    runtimeFiles = os.listdir(f"{runtime['dirPath']}runtime")
     runtimeFiles = filter(lambda x: x.endswith('.json'), runtimeFiles)
 
     runtimeData = {}
     for file in runtimeFiles:
-        with open(f"{dirPath}runtime/{file}") as JSON:
+        with open(f"{runtime['dirPath']}runtime/{file}") as JSON:
             runtimeData[file] = json.load(JSON)
     saveData = {
-        "selectedAdventure": selectedAdventure,
-        "storyPos": adventureProgress,
+        "selectedAdventure": runtime['selectedAdventure'],
+        "storyPos": runtime['adventureProgress'],
         "inventory": inventory,
         "room": {
             "name": activeRoom.name,
@@ -570,13 +579,13 @@ def saveGame(saveName, supressPrompts=False):
             'investigateables': activeRoom.investigateables,
             'characters': activeRoom.characters
         },
-        "equippedWeapon": equippedWeapon,
-        "playerRace": playerRace,
-        "activeEnemies": activeEnemies,
+        "equippedWeapon": runtime['equippedWeapon'],
+        "playerRace": runtime['playerRace'],
+        "activeEnemies": runtime['activeEnemies'],
         "runtime": runtimeData
     }
 
-    with open(f"{dirPath}saves/{saveName}.json", "w") as outFile:
+    with open(f"{runtime['dirPath']}saves/{saveName}.json", "w") as outFile:
         json.dump(saveData, outFile, indent=4)
 
     if not supressPrompts:
@@ -584,23 +593,22 @@ def saveGame(saveName, supressPrompts=False):
 
 #Game over
 def endGame():
-    global gameOver
-    gameOver = True
+    global runtime
+    runtime['gameOver'] = True
 
 #Move the line you're running from to another line
 def setCursor(cursorPos):
-    global cursorMoved
-    global adventureProgress
-    cursorMoved = True
+    global runtime
+    runtime['cursorMoved'] = True
 
     if cursorPos.isnumeric():
-        adventureProgress = int(cursorPos)
+        runtime['adventureProgress'] = int(cursorPos)
     else:
-        adventureFile = loadAdventure(selectedAdventure)
+        adventureFile = loadAdventure(runtime['selectedAdventure'])
         i = 0
         for line in adventureFile:
             if line.startswith("#") and cursorPos == line.replace("#", ""):
-                adventureProgress = i
+                runtime['adventureProgress'] = i
             i += 1
 
 #Print text
@@ -609,20 +617,20 @@ def displayText(text):
 
 #Print Ascii art
 def printASCII(filePath):
-    with open(f"{dirPath}adventures/{selectedAdventure}/ascii/{filePath}.txt") as TXT:
+    with open(f"{runtime['dirPath']}adventures/{runtime['selectedAdventure']}/ascii/{filePath}.txt") as TXT:
         print(TXT.read())
 
 #Cancel a prompt to the player
 def setBreakPrompt():
-    global breakPrompt
-    breakPrompt = True
+    global runtime
+    runtime['breakPrompt'] = True
 
 #Get user input
 def prompt(text):
-    global breakPrompt
+    global runtime
 
-    if breakPrompt:
-        breakPrompt = False
+    if runtime['breakPrompt']:
+        runtime['breakPrompt'] = False
         return
 
     def runPrompt(k, v):
@@ -643,8 +651,6 @@ def prompt(text):
                     variableIndex = i
                     commandFound = True
                 elif x == "<?":
-                    if k == "pick up <?":
-                        print("Converted variable space to variable")
                     variableIndex = i
                     commandFound = True
                     multiWordFill = True
@@ -743,17 +749,17 @@ def loadRoom(selectedRoom):
             "roomCommands": activeRoom.commands
         }
 
-        with open(f"{dirPath}runtime/{activeRoom.name}.json", "w") as outFile:
+        with open(f"{runtime['dirPath']}runtime/{activeRoom.name}.json", "w") as outFile:
             json.dump(roomData, outFile, indent=4)
 
     #If the room exists in the runtime, load that, else load from assets.
     
-    if os.path.exists(f"{dirPath}runtime/{selectedRoom}.json"):
-        with open(f"{dirPath}runtime/{selectedRoom}.json", "r") as JSON:
+    if os.path.exists(f"{runtime['dirPath']}runtime/{selectedRoom}.json"):
+        with open(f"{runtime['dirPath']}runtime/{selectedRoom}.json", "r") as JSON:
             data = json.load(JSON)
 
     else:
-        with open(f"{dirPath}adventures/{selectedAdventure}/rooms/{selectedRoom}.json") as JSON:
+        with open(f"{runtime['dirPath']}adventures/{runtime['selectedAdventure']}/rooms/{selectedRoom}.json") as JSON:
             data = json.load(JSON)
 
     
@@ -780,7 +786,6 @@ def displayFloorItems(type):
 
 #Handle the playing picking up items
 def pickup(item, supressPrompts=False):
-
     #If its a weapon that exists, add it to the player's weapon list.
     if item in assetData['weapons'].keys() and item in activeRoom.floorItems.keys():
         if item in inventory["weapons"]:
@@ -826,7 +831,7 @@ def pickup(item, supressPrompts=False):
             inventory["armor"].append(item)
             activeRoom.floorItems[item]["amount"] -= 1
 
-    #If nothing seems to work, tell the player it can't
+    #If nothing seems to work, tell the player he/she can't
     else:
         if not supressPrompts:
             print(f"!! Cannot pick up {item}")
@@ -838,8 +843,8 @@ def pickup(item, supressPrompts=False):
 #Handle the player equipping items
 def equipWeapon(weapon, supressPrompts=False):
     if weapon in inventory["weapons"]:
-        global equippedWeapon
-        equippedWeapon = weapon
+        global runtime
+        runtime['equippedWeapon'] = weapon
         if not supressPrompts:
             print(f"!! {weapon} equipped")
 
@@ -854,7 +859,7 @@ def displayInventory(type):
     print("!! Weapons:")
     time.sleep(0.5)
     for weapon in inventory["weapons"]:
-        if weapon == equippedWeapon:
+        if weapon == runtime['equippedWeapon']:
             print(f"ii {weapon}  ** Equipped **")
         else:
             print(f"ii {weapon}")
@@ -877,8 +882,8 @@ def displayEnemy(enemy):
 #Spawn an enemy as part of the next combat sequence.
 def spawnEnemy(enemy, supressPrompts=False):
     if enemy in assetData["enemies"].keys():
-        global activeEnemies
-        activeEnemies[enemy] = {
+        global runtime
+        runtime['activeEnemies'][enemy] = {
             "health": assetData["enemies"][enemy].health
         }
         
@@ -928,7 +933,7 @@ def giveItem(item, supressPrompts=False):
                 print(f'You were given {assetData["armors"][item].desc}')
 
 def runCombat():
-    global activeEnemies
+    global runtime
 
     combatArea = []
 
@@ -936,7 +941,7 @@ def runCombat():
         combatArea.append([' ' for b in range(20)])
     enemyList = []
     i = 1
-    for x in activeEnemies.keys():
+    for x in runtime['activeEnemies'].keys():
 
         enemyList.append(f'{x} = {i}')
 
@@ -957,12 +962,12 @@ def runCombat():
 
 #Start a combat sequence.
 def oldrunCombat():
-    global activeEnemies
+    global runtime
 
-    if len(activeEnemies) < 1:
+    if len(runtime['activeEnemies']) < 1:
         return
 
-    while not gameOver:
+    while not runtime['gameOver']:
 
         scroll()
         time.sleep(0.5)
@@ -981,15 +986,15 @@ def oldrunCombat():
             del enemyName[0]
             enemyName = " ".join(enemyName)
             print(enemyName)
-            result = assetData['weapons'][equippedWeapon].attack(enemyName)
+            result = assetData['weapons'][runtime['equippedWeapon']].attack(enemyName)
 
             if result:
-                activeEnemies[enemyName]['health'] -= result
-                print(f"!! {enemyName}'s health is now {activeEnemies[enemyName]['health']}")
+                runtime['activeEnemies'][enemyName]['health'] -= result
+                print(f"!! {enemyName}'s health is now {runtime['activeEnemies'][enemyName]['health']}")
                 time.sleep(1)
 
-                if activeEnemies[enemyName]['health'] <= 0:
-                    del activeEnemies[enemyName]
+                if runtime['activeEnemies'][enemyName]['health'] <= 0:
+                    del runtime['activeEnemies'][enemyName]
 
         elif fnmatch.fnmatch(IN, "use *"):
             useCommand = IN.split(" ")
@@ -1027,7 +1032,7 @@ def oldrunCombat():
         else:
             continue # Prompt a response from the user again, if no action was done
         
-        if len(activeEnemies) < 1:
+        if len(runtime['activeEnemies']) < 1:
             time.sleep(0.5)
             scroll()
             time.sleep(0.1)
@@ -1035,7 +1040,7 @@ def oldrunCombat():
             time.sleep(0.5)
             return
 
-        for k, v in activeEnemies.items():
+        for k, v in runtime['activeEnemies'].items():
             assetData["enemies"][k].attack()
 
 #Display a shop's items and prices.
