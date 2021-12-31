@@ -1,54 +1,72 @@
 {
-    "selectedAdventure": "test",
-    "storyPos": 10,
+    "selectedAdventure": "dungeonCrawler",
+    "storyPos": 34,
     "inventory": {
-        "weapons": [],
+        "weapons": [
+            "sword"
+        ],
         "consumables": {},
         "equipment": [],
         "armor": [],
         "gold": 0
     },
     "room": {
-        "name": "mainRoom",
+        "name": "cave",
         "floorItems": {
-            "sword": {
-                "ref": "assets/items",
-                "amount": 1
-            },
-            "health potion": {
-                "ref": "assets/items",
-                "amount": 1
-            },
             "torch": {
-                "ref": "assets/items",
-                "amount": 1
-            },
-            "axe": {
-                "ref": "assets/items",
-                "amount": 1
-            },
-            "club": {
-                "ref": "assets/items",
-                "amount": 1
-            },
-            "shield": {
-                "ref": "assets/items",
+                "ref": "mods/items",
                 "amount": 1
             }
         },
-        "roomCommands": {},
-        "shopItems": {},
-        "investigateables": {
-            "object": [
-                "!displayText : An investigateable object has been investigated!"
+        "roomCommands": {
+            "leave cave": [
+                "!displayText : You step outside of the cave",
+                "!loadRoom : startArea",
+                "!setCursor : whatDoLoop",
+                "!breakPrompt"
+            ],
+            "investigate sound": [
+                "!setCursor : investigateCaveSound",
+                "!breakPrompt"
             ]
         },
-        "characters": [
-            "Brian"
-        ]
+        "shopItems": {},
+        "investigateables": {},
+        "characters": []
     },
     "equippedWeapon": "",
-    "playerRace": false,
+    "playerRace": "human",
     "activeEnemies": {},
-    "runtime": {}
+    "runtime": {
+        "startArea.json": {
+            "floorItems": {
+                "health potion": {
+                    "ref": "mods/items",
+                    "amount": 2
+                }
+            },
+            "roomCommands": {
+                "enter cave": [
+                    "!setCursor : enteredCave",
+                    "!breakPrompt"
+                ],
+                "leave area": [
+                    "!setCursor : leftArea",
+                    "!breakPrompt"
+                ]
+            }
+        }
+    },
+    "runtimeRam": {
+        "dirPath": "/home/emilsen68/GitHub/textAdventure/gameEngine/",
+        "gameOver": false,
+        "breakPrompt": false,
+        "selectedAdventure": "dungeonCrawler",
+        "adventureProgress": 34,
+        "cursorMoved": false,
+        "equippedWeapon": "",
+        "playerRace": "human",
+        "activeEnemies": {},
+        "cosmeticChoice": false
+    }
 }

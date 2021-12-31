@@ -1,6 +1,7 @@
 import time, os, json, random, fnmatch, sys
 from pick import pick
 
+#region Initialize global variables
 dirPath = os.path.realpath(__file__)
 if '\\' in dirPath:
     dirPath = dirPath.split('\\')
@@ -28,10 +29,6 @@ runtime = {
 dirPath = None
 temp = None
 
-#region Initialize global variables
-
-
-
 assetData = {
     'weapons': {},
     'armors': {},
@@ -44,7 +41,6 @@ assetData = {
     'cosmetics': {},
     'characters': {}
 }
-#endregion Initialize global variables
 
 #Initialize dictionary variables for the player inventory.
 inventory = {
@@ -59,9 +55,11 @@ playerStats = {
     "maxHealth": 20,
     "AC": 10   
     }
+#endregion Initialize global variables
 
 #Empty the runtime folder
 def clearRuntime():
+    print(runtime)
     fileList = os.listdir(f"{runtime['dirPath']}runtime")
     
     for f in fileList:
@@ -272,7 +270,11 @@ def main():
 
     elif newLoad == "load":
         saves = os.listdir(f"{runtime['dirPath']}saves")
-        option, index = menuSelect('What save do you wish to load?', saves)
+        options = []
+        for x in saves:
+            if x.endswith('.json'):
+                options.append(x.replace('.json', ''))
+        option, index = menuSelect('What save do you wish to load?', options)
         adventure = loadSave(option)
         runStory(adventure, runtime['adventureProgress'])
 
@@ -329,57 +331,42 @@ def runCommand(command):
         if command:
             command(commandList[1], True)
 
-#Display available savefiles to the player
-def printSaves():
-    print("Loading saves...")
-    time.sleep(0.5)
-    saves = os.listdir(f"{runtime['dirPath']}saves")
-
-    for i in saves:
-        print(f"|| {removeFileExtention(i, '.json')}")
-        time.sleep(0.1)
-
 #Load save into memory and runtime.
 def loadSave(saveName):
-    try:
-        global runtime
-        save = False
-        with open(f"{runtime['dirPath']}saves/{saveName}.json") as f:
-            save = json.load(f)
-        adventure = loadAdventure(save["selectedAdventure"])
-        inventory = save["inventory"]
-        runtime['equippedWeapon'] = save["equippedWeapon"]
-        runtime['playerRace'] = save["playerRace"]
-        activeEnemies = save["activeEnemies"]
-        activeRoom = room(save["room"]["name"])
-        if "floorItems" in save["room"]:
-            activeRoom.floorItems = save["room"]["floorItems"]
-        if "roomCommands" in save["room"]:
-            activeRoom.commands = save["room"]["roomCommands"]
-        if 'shopItems' in save['room']:
-            activeRoom.shopItems = save['room']['shopItems']
-        if 'investigateables' in save['room']:
-            activeRoom.investigateables = save['room']['investigateables']
-        if 'characters' in save['room']:
-            activeRoom.characters = save['room']['characters']
-        runtime['adventureProgress'] = int(save["storyPos"])
+    global runtime
+    save = False
+    with open(f"{runtime['dirPath']}saves/{saveName}.json") as f:
+        save = json.load(f)
+    adventure = loadAdventure(save["selectedAdventure"])
+    runtime = save['runtimeRam']
+    inventory = save["inventory"]
+    activeEnemies = save["activeEnemies"]
+    activeRoom = room(save["room"]["name"])
+    if "floorItems" in save["room"]:
+        activeRoom.floorItems = save["room"]["floorItems"]
+    if "roomCommands" in save["room"]:
+        activeRoom.commands = save["room"]["roomCommands"]
+    if 'shopItems' in save['room']:
+        activeRoom.shopItems = save['room']['shopItems']
+    if 'investigateables' in save['room']:
+        activeRoom.investigateables = save['room']['investigateables']
+    if 'characters' in save['room']:
+        activeRoom.characters = save['room']['characters']
 
-        if 'runtime' in save:
-            for k, v in save['runtime'].items():
-                with open(f"{runtime['dirPath']}runtime/{k}.json", "w") as outFile:
-                    json.dump(v, outFile, indent=4)
+    if 'runtime' in save:
+        for k, v in save['runtime'].items():
+            with open(f"{runtime['dirPath']}runtime/{k}.json", "w") as outFile:
+                json.dump(v, outFile, indent=4)
 
-        i = 0
-        while True:
-            if adventure[i] == "init:":
-                print("Initializing...")
-                runInit(adventure, i + 1)
-                break
-            i += 1
+    i = 0
+    while True:
+        if adventure[i] == "init:":
+            print("Initializing...")
+            runInit(adventure, i + 1)
+            break
+        i += 1
 
-        return adventure
-    except:
-        return False
+    return adventure
 
 #Run commands from the story scope.
 def loadStory(story, i=0):
@@ -582,7 +569,8 @@ def saveGame(saveName, supressPrompts=False):
         "equippedWeapon": runtime['equippedWeapon'],
         "playerRace": runtime['playerRace'],
         "activeEnemies": runtime['activeEnemies'],
-        "runtime": runtimeData
+        "runtime": runtimeData,
+        'runtimeRam': runtime
     }
 
     with open(f"{runtime['dirPath']}saves/{saveName}.json", "w") as outFile:

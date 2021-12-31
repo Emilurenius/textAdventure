@@ -1,5 +1,5 @@
 init:
-!importMod : items
+!importAsset : items
 !importAsset : commands
 !importAsset : enemies
 !importAsset : races
