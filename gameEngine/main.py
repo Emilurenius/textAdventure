@@ -923,30 +923,56 @@ def giveItem(item, supressPrompts=False):
 def runCombat():
     global runtime
 
+    #region generate and display map
     combatArea = []
+    combatString = ''
 
+    # Generating map:
     for a in range(20):
         combatArea.append([' ' for b in range(20)])
-    enemyList = []
+    legend = []
+
+    # Placing player on map:
+    while True:
+        playerPosX = random.randint(0, 19)
+        playerPosY = random.randint(0, 19)
+
+        if combatArea[playerPosX][playerPosY] == ' ':
+            legend.append('P = Player')
+            combatArea[playerPosX][playerPosY] = 'P'
+            break
+
+    # Placing enemies on map:
     i = 1
     for x in runtime['activeEnemies'].keys():
-
-        enemyList.append(f'{x} = {i}')
 
         while True:
             enemyPosX = random.randint(0, 19)
             enemyPosY = random.randint(0, 19)
 
             if combatArea[enemyPosX][enemyPosY] == ' ':
+                legend.append(f'{x} = {i}')
                 combatArea[enemyPosX][enemyPosY] = str(i)
                 break
 
         i += 1
 
-    print(enemyList)
+    # Adding legend to combat string:
+    i = 0
+    for x in legend:
+        combatString = f'{combatString}{x} | '
+        i += 1
+        if i == 10:
+            combatString = f'{combatString}\n'
+            i = 0
+    combatString = f'{combatString}\n\n'
+    
+    # Adding map to combat string:
     for x in combatArea:
-        print(''.join(['-' for i in range(77)]))
-        print(' | '.join(x))
+        combatString = f'{combatString}{"".join(["-" for i in range(77)])}\n{" | ".join(x)}\n'
+
+    option, index = menuSelect(combatString, ['Attack', 'Use', 'Flee'])
+    #endregion generate and display map
 
 #Start a combat sequence.
 def oldrunCombat():
