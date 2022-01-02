@@ -921,9 +921,38 @@ def giveItem(item, supressPrompts=False):
                 print(f'You were given {assetData["armors"][item].desc}')
 
 def runCombat():
+
+    def attack(combatString, combatArea, legend):
+
+        #region Generate enemy list
+        enemyList = list(runtime['activeEnemies'].keys())
+        #endregion Generate enemy list
+
+        option, index = menuSelect(combatString, enemyList)
+        combatString = combatString.split('\n')
+        combatString[-1] = f'You attacked {option}'
+        combatString = '\n'.join(combatString)
+        return combatString
+
+    def use(combatString, combatArea, legend):
+        print('Use mode activated')
+        time.sleep(3)
+        return combatString
+
+    def flee(combatString, combatArea, legend):
+        print('flee mode activated')
+        time.sleep(3)
+        return combatString
+
+    combatActions = {
+        'Attack': attack,
+        'Use': use,
+        'Flee': flee
+    }
+
     global runtime
 
-    #region generate and display map
+    #region generate map
     combatArea = []
     combatString = ''
 
@@ -970,9 +999,14 @@ def runCombat():
     # Adding map to combat string:
     for x in combatArea:
         combatString = f'{combatString}{"".join(["-" for i in range(77)])}\n{" | ".join(x)}\n'
+    #endregion generate map
+    combatString = f'{combatString}\n' # Add empty line to fill space that text feedback will use later
 
-    option, index = menuSelect(combatString, ['Attack', 'Use', 'Flee'])
-    #endregion generate and display map
+    while True:
+        option, index = menuSelect(combatString, list(combatActions.keys()))
+
+        action = combatActions.get(option, None)
+        combatString = action(combatString, combatArea, legend)
 
 #Start a combat sequence.
 def oldrunCombat():
