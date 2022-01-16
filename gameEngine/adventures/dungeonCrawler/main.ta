@@ -1,104 +1,104 @@
 init:
-    !importMod : items
-    !importAsset : commands
-    !importMod : enemies
-    !importMod : races
-    !importMod : adminTools
+	!importMod : items
+	!importAsset : commands
+	!importMod : enemies
+	!importMod : races
+	!importMod : adminTools
 :init
 
 
 story:
 
-    !giveItem : weapon unarmed
-    -equipWeapon : unarmed
-    !loadRoom : startArea
-    !displayText : You wake up outside a dark dungeon
-    !sleep : 1
-    !displayText : On the floor, there is a sword and two health potion
-    !sleep : 1
-    #whatDoLoop
-    !displayText : What do you do?
-    !prompt : >> 
-    !setCursor : whatDoLoop
+	-giveItem : unarmed
+	-equipWeapon : unarmed
+	!loadRoom : startArea
+	!displayText : You wake up outside a dark dungeon
+	!sleep : 1
+	!displayText : On the floor, there is a sword and two health potion
+	!sleep : 1
+	#whatDoLoop
+	!displayText : What do you do?
+	!prompt : >> 
+	!setCursor : whatDoLoop
 
-    #enteredCave
-    !sleep : 0.5
-    !displayText : You enter the cave
-    !sleep : 1
-    !displayText : It is dark, cold and wet
-    !sleep : 1
-    !displayText : You hear some rattling from a corner in the cave...
-    !sleep : 0.5
-    !displayText : What now?
-    !loadRoom : cave
-    #enteredCaveLoop
-    !prompt : >> 
-    !setCursor : enteredCaveLoop
+	#enteredCave
+	!sleep : 0.5
+	!displayText : You enter the cave
+	!sleep : 1
+	!displayText : It is dark, cold and wet
+	!sleep : 1
+	!displayText : You hear some rattling from a corner in the cave...
+	!sleep : 0.5
+	!displayText : What now?
+	!loadRoom : cave
+	#enteredCaveLoop
+	!prompt : >> 
+	!setCursor : enteredCaveLoop
 
-    #investigateCaveSound
-    !sleep : 0.5
-    !displayText : You move closer to the sound
-    !sleep : 1
-    !displayEnemy : skeleton
-    !spawnEnemy : skeleton
-    !runCombat
-    !displayText : You won! The skeleton is dead
-    !sleep : 0.5
-    !displayText : The cave is silent. It continues into the dark.
+	#investigateCaveSound
+	!sleep : 0.5
+	!displayText : You move closer to the sound
+	!sleep : 1
+	!displayEnemy : skeleton
+	!spawnEnemy : skeleton
+	!runCombat
+	!displayText : You won! The skeleton is dead
+	!sleep : 0.5
+	!displayText : The cave is silent. It continues into the dark.
 
-    #enterInsideCave
-    !loadRoom : caveSkeletonKilled
-    #insideCaveLoop
-    !prompt : >> 
-    !setCursor : insideCaveLoop
+	#enterInsideCave
+	!loadRoom : caveSkeletonKilled
+	#insideCaveLoop
+	!prompt : >> 
+	!setCursor : insideCaveLoop
 
-    #furtherInCave
-    !displayText : You move further into the cave
-    !sleep : 0.5
-    !displayText : The cave splits into two routes
-    !displayText : Left or right?
-    !loadRoom : furtherInCave
-    #furtherInCaveLoop
-    !prompt : >> 
-    !setCursor : furtherInCaveLoop
+	#furtherInCave
+	!displayText : You move further into the cave
+	!sleep : 0.5
+	!displayText : The cave splits into two routes
+	!displayText : Left or right?
+	!loadRoom : furtherInCave
+	#furtherInCaveLoop
+	!prompt : >> 
+	!setCursor : furtherInCaveLoop
 
-    #junction1Left
-    !displayText : You follow the route to the left
-    !sleep : 0.5
-    !displayText : As you walk down the cave, the air gets warmer
-    !sleep : 0.5
-    !loadRoom : junctionLeft
-    !displayText : The floor is starting to warm up
-    #junction1LeftLoop
-    !displayText : Do you press on, or do you go back?
-    !prompt : >> 
-    !setCursor : junction1LeftLoop
+	#junction1Left
+	!displayText : You follow the route to the left
+	!sleep : 0.5
+	!displayText : As you walk down the cave, the air gets warmer
+	!sleep : 0.5
+	!loadRoom : junctionLeft
+	!displayText : The floor is starting to warm up
+	#junction1LeftLoop
+	!displayText : Do you press on, or do you go back?
+	!prompt : >> 
+	!setCursor : junction1LeftLoop
 
-    #junction1LeftPressOn
-    !displayText : You press on
-    !sleep : 0.5
-    !displayText : the ground is scorching hot now
-    !sleep : 1
-    !displayText : OH NO! The floor falls out beneath you
-    !endGame
+	#junction1LeftPressOn
+	!displayText : You press on
+	!sleep : 0.5
+	!displayText : the ground is scorching hot now
+	!sleep : 1
+	!displayText : OH NO! The floor falls out beneath you
+	!endGame
 
-    #leftArea
-    !displayText : You head into the nearest town.
-    !sleep : 1
-    !displayText : You're in the middle of the town.
-    !displayText : There are several shops: Armory, Magic shop, General store.
-    !displayText : Where would you like to go?
-    !loadRoom : town
-    #townSquareLoop
-    !prompt : >> 
-    !setCursor : townSquareLoop
+	#leftArea
+	!displayText : You head into the nearest town.
+	!sleep : 1
+	!displayText : You're in the middle of the town.
+	!displayText : There are several shops: Armory, Magic shop, General store.
+	!displayText : Where would you like to go?
+	!loadRoom : town
+	#townSquareLoop
+	!prompt : >> 
+	!setCursor : townSquareLoop
 
-    #enteredArmory
-    !loadRoom : armory
-    !openShop
-    !displayText : You enter the Armory, and there's a dwarf hammering at an ingot on an anvil, he gives you a bag of 100 gold, just cuz.
-    !addGold : 100
-    #armoryLoop
-    !prompt : >> 
-    !setCursor : armoryLoop
+	#enteredArmory
+	!loadRoom : armory
+	!openShop
+	!displayText : You enter the Armory, and there's a dwarf hammering at an ingot on an anvil, he gives you a bag of 100 gold, just cuz.
+	!addGold : 100
+	#armoryLoop
+	!prompt : >> 
+	!setCursor : armoryLoop
 :story

@@ -301,6 +301,10 @@ def loadAdventure(adventure):
     try:
         with open(f"{runtime['dirPath']}adventures/{adventure}/main.ta") as f:
             data = f.read().splitlines()
+            i = 0
+            while i < len(data):
+                data[i] = data[i].lstrip()
+                i += 1
         return data
     except:
         return False
@@ -920,7 +924,7 @@ def giveItem(item, supressPrompts=False):
             if not supressPrompts:
                 print(f'You were given {assetData["armors"][item].desc}')
 
-def runCombat():
+def newrunCombat():
 
     def attack(combatString, combatArea, legend):
 
@@ -1009,7 +1013,7 @@ def runCombat():
         combatString = action(combatString, combatArea, legend)
 
 #Start a combat sequence.
-def oldrunCombat():
+def runCombat():
     global runtime
 
     if len(runtime['activeEnemies']) < 1:
