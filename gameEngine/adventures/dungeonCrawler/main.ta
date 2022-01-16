@@ -6,6 +6,9 @@ init:
 	!importMod : adminTools
 :init
 
+test:
+:test
+
 
 story:
 
@@ -16,10 +19,12 @@ story:
 	!sleep : 1
 	!displayText : On the floor, there is a sword and two health potion
 	!sleep : 1
+
 	#whatDoLoop
-	!displayText : What do you do?
-	!prompt : >> 
-	!setCursor : whatDoLoop
+		!displayText : What do you do?
+		!prompt : >> 
+		!setCursor : whatDoLoop
+		!runFunc : func
 
 	#enteredCave
 	!sleep : 0.5
@@ -101,4 +106,5 @@ story:
 	#armoryLoop
 	!prompt : >> 
 	!setCursor : armoryLoop
+
 :story

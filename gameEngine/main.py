@@ -23,7 +23,8 @@ runtime = {
     'equippedWeapon': '',
     'playerRace': False,
     'activeEnemies': {},
-    'cosmeticChoice': False
+    'cosmeticChoice': False,
+    'codeVars': {}
 }
 
 dirPath = None

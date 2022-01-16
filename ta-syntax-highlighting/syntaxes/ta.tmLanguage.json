@@ -52,6 +52,14 @@
 				{
 					"name": "constant.language",
 					"match": ":story"
+				},
+				{
+					"name": "constant.language",
+					"match": "\\w*:"
+				},
+				{
+					"name": "constant.language",
+					"match": ":\\w*"
 				}
 			]
 		},

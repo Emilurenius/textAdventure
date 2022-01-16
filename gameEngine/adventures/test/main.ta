@@ -1,13 +1,13 @@
 init:
-!importAsset : characters
-!importAsset : commands
-!importMod : enemies
-!importMod : items
+	!importAsset : characters
+	!importAsset : commands
+	!importMod : enemies
+	!importMod : items
 :init
 
 
 story:
-!loadRoom : mainRoom // Loads the main room
-talkTo : Brian
-!prompt : >> 
+	!loadRoom : mainRoom // Loads the main room
+	talkTo : Brian
+	!prompt : >> 
 :story
