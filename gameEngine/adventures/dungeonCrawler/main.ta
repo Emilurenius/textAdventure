@@ -6,10 +6,6 @@ init:
 	!importMod : adminTools
 :init
 
-test:
-:test
-
-
 story:
 
 	-giveItem : unarmed
