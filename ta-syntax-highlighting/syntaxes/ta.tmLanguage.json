@@ -56,10 +56,6 @@
 				{
 					"name": "constant.language",
 					"match": "\\w*:"
-				},
-				{
-					"name": "constant.language",
-					"match": ":\\w*"
 				}
 			]
 		},

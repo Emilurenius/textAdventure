@@ -14,7 +14,7 @@ story:
 
 	-giveItem : unarmed
 	-equipWeapon : unarmed
-	!loadRoom : startArea
+  !loadRoom : startArea
 	!displayText : You wake up outside a dark dungeon
 	!sleep : 1
 	!displayText : On the floor, there is a sword and two health potion
