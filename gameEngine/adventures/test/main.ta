@@ -1,13 +1,8 @@
 init:
-	!importAsset : characters
-	!importAsset : commands
-	!importMod : enemies
-	!importMod : items
+	!var : string stringTest 'This is a string'
 :init
 
 
 story:
-	!loadRoom : mainRoom // Loads the main room
-	talkTo : Brian
-	!prompt : >> 
+	
 :story

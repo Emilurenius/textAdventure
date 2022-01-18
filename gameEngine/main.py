@@ -1,4 +1,4 @@
-import time, os, json, random, fnmatch, sys
+import time, os, json, random, fnmatch, sys, re
 from pick import pick
 
 #region Initialize global variables
@@ -1143,6 +1143,25 @@ def talkTo(character):
                 option, index = menuSelect(dialog[dialogIndex]['prompt'], options)
                 break
 
+# Handler for creating or overwriting .ta variables
+def var(data):
+    global runtime
+    def string(name, data):
+        stringVal = re.search('\'(.*?)\'', data).group(1)
+
+        print(f'Variable \'{name}\' has value \'{stringVal}\'')
+        runtime['codeVars'][name] = stringVal
+        print(runtime['codeVars'][name])
+
+    varTypes = {
+        'string': string
+    }
+
+    varData = data.split(' ')
+    varType = varTypes.get(varData[0], None)
+    if varType:
+        varType(varData[1], data)
+
 #endregion gameEngine functions
 
 #region defining gameEngine commands
@@ -1177,7 +1196,8 @@ commands = {
     "addGold": addGold,
     "openShop": setActiveRoomShop,
     'investigate': investigate,
-    'talkTo': talkTo
+    'talkTo': talkTo,
+    'var': var
     }
 
 #endregion defining gameEngine commands
