@@ -16,6 +16,9 @@
 		},
 		{
 			"include": "#bookmarks"
+		},
+		{
+			"include": "#inlineStrings"
 		}
 	], 
 	"repository": {
@@ -68,6 +71,14 @@
 				{
 					"name": "variable.parameter",
 					"match": "-\\w*"
+				}
+			]
+		},
+		"inlineStrings": {
+			"patterns": [
+				{
+					"name": "constant.language",
+					"match": "{\\w*}"
 				}
 			]
 		}
