@@ -16,7 +16,7 @@ dirPath = temp
 runtime = {
     'dirPath': dirPath,
     'gameOver': False,
-    'breakPrompt': False,
+    'breakPlayerAction': False,
     'selectedAdventure': '',
     'adventureProgress': 0,
     'cursorMoved': False,
@@ -182,7 +182,7 @@ class consumable():
             else:
                 print("!! Cannot heal more. Health too high")
                 time.sleep(1)
-                return True # Return true to tell runCombat script to begin reprompt user
+                return True # Return true to tell runCombat script to begin reprompting user
         
         return False # Tell runCombat it can keep going with the loop
 
@@ -550,7 +550,7 @@ def loadAsset(assetName):
     loadAssetData(data)
 
 #Handle saving of non-runtime things
-def saveGame(saveName, supressPrompts=False):
+def saveGame(saveName, supressPrints=False):
 
     runtimeFiles = os.listdir(f"{runtime['dirPath']}runtime")
     runtimeFiles = filter(lambda x: x.endswith('.json'), runtimeFiles)
@@ -581,7 +581,7 @@ def saveGame(saveName, supressPrompts=False):
     with open(f"{runtime['dirPath']}saves/{saveName}.json", "w") as outFile:
         json.dump(saveData, outFile, indent=4)
 
-    if not supressPrompts:
+    if not supressPrints:
         print(f"Saved current progress as {saveName}")
 
 #Game over
@@ -606,6 +606,13 @@ def setCursor(cursorPos):
 
 #Print text
 def displayText(text):
+    inlineStrings = re.findall('{\w*}', text)
+    for x in inlineStrings:
+        strippedX = x.replace('{', '')
+        strippedX = strippedX.replace('}', '')
+        if strippedX in runtime['codeVars'].keys():
+            print(runtime['codeVars'][strippedX])
+            text = text.replace(x, runtime['codeVars'][strippedX])
     print(text)
 
 #Print Ascii art
@@ -613,20 +620,20 @@ def printASCII(filePath):
     with open(f"{runtime['dirPath']}adventures/{runtime['selectedAdventure']}/ascii/{filePath}.txt") as TXT:
         print(TXT.read())
 
-#Cancel a prompt to the player
-def setBreakPrompt():
+# Stop playerAction from asking for more input once
+def setbreakPlayerAction():
     global runtime
-    runtime['breakPrompt'] = True
+    runtime['breakPlayerAction'] = True
 
 #Get user input
-def prompt(text):
+def playerAction(text):
     global runtime
 
-    if runtime['breakPrompt']:
-        runtime['breakPrompt'] = False
+    if runtime['breakPlayerAction']:
+        runtime['breakPlayerAction'] = False
         return
 
-    def runPrompt(k, v):
+    def runPlayerAction(k, v):
         multiWordFill = False
         splitCommand = k.split(" ")
         
@@ -713,12 +720,12 @@ def prompt(text):
             print(f">> {command}")
     else:
         for k, v in assetData["adventureCommands"].items():
-            runPrompt(k, v)
+            runPlayerAction(k, v)
 
         for k, v in activeRoom.commands.items():
-            runPrompt(k, v)
+            runPlayerAction(k, v)
 
-    prompt(text)
+    playerAction(text)
 
 #Wait
 def sleep(secs):
@@ -778,20 +785,20 @@ def displayFloorItems(type):
     activeRoom.displayFloorItems(type=type)
 
 #Handle the playing picking up items
-def pickup(item, supressPrompts=False):
+def pickup(item, supressPrints=False):
     #If its a weapon that exists, add it to the player's weapon list.
     if item in assetData['weapons'].keys() and item in activeRoom.floorItems.keys():
         if item in inventory["weapons"]:
             print(f"!! You already have that, you don't need another one.")
         else:
-            if not supressPrompts:
+            if not supressPrints:
                 print(f"!! Picked up {assetData['weapons'][item].desc}")
             inventory["weapons"].append(item)
             activeRoom.floorItems[item]["amount"] -= 1
 
     #If its a consumable that exists, add it to the player's consumable list.
     elif item in assetData["consumables"].keys() and item in activeRoom.floorItems.keys():
-        if not supressPrompts:
+        if not supressPrints:
             print(f'!! Picked up {assetData["consumables"][item].desc}')
 
         if item in inventory["consumables"].keys():
@@ -801,7 +808,7 @@ def pickup(item, supressPrompts=False):
                 "amount": 1
             }
         time.sleep(0.5)
-        if not supressPrompts:
+        if not supressPrints:
             print(f"!! You now have {inventory['consumables'][item]['amount']} {item}s")
         activeRoom.floorItems[item]["amount"] -= 1
 
@@ -811,7 +818,7 @@ def pickup(item, supressPrompts=False):
         if item in inventory['equipment']:
             print(f'!! You already have {assetData["equipment"][item].desc}')
         else:
-            if not supressPrompts:
+            if not supressPrints:
                 print(f'!! Picked up {assetData["equipment"][item].desc}')
             inventory["equipment"].append(item)
             activeRoom.floorItems[item]["amount"] -= 1
@@ -819,14 +826,14 @@ def pickup(item, supressPrompts=False):
     #If its an armor that exists, add it to the player's armor list.
     elif item in assetData["armors"].keys() and item in activeRoom.floorItems.keys():
         if item in inventory['armor']:
-            if not supressPrompts:
+            if not supressPrints:
                 print(f'!! Picked up {assetData["armors"][item].desc}')
             inventory["armor"].append(item)
             activeRoom.floorItems[item]["amount"] -= 1
 
     #If nothing seems to work, tell the player he/she can't
     else:
-        if not supressPrompts:
+        if not supressPrints:
             print(f"!! Cannot pick up {item}")
 
     #Delete the item key from floorItems if amount is 0
@@ -834,11 +841,11 @@ def pickup(item, supressPrompts=False):
         del activeRoom.floorItems[item]
 
 #Handle the player equipping items
-def equipWeapon(weapon, supressPrompts=False):
+def equipWeapon(weapon, supressPrints=False):
     if weapon in inventory["weapons"]:
         global runtime
         runtime['equippedWeapon'] = weapon
-        if not supressPrompts:
+        if not supressPrints:
             print(f"!! {weapon} equipped")
 
     else:
@@ -873,56 +880,56 @@ def displayEnemy(enemy):
     assetData["enemies"][enemy].displayAscii()
 
 #Spawn an enemy as part of the next combat sequence.
-def spawnEnemy(enemy, supressPrompts=False):
+def spawnEnemy(enemy, supressPrints=False):
     if enemy in assetData["enemies"].keys():
         global runtime
         runtime['activeEnemies'][enemy] = {
             "health": assetData["enemies"][enemy].health
         }
         
-        if not supressPrompts:
+        if not supressPrints:
             print(f"!! {enemy} is attacking you")
         time.sleep(1)
 
 #Add an item to the player's inventory.
-def giveItem(item, supressPrompts=False):
+def giveItem(item, supressPrints=False):
     global inventory
 
     if item in assetData['weapons'].keys():
         if item in inventory['weapons']:
             
-            if not supressPrompts:
+            if not supressPrints:
                 print(f'!! You were given {assetData["weapons"][item].desc} But you already had one')
         else:
             inventory["weapons"].append(item)
-            if not supressPrompts:
+            if not supressPrints:
                 print(f'!! You were given {assetData["weapons"][item].desc}')
     elif item in assetData["consumables"].keys():
         if item in inventory["consumables"].keys():
-            if not supressPrompts:
+            if not supressPrints:
                 print(f'!! You were given {assetData["consumables"][item].desc}')
             inventory["consumables"][item]["amount"] += 1
         else:
             inventory["consumables"][item] = {
                 "amount": 1
             }
-            if not supressPrompts:
+            if not supressPrints:
                 print(f'!! You were given {assetData["consumables"][item].desc}\nYou now have {inventory["consumables"][item]["amount"]}')
     elif item in assetData["equipment"].keys():
         if item in inventory['equipment']:
-            if not supressPrompts:
+            if not supressPrints:
                 print(f'!! You were given {assetData["equipment"][item].desc} But you already have one')
         else:
             inventory["equipment"].append(item)
-            if not supressPrompts:
+            if not supressPrints:
                 print(f'You were given {assetData["equipment"][item].desc}')
     elif item in assetData["armors"].keys():
         if item in inventory['armor']:
-            if not supressPrompts:
+            if not supressPrints:
                 print(f'!! You were given {assetData["armors"][item].desc} But you already have one')
         else:
             inventory["armor"].append(item)
-            if not supressPrompts:
+            if not supressPrints:
                 print(f'You were given {assetData["armors"][item].desc}')
 
 def newrunCombat():
@@ -1191,7 +1198,7 @@ commands = {
     "saveGame": saveGame,
     "endGame": endGame,
     "setCursor": setCursor,
-    "breakPrompt": setBreakPrompt,
+    "breakPlayerAction": setbreakPlayerAction,
     "checkShopItems": checkShopItems,
     "addGold": addGold,
     "openShop": setActiveRoomShop,

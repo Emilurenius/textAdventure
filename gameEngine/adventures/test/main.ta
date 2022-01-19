@@ -1,8 +1,9 @@
 init:
-	!var : string stringTest 'This is a string'
+	!var : string stringTest '20'
+	!var : string maxCarry '50'
 :init
 
 
 story:
-	!displayText : Encumbrance {things}/50.
+	!displayText : Encumbrance {stringTest}/{maxCarry}.
 :story

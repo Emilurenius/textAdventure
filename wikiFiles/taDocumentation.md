@@ -143,9 +143,9 @@ This lets you do everything from adding one line between something, to scrolling
 
 Some other commands available will automatically call this command with a set amount of lines that get scrolled
 
-### !prompt:
+### !playerAction:
 
-The prompt command is used to tell the game engine that you want the player to interact with the world before going any further.
+The playerAction command is used to tell the game engine that you want the player to interact with the world before going any further.
 
 You can use this command to give players the chance to influence, interact with, and move around in your world.
 
@@ -154,29 +154,29 @@ Commands available for the player are defined in assets, mods and rooms that are
 Example:
 ```
 story:
-!displayText : A prompt lets you interact with the world around you
-!prompt : >> 
+!displayText : A player action lets you interact with the world around you
+!playerAction : >> 
 :story
 ```
 Terminal output:
 ```
-A prompt lets you interact with the world around you
+A player action lets you interact with the world around you
 >> 
 ```
-You can define how the prompt will look, and can add custom text, or use different symbols. This means that the prompt command works like the displayText command, but it asks for input from the player afterwards.
+You can define how the playerAction-message will look, by adding custom text, or using different symbols. This means that the playerAction command works like the displayText command, but it lets the player interact with the world, or run commands afterwards.
 
 Therefore, this is also valid:
 
 Example:
 ```
 story:
-!displayText : Prompts can display anything in the terminal!
-!prompt : Enter command: 
+!displayText : Player actions can display anything in the terminal!
+!playerAction : Enter command: 
 :story
 ```
 Terminal output: 
 ```
-Prompts can display anything in the terminal!
+Player actions can display anything in the terminal!
 Enter command:
 ```
 
