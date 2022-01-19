@@ -4,7 +4,6 @@ init:
 	!importMod : enemies
 	!importMod : races
 	!importMod : adminTools
-	!var : string stringTest 'This is a string'
 :init
 
 story:

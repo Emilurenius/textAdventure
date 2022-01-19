@@ -611,8 +611,8 @@ def displayText(text):
         strippedX = x.replace('{', '')
         strippedX = strippedX.replace('}', '')
         if strippedX in runtime['codeVars'].keys():
-            print(runtime['codeVars'][strippedX])
-            text = text.replace(x, runtime['codeVars'][strippedX])
+            #print(runtime['codeVars'][strippedX])
+            text = text.replace(x, str(runtime['codeVars'][strippedX]['val']))
     print(text)
 
 #Print Ascii art
@@ -726,6 +726,13 @@ def playerAction(text):
             runPlayerAction(k, v)
 
     playerAction(text)
+
+# Get a response from the player in the form of a string
+def userInput(data):
+    data = data.split(' | ')
+
+    userRes = input(data[0])
+    var(f'string {data[1]} \'{userRes}\'')
 
 #Wait
 def sleep(secs):
@@ -1156,9 +1163,12 @@ def var(data):
     def string(name, data):
         stringVal = re.search('\'(.*?)\'', data).group(1)
 
-        print(f'Variable \'{name}\' has value \'{stringVal}\'')
-        runtime['codeVars'][name] = stringVal
-        print(runtime['codeVars'][name])
+        #print(f'Variable \'{name}\' has value \'{stringVal}\'')
+        runtime['codeVars'][name] = {
+            'type': 'string',
+            'val': stringVal
+        }
+        #print(runtime['codeVars'][name])
 
     varTypes = {
         'string': string
@@ -1184,7 +1194,8 @@ commands = {
     "displayText": displayText,
     "sleep": sleep,
     "scroll": scroll,
-    "prompt": prompt,
+    "playerAction": playerAction,
+    'userInput': userInput,
     "loadRoom": loadRoom,
     "displayFloorItems": displayFloorItems,
     "pickup": pickup,

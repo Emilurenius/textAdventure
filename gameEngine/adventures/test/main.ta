@@ -6,4 +6,6 @@ init:
 
 story:
 	!displayText : Encumbrance {stringTest}/{maxCarry}.
+	!userInput : What is your name?  | username
+	!displayText : Hello {username}
 :story
