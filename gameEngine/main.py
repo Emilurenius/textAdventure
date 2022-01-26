@@ -1132,7 +1132,6 @@ def investigate(obj):
     if activeRoom.investigateables:
         if obj in activeRoom.investigateables.keys():
             for command in activeRoom.investigateables[obj]:
-                print(command)
                 runCommand(command)
     else:
         print('There is nothing to investigate')

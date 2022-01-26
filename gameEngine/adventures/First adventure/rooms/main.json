@@ -1,0 +1,13 @@
+{
+    "floorItems": {
+        "Rusty sword": {
+            "ref": "assets/weapons",
+            "amount": 1
+        }
+    },
+    "investigateables": {
+        "Big table": [
+            "!displayText : It's a table... Nothing really special"
+        ]
+    }
+}
