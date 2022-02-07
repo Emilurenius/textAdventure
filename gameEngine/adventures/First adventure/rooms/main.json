@@ -9,5 +9,17 @@
         "Big table": [
             "!displayText : It's a table... Nothing really special"
         ]
+    },
+    "connectedRooms": {
+        "east": {
+            "room": "east",
+            "direction": "east",
+            "execute": ["!displayText : You move through a doorway to the east"]
+        },
+        "west": {
+            "room": "west",
+            "direction": "west",
+            "execute": ["!displayText : You move through a doorway to the west"]
+        }
     }
 }

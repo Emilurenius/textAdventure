@@ -1,58 +1,123 @@
 {
-    "selectedAdventure": "dungeonCrawler",
-    "storyPos": 21,
+    "selectedAdventure": "First adventure",
+    "storyPos": 12,
     "inventory": {
-        "weapons": [
-            "unarmed"
-        ],
+        "weapons": [],
         "consumables": {},
         "equipment": [],
         "armor": [],
         "gold": 0
     },
     "room": {
-        "name": "startArea",
+        "name": "main",
         "floorItems": {
-            "sword": {
-                "ref": "mods/items",
+            "Rusty sword": {
+                "ref": "assets/weapons",
                 "amount": 1
-            },
-            "health potion": {
-                "ref": "mods/items",
-                "amount": 2
             }
         },
-        "roomCommands": {
-            "enter cave": [
-                "!setCursor : enteredCave",
-                "!breakPrompt"
-            ],
-            "leave area": [
-                "!setCursor : leftArea",
-                "!breakPrompt"
+        "roomCommands": {},
+        "shopItems": {},
+        "investigateables": {
+            "Big table": [
+                "!displayText : It's a table... Nothing really special"
             ]
         },
-        "shopItems": {},
-        "investigateables": {},
         "characters": []
     },
-    "equippedWeapon": "unarmed",
-    "playerRace": "orc",
+    "equippedWeapon": "",
+    "playerRace": false,
     "activeEnemies": {},
-    "runtime": {},
+    "runtime": {
+        "east.json": {
+            "floorItems": {},
+            "roomCommands": {},
+            "shopItems": {},
+            "investigateables": {
+                "Big table": [
+                    "!displayText : It's a table... Nothing really special"
+                ]
+            },
+            "characters": [],
+            "connectedRooms": {
+                "west": {
+                    "room": "main",
+                    "direction": "west",
+                    "execute": [
+                        "!displayText : You move back to the room in the middle"
+                    ]
+                }
+            }
+        },
+        "main.json": {
+            "floorItems": {
+                "Rusty sword": {
+                    "ref": "assets/weapons",
+                    "amount": 1
+                }
+            },
+            "roomCommands": {},
+            "shopItems": {},
+            "investigateables": {
+                "Big table": [
+                    "!displayText : It's a table... Nothing really special"
+                ]
+            },
+            "characters": [],
+            "connectedRooms": {
+                "east": {
+                    "room": "east",
+                    "direction": "east",
+                    "execute": [
+                        "!displayText : You move through a doorway to the east"
+                    ]
+                },
+                "west": {
+                    "room": "west",
+                    "direction": "west",
+                    "execute": [
+                        "!displayText : You move through a doorway to the west"
+                    ]
+                }
+            }
+        },
+        "west.json": {
+            "floorItems": {},
+            "roomCommands": {},
+            "shopItems": {},
+            "investigateables": {
+                "Rug": [
+                    "!displayText : You see a rug on the floor. It has nice red and white patterns."
+                ]
+            },
+            "characters": [],
+            "connectedRooms": {
+                "east": {
+                    "room": "main",
+                    "direction": "east",
+                    "execute": [
+                        "!displayText : You move back to the room in the middle."
+                    ]
+                }
+            }
+        }
+    },
     "runtimeRam": {
-        "dirPath": "/home/cemil/Documents/GitHub/textAdventure/gameEngine/",
+        "dirPath": "C:/Users/emils/Documents/GitHub/textAdventure/gameEngine/",
         "gameOver": false,
-        "breakPrompt": false,
-        "selectedAdventure": "dungeonCrawler",
-        "adventureProgress": 21,
+        "breakPlayerAction": false,
+        "selectedAdventure": "First adventure",
+        "adventureProgress": 12,
         "cursorMoved": false,
-        "equippedWeapon": "unarmed",
-        "playerRace": "orc",
+        "equippedWeapon": "",
+        "playerRace": false,
         "activeEnemies": {},
         "cosmeticChoice": false,
         "codeVars": {
-            "stringTest": "This is a string"
+            "playerName": {
+                "type": "string",
+                "val": "Cemil"
+            }
         }
     }
 }

@@ -1,0 +1,17 @@
+{
+    "floorItems": {
+        
+    },
+    "investigateables": {
+        "Rug": [
+            "!displayText : You see a rug on the floor. It has nice red and white patterns."
+        ]
+    },
+    "connectedRooms": {
+        "east": {
+            "room": "main",
+            "direction": "east",
+            "execute": ["!displayText : You move back to the room in the middle."]
+        }
+    }
+}

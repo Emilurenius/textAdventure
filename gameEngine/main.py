@@ -753,7 +753,11 @@ def loadRoom(selectedRoom):
     if activeRoom.name != "No room": 
         roomData = {
             "floorItems": activeRoom.floorItems,
-            "roomCommands": activeRoom.commands
+            "roomCommands": activeRoom.commands,
+            "shopItems": activeRoom.shopItems,
+            "investigateables": activeRoom.investigateables,
+            "characters": activeRoom.characters,
+            "connectedRooms": activeRoom.connectedRooms
         }
 
         with open(f"{runtime['dirPath']}runtime/{activeRoom.name}.json", "w") as outFile:
@@ -782,6 +786,14 @@ def loadRoom(selectedRoom):
         activeRoom.investigateables = data['investigateables']
     if 'characters' in data:
         activeRoom.characters = data['characters']
+    if 'connectedRooms' in data:
+        activeRoom.connectedRooms = data['connectedRooms']
+
+def moveTo(direction, supressPrints=False):
+    if direction in activeRoom.connectedRooms:
+        for x in activeRoom.connectedRooms[direction]['execute']:
+            runCommand(x)
+        loadRoom(activeRoom.connectedRooms[direction]['room'])
 
 def setActiveRoomShop():
     for k, v in assetData["shopCommands"].items():
@@ -1196,6 +1208,7 @@ commands = {
     "playerAction": playerAction,
     'userInput': userInput,
     "loadRoom": loadRoom,
+    "moveTo": moveTo,
     "displayFloorItems": displayFloorItems,
     "pickup": pickup,
     "equipWeapon": equipWeapon,

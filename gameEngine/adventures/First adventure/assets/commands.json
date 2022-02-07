@@ -2,6 +2,12 @@
     "commands": {
         "investigate <?": [
             "!investigate : <?"
+        ],
+        "move <?": [
+            "!moveTo : <?"
+        ],
+        "save as <?": [
+            "!saveGame : <?"
         ]
     }
 }

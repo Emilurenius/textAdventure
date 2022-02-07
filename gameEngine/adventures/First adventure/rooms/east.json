@@ -1,0 +1,17 @@
+{
+    "floorItems": {
+        
+    },
+    "investigateables": {
+        "Big table": [
+            "!displayText : It's a table... Nothing really special"
+        ]
+    },
+    "connectedRooms": {
+        "west": {
+            "room": "main",
+            "direction": "west",
+            "execute": ["!displayText : You move back to the room in the middle"]
+        }
+    }
+}
