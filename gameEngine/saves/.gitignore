@@ -1,0 +1,5 @@
+# Put this .gitignore file into the folder, "then write git add .gitignore" in the terminal
+
+*
+*/
+!.gitignore
