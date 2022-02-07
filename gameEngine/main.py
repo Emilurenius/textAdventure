@@ -569,7 +569,8 @@ def saveGame(saveName, supressPrints=False):
             "roomCommands": activeRoom.commands,
             'shopItems': activeRoom.shopItems,
             'investigateables': activeRoom.investigateables,
-            'characters': activeRoom.characters
+            'characters': activeRoom.characters,
+            'connectedRooms': activeRoom.connectedRooms
         },
         "equippedWeapon": runtime['equippedWeapon'],
         "playerRace": runtime['playerRace'],
