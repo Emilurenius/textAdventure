@@ -225,6 +225,7 @@ class room():
         self.floorItems = {}
         self.commands = {}
         self.shopItems = {}
+        self.lookAroundEvent = []
         self.investigateables = {}
         self.characters = []
 
@@ -310,7 +311,7 @@ def loadAdventure(adventure):
     except:
         return False
 
-#Interpret a line in the script file.
+# Split up a command into command type, and variables. Is called by runCommand when needed.
 def getCommand(commandString):
     commandString = commandString[1:]
     commandString = commandString.split(" //")[0]
@@ -353,6 +354,8 @@ def loadSave(saveName):
         activeRoom.commands = save["room"]["roomCommands"]
     if 'shopItems' in save['room']:
         activeRoom.shopItems = save['room']['shopItems']
+    if 'lookAroundEvent' in save['room']:
+        activeRoom.lookAroundEvent = save['room'['lookAroundEvent']]
     if 'investigateables' in save['room']:
         activeRoom.investigateables = save['room']['investigateables']
     if 'characters' in save['room']:
@@ -568,6 +571,7 @@ def saveGame(saveName, supressPrints=False):
             "floorItems": activeRoom.floorItems,
             "roomCommands": activeRoom.commands,
             'shopItems': activeRoom.shopItems,
+            'lookAroundEvent': activeRoom.lookAroundEvent,
             'investigateables': activeRoom.investigateables,
             'characters': activeRoom.characters,
             'connectedRooms': activeRoom.connectedRooms
@@ -785,6 +789,8 @@ def loadRoom(selectedRoom):
         activeRoom.shopItems = data["shopItems"]
     if 'investigateables' in data:
         activeRoom.investigateables = data['investigateables']
+    if 'lookAroundEvent' in data:
+        activeRoom.lookAroundEvent = data['lookAroundEvent']
     if 'characters' in data:
         activeRoom.characters = data['characters']
     if 'connectedRooms' in data:
@@ -1149,6 +1155,10 @@ def investigate(obj):
     else:
         print('There is nothing to investigate')
 
+def lookAround():
+    for x in activeRoom.lookAroundEvent:
+        runCommand(x)
+
 def talkTo(character):
     if character in activeRoom.characters:
         dialog = assetData['characters'][character]['dialog']
@@ -1226,6 +1236,7 @@ commands = {
     "checkShopItems": checkShopItems,
     "addGold": addGold,
     "openShop": setActiveRoomShop,
+    'lookAround': lookAround,
     'investigate': investigate,
     'talkTo': talkTo,
     'var': var
