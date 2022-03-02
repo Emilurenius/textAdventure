@@ -3,6 +3,11 @@
         "investigate <?": [
             "!investigate : <?"
         ],
+        "look around": [
+            "!displayText : You take a look around",
+            "!sleep : 0.5",
+            "!lookAround"
+        ],
         "move <?": [
             "!moveTo : <?"
         ],

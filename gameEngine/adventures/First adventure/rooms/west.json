@@ -2,8 +2,12 @@
     "floorItems": {
         
     },
+    "lookAroundEvent": [
+        "!displayText : The floor of the room is coveered by a rug.",
+        "!displayText : To the east of you, a doorway leads back to where you came from"
+    ],
     "investigateables": {
-        "Rug": [
+        "rug": [
             "!displayText : You see a rug on the floor. It has nice red and white patterns."
         ]
     },

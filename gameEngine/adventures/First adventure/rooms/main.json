@@ -5,8 +5,12 @@
             "amount": 1
         }
     },
+    "lookAroundEvent": [
+        "!displayText : Apart from a big table in the middle, the room is empty",
+        "!displayText : There's a doorway leading to another room at the west and east side of the room."
+    ],
     "investigateables": {
-        "Big table": [
+        "big table": [
             "!displayText : It's a table... Nothing really special"
         ]
     },
