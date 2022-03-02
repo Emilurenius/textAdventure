@@ -730,7 +730,7 @@ def playerAction(text):
 
 # Get a response from the player in the form of a string
 def userInput(data):
-    data = data.split(' | ')
+    data = data.split('|')
 
     userRes = input(data[0])
     var(f'string {data[1]} \'{userRes}\'')
