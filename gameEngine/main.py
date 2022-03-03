@@ -735,8 +735,10 @@ def playerAction(text):
 # Get a response from the player in the form of a string
 def userInput(data):
     data = data.split('|')
-
+    data[0] = data[0].lstrip()
+    data[1] = data[1].lstrip()
     userRes = input(data[0])
+    print(f'Saved variable {data[1]} as {userRes}')
     var(f'string {data[1]} \'{userRes}\'')
 
 #Wait

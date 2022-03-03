@@ -30,5 +30,8 @@
             "!displayText : An investigateable object has been investigated!"
         ]
     },
+    "connectedRooms": {
+        
+    },
     "characters": ["Brian"]
 }
