@@ -340,6 +340,15 @@ def getCommand(commandString):
 
 #Handle commands in the script
 def runCommand(command):
+
+    inlineStrings = re.findall('{\w*}', command)
+    for x in inlineStrings:
+        strippedX = x.replace('{', '')
+        strippedX = strippedX.replace('}', '')
+        if strippedX in runtime['codeVars'].keys():
+            #print(runtime['codeVars'][strippedX])
+            command = command.replace(x, str(runtime['codeVars'][strippedX]['val']))
+
     if command.startswith("!") and " : " not in command: # Seperate handler for commands without variables
         command = command.replace("!", "")
         command = commands.get(command, None)
@@ -632,13 +641,13 @@ def setCursor(cursorPos):
 
 #Print text
 def displayText(text):
-    inlineStrings = re.findall('{\w*}', text)
-    for x in inlineStrings:
-        strippedX = x.replace('{', '')
-        strippedX = strippedX.replace('}', '')
-        if strippedX in runtime['codeVars'].keys():
-            #print(runtime['codeVars'][strippedX])
-            text = text.replace(x, str(runtime['codeVars'][strippedX]['val']))
+    # inlineStrings = re.findall('{\w*}', text)
+    # for x in inlineStrings:
+    #     strippedX = x.replace('{', '')
+    #     strippedX = strippedX.replace('}', '')
+    #     if strippedX in runtime['codeVars'].keys():
+    #         #print(runtime['codeVars'][strippedX])
+    #         text = text.replace(x, str(runtime['codeVars'][strippedX]['val']))
     print(text)
 
 #Print Ascii art
