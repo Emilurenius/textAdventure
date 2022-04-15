@@ -1,6 +1,11 @@
 import time, os, json, random, fnmatch, sys, re
 from pick import pick
 
+#region custom errors
+class noStringError(Exception):
+    pass
+#endregion custom errors
+
 #region Initialize global variables
 dirPath = os.path.realpath(__file__)
 if '\\' in dirPath:
@@ -641,14 +646,17 @@ def setCursor(cursorPos):
 
 #Print text
 def displayText(text):
-    # inlineStrings = re.findall('{\w*}', text)
-    # for x in inlineStrings:
-    #     strippedX = x.replace('{', '')
-    #     strippedX = strippedX.replace('}', '')
-    #     if strippedX in runtime['codeVars'].keys():
-    #         #print(runtime['codeVars'][strippedX])
-    #         text = text.replace(x, str(runtime['codeVars'][strippedX]['val']))
-    print(text)
+    foundText = re.findall('".*"', text)
+    if not foundText:
+        foundText = re.findall("'.*'", text)
+
+    if foundText:
+        foundText = foundText[0]
+        foundText = foundText.replace('"', '')
+        foundText = foundText.replace("'", '')
+        print(foundText)
+    else:
+        raise noStringError('No string given')
 
 #Print Ascii art
 def printASCII(filePath):
