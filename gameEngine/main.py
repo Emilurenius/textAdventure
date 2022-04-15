@@ -60,7 +60,7 @@ playerStats = {
 
 #Empty the runtime folder
 def clearRuntime():
-    print(runtime)
+    #print(runtime)
     fileList = os.listdir(f"{runtime['dirPath']}runtime")
     
     for f in fileList:
@@ -303,13 +303,34 @@ def loadAdventure(adventure):
     try:
         with open(f"{runtime['dirPath']}adventures/{adventure}/main.ta") as f:
             data = f.read().splitlines()
-            i = 0
-            while i < len(data):
-                data[i] = data[i].lstrip()
-                i += 1
-        return data
+            # print('Code before minifying:\n')
+            # for x in data:
+            #     print(x)
+            # print()
+
     except:
         return False
+    
+
+    i = 0
+    while i < len(data): # Minify code
+        if data[i] == '':
+            print('Empty line found')
+            del data[i]
+            continue
+        data[i] = data[i].lstrip()
+
+        comments = re.findall('//.*', data[i])
+        for x in comments:
+            data[i] = data[i].replace(x, '')
+        i += 1
+
+    # print('Code after minifying:\n')
+    # for x in data:
+    #     print(x)
+    # print()
+
+    return data
 
 # Split up a command into command type, and variables. Is called by runCommand when needed.
 def getCommand(commandString):
