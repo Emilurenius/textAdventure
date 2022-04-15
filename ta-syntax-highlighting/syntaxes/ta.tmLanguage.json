@@ -3,6 +3,9 @@
 	"name": "textAdventure",
 	"patterns": [
 		{
+			"include": "#strings"
+		},
+		{
 			"include": "#comments"
 		},
 		{
@@ -22,6 +25,26 @@
 		}
 	], 
 	"repository": {
+		"inlineStrings": {
+			"patterns": [
+				{
+					"name": "constant.language",
+					"match": "{\\w*}"
+				}
+			]
+		},
+		"strings": {
+			"patterns": [
+				{
+					"name": "string",
+					"match": "'.*'"
+				},
+				{
+					"name": "string",
+					"match": "\".*\""
+				}
+			]
+		},
 		"statements": {
 			"patterns": [
 				{
@@ -71,14 +94,6 @@
 				{
 					"name": "variable.parameter",
 					"match": "-\\w*"
-				}
-			]
-		},
-		"inlineStrings": {
-			"patterns": [
-				{
-					"name": "constant.language",
-					"match": "{\\w*}"
 				}
 			]
 		}
