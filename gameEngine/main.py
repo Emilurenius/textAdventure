@@ -343,6 +343,19 @@ def getCommand(commandString):
     commandString = commandString.split(" //")[0]
     return commandString.split(" : ")
 
+def getString(text):
+    foundText = re.findall('".*"', text)
+    if not foundText:
+        foundText = re.findall("'.*'", text)
+
+    if foundText:
+        foundText = foundText[0]
+        foundText = foundText.replace('"', '')
+        foundText = foundText.replace("'", '')
+        return foundText
+    else:
+        raise noStringError(f'No string given at line {runtime["adventureProgress"]}')
+
 #Handle commands in the script
 def runCommand(command):
 
@@ -390,7 +403,7 @@ def loadSave(saveName):
     if 'shopItems' in save['room']:
         activeRoom.shopItems = save['room']['shopItems']
     if 'lookAroundEvent' in save['room']:
-        activeRoom.lookAroundEvent = save['room'['lookAroundEvent']]
+        activeRoom.lookAroundEvent = save['room']['lookAroundEvent']
     if 'investigateables' in save['room']:
         activeRoom.investigateables = save['room']['investigateables']
     if 'characters' in save['room']:
@@ -646,17 +659,7 @@ def setCursor(cursorPos):
 
 #Print text
 def displayText(text):
-    foundText = re.findall('".*"', text)
-    if not foundText:
-        foundText = re.findall("'.*'", text)
-
-    if foundText:
-        foundText = foundText[0]
-        foundText = foundText.replace('"', '')
-        foundText = foundText.replace("'", '')
-        print(foundText)
-    else:
-        raise noStringError('No string given')
+    print(getString(text))
 
 #Print Ascii art
 def printASCII(filePath):
@@ -745,7 +748,7 @@ def playerAction(text):
                     if x.startswith("!"):
                         runCommand(x)
     
-    IN = input(text)
+    IN = input(getString(text))
 
     if not IN:
         return

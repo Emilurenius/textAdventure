@@ -10,5 +10,5 @@ story:
   !userInput : What is your name? | playerName // These are comments
   !displayText : 'Ah, nice to meet you {playerName}'
   !loadRoom : main
-  !playerAction : >> 
+  !playerAction : '>> '
 :story

@@ -1,11 +1,11 @@
 {
     "floorItems": {},
     "lookAroundEvent": [
-        "!displayText : A big table stands alone in the room, to the west of you is the doorway leading back to where you came from."
+        "!displayText : 'A big table stands alone in the room, to the west of you is the doorway leading back to where you came from.'"
     ],
     "investigateables": {
         "big table": [
-            "!displayText : Like the table in the other room, it is unremarkable, and dull."
+            "!displayText : 'Like the table in the other room, it is unremarkable, and dull.'"
         ]
     },
     "connectedRooms": {
@@ -13,7 +13,7 @@
             "room": "main",
             "direction": "west",
             "execute": [
-                "!displayText : You move back to the room in the middle"
+                "!displayText : 'You move back to the room in the middle'"
             ]
         }
     }
