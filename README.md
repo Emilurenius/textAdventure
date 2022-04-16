@@ -1,4 +1,4 @@
-# textAdventure
+# textAdventure V 0.0.1
  
 ## What is textAdventure?
 TextAdventure is a game engine written in python for making text adventure games for the console. 
