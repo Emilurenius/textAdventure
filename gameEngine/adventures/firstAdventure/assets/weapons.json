@@ -1,7 +1,7 @@
 {
     "weapons": {
-        "Rusty sword": {
-            "desc": "A rusty steel sword, with a wooden handle",
+        "rusty sword": {
+            "desc": "A rusty steel sword with a wooden handle",
             "damageDice": "1d8",
             "hitDice": "1d20",
             "damageType": "slashing",

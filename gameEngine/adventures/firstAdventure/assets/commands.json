@@ -8,6 +8,9 @@
             "!sleep : 0.5",
             "!lookAround"
         ],
+        "pick up <?": [
+            "!pickup : <?"
+        ],
         "move to <?": [
             "!moveTo : <?"
         ],
