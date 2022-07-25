@@ -1,14 +1,8 @@
 init:
-	!importAsset : commands
-	!var : string stringTest '20'
-	!var : string maxCarry '50'
+	!import.asset : commands
 :init
 
 
 story:
-	!loadRoom : mainRoom
-	!displayText : Encumbrance {stringTest}/{maxCarry}.
-	!userInput : What is your name? | username
-	!displayText : Hello {username}
-	!playerAction : >> 
+	!subCommandTest.subCommand
 :story

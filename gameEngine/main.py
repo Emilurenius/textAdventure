@@ -1,5 +1,6 @@
 import time, os, json, random, fnmatch, sys, re
 from pick import pick
+from benedict import benedict
 
 #region custom errors
 class noStringError(Exception):
@@ -369,7 +370,7 @@ def runCommand(command):
 
     if command.startswith("!") and " : " not in command: # Seperate handler for commands without variables
         command = command.replace("!", "")
-        command = commands.get(command, None)
+        command = commands.get(command)
         if command:
             command()
 
@@ -442,7 +443,7 @@ def runInit(story, i):
     while True:
         if story[i].startswith("!"):
             commandList = getCommand(story[i])
-            command = initCommands.get(commandList[0], None) or commands.get(commandList[0], None)
+            command = initCommands.get(commandList[0]) or commands.get(commandList[0])
             if command:
                 command(commandList[1])
                 time.sleep(0.3)
@@ -1246,16 +1247,23 @@ def var(data):
 
 #endregion gameEngine functions
 
+def subCommand():
+    print('subcommand activated!')
+
 #region defining gameEngine commands
 
 #Defining script commands for the init scope.
-initCommands = {
+initCommands = benedict({
     "importMod": loadMod,
-    "importAsset": loadAsset
-    }
+    "importAsset": loadAsset,
+    'import': {
+        'mod': loadMod,
+        'asset': loadAsset
+        }
+    },keypath_separator='.')
 
 #Defining script commands for the story scope.
-commands = {
+commands = benedict({
     "displayText": displayText,
     "sleep": sleep,
     "scroll": scroll,
@@ -1282,8 +1290,11 @@ commands = {
     'lookAround': lookAround,
     'investigate': investigate,
     'talkTo': talkTo,
-    'var': var
-    }
+    'var': var,
+    'subCommandTest': {
+        'subCommand': subCommand
+        }
+    },keypath_separator='.')
 
 #endregion defining gameEngine commands
 

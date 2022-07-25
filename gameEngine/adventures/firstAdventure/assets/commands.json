@@ -8,7 +8,7 @@
             "!sleep : 0.5",
             "!lookAround"
         ],
-        "move <?": [
+        "move to <?": [
             "!moveTo : <?"
         ],
         "save as <?": [
