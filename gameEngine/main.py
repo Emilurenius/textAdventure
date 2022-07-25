@@ -30,7 +30,11 @@ runtime = {
     'playerRace': False,
     'activeEnemies': {},
     'cosmeticChoice': False,
-    'codeVars': {}
+    'codeVars': {},
+    'textScroll': {
+        'active': False,
+        'delay': 0.1
+    }
 }
 
 dirPath = None
@@ -351,14 +355,16 @@ def getString(text):
 
     if foundText:
         foundText = foundText[0]
-        foundText = foundText.replace('"', '')
-        foundText = foundText.replace("'", '')
+        if foundText.startswith('"'):
+            foundText = foundText.replace('"', '')
+        else:
+            foundText = foundText.replace("'", '')
         return foundText
     else:
         raise noStringError(f'No string given at line {runtime["adventureProgress"]}')
 
 #Handle commands in the script
-def runCommand(command):
+def runCommand(command, init=False):
 
     inlineStrings = re.findall('{\w*}', command)
     for x in inlineStrings:
@@ -373,29 +379,42 @@ def runCommand(command):
         command = commands.get(command)
         if command:
             command()
+        elif init:
+            command = initCommands.get(commandList[0])
+            if command:
+                command()
 
     elif command.startswith("!"): # Seperate handler for commands with variables
         commandList = getCommand(command)
-        command = commands.get(commandList[0], None)
+        command = commands.get(commandList[0])
         if command:
             command(commandList[1])
+        elif init:
+            command = initCommands.get(commandList[0])
+            if command:
+                command(commandList[1])
 
     elif command.startswith("-"): # Seperate handler for supressed commands (Command will not print anything in the terminal)
         commandList = getCommand(command)
-        command = commands.get(commandList[0], None)
+        command = commands.get(commandList[0])
         if command:
             command(commandList[1], True)
+        elif init:
+            command = initCommands.get(commandList[0])
+            if command:
+                command(commandList[1], True)
 
 #Load save into memory and runtime.
 def loadSave(saveName):
     global runtime
+    global activeRoom
+    global inventory
     save = False
     with open(f"{runtime['dirPath']}saves/{saveName}.json") as f:
         save = json.load(f)
     adventure = loadAdventure(save["selectedAdventure"])
     runtime = save['runtimeRam']
     inventory = save["inventory"]
-    activeEnemies = save["activeEnemies"]
     activeRoom = room(save["room"]["name"])
     if "floorItems" in save["room"]:
         activeRoom.floorItems = save["room"]["floorItems"]
@@ -441,12 +460,13 @@ def loadStory(story, i=0):
 #Run commands from the init scope.
 def runInit(story, i):
     while True:
-        if story[i].startswith("!"):
-            commandList = getCommand(story[i])
-            command = initCommands.get(commandList[0]) or commands.get(commandList[0])
-            if command:
-                command(commandList[1])
-                time.sleep(0.3)
+        if story[i].startswith("!") or story[i].startswith("-"):
+            runCommand(story[i], init=True)
+            # commandList = getCommand(story[i])
+            # command = initCommands.get(commandList[0]) or commands.get(commandList[0])
+            # if command:
+            #     command(commandList[1])
+            #     time.sleep(0.3)
 
         elif story[i] == ":init":
             print("Initialization complete...")
@@ -625,9 +645,6 @@ def saveGame(saveName, supressPrints=False):
             'characters': activeRoom.characters,
             'connectedRooms': activeRoom.connectedRooms
         },
-        "equippedWeapon": runtime['equippedWeapon'],
-        "playerRace": runtime['playerRace'],
-        "activeEnemies": runtime['activeEnemies'],
         "runtime": runtimeData,
         'runtimeRam': runtime
     }
@@ -660,7 +677,16 @@ def setCursor(cursorPos):
 
 #Print text
 def displayText(text):
-    print(getString(text))
+    if runtime['textScroll']['active']:
+        chars = list(getString(text))
+        outString = ' '
+        for char in chars:
+            outString = outString + char
+            print(outString, end='\r')
+            time.sleep(runtime['textScroll']['delay'])
+        print('')
+    else:
+        print(getString(text))
 
 #Print Ascii art
 def printASCII(filePath):
@@ -1245,17 +1271,17 @@ def var(data):
     if varType:
         varType(varData[1], data)
 
-#endregion gameEngine functions
+def textScrollToggle():
+    runtime['textScroll']['active'] = not runtime['textScroll']['active']
+def setTextScrollDelay(delay):
+    runtime['textScroll']['delay'] = float(delay)
 
-def subCommand():
-    print('subcommand activated!')
+#endregion gameEngine functions
 
 #region defining gameEngine commands
 
 #Defining script commands for the init scope.
 initCommands = benedict({
-    "importMod": loadMod,
-    "importAsset": loadAsset,
     'import': {
         'mod': loadMod,
         'asset': loadAsset
@@ -1291,8 +1317,9 @@ commands = benedict({
     'investigate': investigate,
     'talkTo': talkTo,
     'var': var,
-    'subCommandTest': {
-        'subCommand': subCommand
+    'textScroll': {
+        'toggle': textScrollToggle,
+        'delay': setTextScrollDelay
         }
     },keypath_separator='.')
 

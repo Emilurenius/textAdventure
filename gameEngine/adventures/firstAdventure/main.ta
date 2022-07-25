@@ -1,14 +1,17 @@
 init:
   !import.asset : weapons
   !import.asset : commands
+  !textScroll.toggle
+  !textScroll.delay : 0.05
 :init
 
 story:
-  !displayText : 'Welcome to your first adventure!'
-  !sleep : 0.5
-  !displayText : "Let's get the basics in place!"
-  !userInput : What is your name? | playerName
-  !displayText : 'Ah, nice to meet you {playerName}'
+  !displayText : 'You wake up in a strange room'
+  !displayText : "You don't remember how you got here. You don't remember anything really"
+  !displayText : "The only thing you really remember is your name."
+  !userInput : it is | playerName
   !loadRoom : main
+  !displayText : "You take a look around the room"
+  !lookAround
   !playerAction : '>> '
 :story
