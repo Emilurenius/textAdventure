@@ -4,10 +4,10 @@ init:
 :init
 
 story:
-  !displayText : 'Welcome to your first adventure!' // Hello world
+  !displayText : 'Welcome to your first adventure!'
   !sleep : 0.5
   !displayText : "Let's get the basics in place!"
-  !userInput : What is your name? | playerName // These are comments
+  !userInput : What is your name? | playerName
   !displayText : 'Ah, nice to meet you {playerName}'
   !loadRoom : main
   !playerAction : '>> '

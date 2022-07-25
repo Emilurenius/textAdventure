@@ -1,18 +1,13 @@
 {
     "floorItems": {
-        "Rusty sword": {
-            "ref": "assets/weapons",
-            "amount": 1
-        }
+        
     },
     "lookAroundEvent": [
         "!displayText : 'Apart from a big table in the middle, the room is empty'",
         "!displayText : 'There's a doorway leading to another room at the west and east side of the room.'"
     ],
     "investigateables": {
-        "big table": [
-            "!displayText : 'It's a table... Nothing really special'"
-        ]
+        
     },
     "connectedRooms": {
         "east": {
@@ -24,14 +19,6 @@
             "room": "west",
             "direction": "west",
             "execute": ["!displayText : 'You move through a doorway to the west'"]
-        },
-        "dining hall": {
-            "room": "diningHall",
-            "direction": "south",
-            "execute": ["!displayText : 'You move through a big door to the south'",
-                        "!delay: 0.5",
-                        "!displayText : 'The door opens, and reveals a large dining hall"
-                    ]
         }
     }
 }
