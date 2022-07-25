@@ -13,14 +13,22 @@ void pause() {
 
 int main (int argc, char **argv) {
 
-  cout << argv[2] << "\n";
+  cout << argv[1] << "\n";
   string line;
-  ifstream gameFile(argv[2]);
+  ifstream gameFile(argv[1]);
   if (gameFile.is_open())
   {
     while ( getline (gameFile,line) )
     {
-    //   cout << line << '\n';
+      if (line == "init:") {
+        cout << "init found" << '\n';
+      }
+      else if (line == ":init") {
+        cout << "init end found" << '\n';
+      }
+      else {
+        cout << line << '\n';
+      }
     }
     gameFile.close();
   }

@@ -1,6 +1,6 @@
 init:
-  !importAsset : weapons
-  !importAsset : commands
+  !import.asset : weapons
+  !import.asset : commands
 :init
 
 story:
