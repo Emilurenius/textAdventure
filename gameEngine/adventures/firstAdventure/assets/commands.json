@@ -16,6 +16,9 @@
         ],
         "save as <?": [
             "!saveGame : <?"
+        ],
+        "end game": [
+            "!endGame"
         ]
     }
 }
